@@ -23,7 +23,7 @@ public class castleview extends JPanel {
 	public castleview(game game) {
 		this.game = game;
 		setBackground(BACKGROUND_COLOR);
-		setPreferredSize(new Dimension(640, 480));
+		setPreferredSize(new Dimension((int)game.WIDTH, (int)game.HEIGHT));
 		mouse = new Point(0, 0);
 	}
 	
@@ -63,8 +63,13 @@ public class castleview extends JPanel {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
+		//fill background
 		g.setColor(BACKGROUND_COLOR);
-		g.fillRect(0, 0, 640, 480);
+		g.fillRect(0, 0, (int)game.WIDTH, (int)game.HEIGHT);
+		
+		g.setColor(Color.BLACK);
+		g.fillRect((int)game.goal.topLeft.x, (int)game.goal.topLeft.y, (int)game.goal.width, (int)game.goal.height);
+		
 	}
 	
 }
