@@ -8,10 +8,8 @@ package edu.ycp.cs320.magicprogram;
  * @author David Hovemeyer
  */
 public class Point {
-	// TODO: add fields
-	//Point myPoint = new Point();
-	//Point myPoint;
-	double x, y;
+	double dx, dy, distance;
+
 	/**
 	 * Constructor.
 	 * 
@@ -19,12 +17,9 @@ public class Point {
 	 * @param y  the Point's y coordinate value
 	 */
 	public Point(double x, double y) {
-		//throw new UnsupportedOperationException("TODO - implement");
-//		x = myPoint.x;
-//		y = myPoint.y;
-//		myPoint = new Point(x, y);
-		this.x = x;
-		this.y = y;
+		dx = x;
+		dy = y;
+	
 	}
 	
 	/**
@@ -33,9 +28,7 @@ public class Point {
 	 * @return the point's x coordinate value
 	 */
 	public double getX() {
-		//throw new UnsupportedOperationException("TODO - implement");
-		double xval = this.x;
-		return xval;
+		return dx;
 	}
 	
 	/**
@@ -44,11 +37,16 @@ public class Point {
 	 * @return the point's y coordinate value
 	 */
 	public double getY() {
-		//throw new UnsupportedOperationException("TODO - implement");
-		double yval = this.y;
-		return yval;
+		return dy;
 	}
 
+	/*public void setY(double y) {
+		dy=y;
+	}
+	
+	public void setX(double x) {
+		dx=x;
+	}*/
 	/**
 	 * Return the geometric distance between this point and
 	 * the point given as the parameter.
@@ -57,8 +55,9 @@ public class Point {
 	 * @return the geometric distance between this point and the other point
 	 */
 	public double distanceTo(Point other) {
-		//throw new UnsupportedOperationException("TODO - implement");
-		double distance = Math.sqrt((other.getX() - this.x) * (other.getX() - this.x) + (other.getY() - this.y) * (other.getY() - this.y));
+		double a=other.getX();
+		double b=other.getY();
+		distance = Math.sqrt(Math.pow(a-dx, 2)+Math.pow(b-dy,2));
 		return distance;
 	}
 }
