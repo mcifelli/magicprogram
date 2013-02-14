@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import javax.swing.JPanel;
@@ -44,6 +45,21 @@ public class castleview extends JPanel {
 			}
 		});
 		timer.start();
+		
+		// Add a listener for mouse motion.
+		// Each time the mouse is moved, the handleMouseMove method
+		// will be called.
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				handleMouseMove(e);
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				handleMouseClick(e);
+			}
+		});
 	}
 	
 	protected void handleTimerEvent() throws IOException {
@@ -53,12 +69,21 @@ public class castleview extends JPanel {
 	}
 	
 	protected void handleMouseMove(MouseEvent e) {
-		// TODO: handle mouse movement
-			x = e.getX();
-			y = e.getY();
-			mouse.x = x;
-			mouse.y = y;
-			repaint();
+		//if mouse is moved but not clicked
+//		x = e.getX();
+//		y = e.getY();
+//		mouse.x = x;
+//		mouse.y = y;
+		repaint();
+	}
+	
+	protected void handleMouseClick(MouseEvent e) {
+		//if mouse is clicked, this happens
+		x = e.getX();
+		y = e.getY();
+		game.creep.add(new Rectangle(new Point(x, y), 10, 10));
+		System.out.printf("mouse click %f %f\nsize: %d\n", mouse.x, mouse.y, game.creep.size());
+		repaint();
 	}
 	
 	@Override
@@ -69,6 +94,11 @@ public class castleview extends JPanel {
 		
 		g.setColor(Color.BLACK);
 		g.fillRect((int)game.goal.topLeft.x, (int)game.goal.topLeft.y, (int)game.goal.width, (int)game.goal.height);
+		
+		for(int i = 0; i < game.creep.size(); i++) {
+			g.setColor(Color.BLACK);
+			g.fillRect((int)game.creep.get(i).topLeft.x, (int)game.creep.get(i).topLeft.y, 10, 10);
+		}
 		
 	}
 	
