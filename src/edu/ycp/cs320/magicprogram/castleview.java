@@ -2,6 +2,7 @@ package edu.ycp.cs320.magicprogram;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,7 @@ public class castleview extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private static final Color BACKGROUND_COLOR = new Color(0, 127, 0);
-	
+	Font font = new Font("Serif", Font.BOLD, 48);
 	private game game;
 	private int x, y;
 	private Point mouse;
@@ -92,12 +93,24 @@ public class castleview extends JPanel {
 		g.setColor(BACKGROUND_COLOR);
 		g.fillRect(0, 0, (int)game.WIDTH, (int)game.HEIGHT);
 		
-		g.setColor(Color.BLACK);
+		g.setColor(Color.MAGENTA);
 		g.fillRect((int)game.goal.topLeft.x, (int)game.goal.topLeft.y, (int)game.goal.width, (int)game.goal.height);
 		
 		for(int i = 0; i < game.creep.size(); i++) {
 			g.setColor(Color.BLACK);
 			g.fillRect((int)game.creep.get(i).topLeft.x, (int)game.creep.get(i).topLeft.y, 10, 10);
+		}
+		
+		g.setColor(Color.WHITE);
+		g.setFont(font);
+		g.drawString("" + game.life, 600, 100);
+
+		
+		if(game.life==0){
+			g.setColor(Color.WHITE);
+			font = new Font("Serif", Font.BOLD, 55);
+			g.setFont(font);
+			g.drawString("GameOver", 180, 240);
 		}
 		
 	}
