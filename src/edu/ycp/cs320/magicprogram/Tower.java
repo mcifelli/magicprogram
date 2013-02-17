@@ -1,12 +1,12 @@
 package edu.ycp.cs320.magicprogram;
 
-public class Creep {
+public class Tower {
 	// Physical attributes
 	private Rectangle body;
 	private Circle range;
 	// 
 	
-	public Creep(Point topLeft, double size) {
+	public Tower(Point topLeft, double size) {
 		setBody(new Rectangle(topLeft, size));
 		setRange(new Circle(getCenter()));
 	}

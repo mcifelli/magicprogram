@@ -13,6 +13,12 @@ public class Rectangle {
 		this.topLeft = topLeft;
 	}
 	
+	public Rectangle(Point topLeft, double size) {
+		setWidth(size);
+		setHeight(size);
+		setTopLeft(topLeft);
+	}
+
 	// Getters/Setters
 	public double getWidth() {
 		return this.width;
@@ -49,6 +55,9 @@ public class Rectangle {
 	public Point getBotLeft() {
 		return new Point(topLeft.getX(), topLeft.getY() + height);
 	}
+	public Point getCenter() {
+		return new Point(topLeft.getX() + width/2, topLeft.getY() + height/2);
+	} 
 
 	// Methods
 	public boolean overlaps(Rectangle b) {
@@ -97,6 +106,5 @@ public class Rectangle {
 			return false;
 		}
 		return true;
-		
-	} 
+	}
 }

@@ -28,8 +28,6 @@ public class Point {
 		return Math.sqrt(d.getX() * d.getX() + d.getY() * d.getY());
 	}
 	
-	
-	
 	// Static Methods
 	public static Point distanceBetweenXY(Point a, Point b) {
 		double distanceX = a.getX() - b.getX();

@@ -1,5 +1,8 @@
 package edu.ycp.cs320.magicprogram;
 
-public class Board {
+import java.util.ArrayList;
 
+public class Board {
+	public ArrayList<Creep> creeps;
+	public ArrayList<Tower> towers;
 }
