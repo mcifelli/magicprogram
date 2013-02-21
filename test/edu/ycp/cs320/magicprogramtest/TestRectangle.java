@@ -4,8 +4,8 @@ import static junit.framework.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.magicprogram.Point;
-import edu.ycp.cs320.magicprogram.Rectangle;
+import edu.ycp.cs320.SHARED.Point;
+import edu.ycp.cs320.SHARED.Rectangle;
 
 
 public class TestRectangle {

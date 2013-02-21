@@ -1,4 +1,4 @@
-package edu.ycp.cs320.magicprogram;
+package edu.ycp.cs320.SHARED;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

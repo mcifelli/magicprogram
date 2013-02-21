@@ -1,4 +1,4 @@
-package edu.ycp.cs320.magicprogram;
+package edu.ycp.cs320.SHARED;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -47,19 +49,35 @@ public class castleview extends JPanel {
 		});
 		timer.start();
 		
+	    addKeyListener(new KeyAdapter() {
+
+	    	@Override
+	        public void keyTyped(KeyEvent e) {
+	    		keyEvent(e, "keyTyped");
+	        }
+
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	           keyEvent(e, "keyPressed");
+	        }
+	        
+	    	@Override
+	        public void keyReleased(KeyEvent e) {
+	        	keyEvent(e, "keyReleased");
+	        }
+
+	    });
+		
 		// Add a listener for mouse motion.
 		// Each time the mouse is moved, the handleMouseMove method
 		// will be called.
 		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				handleMouseMove(e);
-			}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				handleMouseClick(e);
 			}
+
 		});
 	}
 	
@@ -69,13 +87,12 @@ public class castleview extends JPanel {
 		repaint();
 	}
 	
-	protected void handleMouseMove(MouseEvent e) {
-		//if mouse is moved but not clicked
-//		x = e.getX();
-//		y = e.getY();
-//		mouse.x = x;
-//		mouse.y = y;
-		repaint();
+	protected void keyEvent(KeyEvent e, String text) {
+		int key = e.getKeyCode();
+		if(game.menu && key == KeyEvent.VK_1) {
+			game.menu = false;
+			game.game = true;
+		}
 	}
 	
 	protected void handleMouseClick(MouseEvent e) {
@@ -89,28 +106,41 @@ public class castleview extends JPanel {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		//fill background
-		g.setColor(BACKGROUND_COLOR);
-		g.fillRect(0, 0, (int)game.WIDTH, (int)game.HEIGHT);
 		
-		g.setColor(Color.MAGENTA);
-		g.fillRect((int)game.goal.topLeft.x, (int)game.goal.topLeft.y, (int)game.goal.width, (int)game.goal.height);
-		
-		for(int i = 0; i < game.creep.size(); i++) {
+		if(game.menu) {
+			//fill background
 			g.setColor(Color.BLACK);
-			g.fillRect((int)game.creep.get(i).topLeft.x, (int)game.creep.get(i).topLeft.y, 10, 10);
+			g.fillRect(0, 0, (int)game.WIDTH, (int)game.HEIGHT);
+			
+			g.setColor(Color.WHITE);
+			g.drawString("TOWER DEFENSE", (int)game.WIDTH/2, (int)game.HEIGHT/4);
+			g.drawString("press 1", (int)game.WIDTH/2, (int)game.HEIGHT/2);
 		}
 		
-		g.setColor(Color.WHITE);
-		g.setFont(font);
-		g.drawString("" + game.life, 600, 100);
-
-		
-		if(game.life==0){
+		if(game.game) {
+			//fill background
+			g.setColor(BACKGROUND_COLOR);
+			g.fillRect(0, 0, (int)game.WIDTH, (int)game.HEIGHT);
+			
+			g.setColor(Color.MAGENTA);
+			g.fillRect((int)game.goal.topLeft.x, (int)game.goal.topLeft.y, (int)game.goal.width, (int)game.goal.height);
+			
+			for(int i = 0; i < game.creep.size(); i++) {
+				g.setColor(Color.BLACK);
+				g.fillRect((int)game.creep.get(i).topLeft.x, (int)game.creep.get(i).topLeft.y, 10, 10);
+			}
+			
 			g.setColor(Color.WHITE);
-			font = new Font("Serif", Font.BOLD, 55);
 			g.setFont(font);
-			g.drawString("GameOver", 180, 240);
+			g.drawString("" + game.life, 600, 100);
+
+			
+			if(game.life==0){
+				g.setColor(Color.WHITE);
+				font = new Font("Serif", Font.BOLD, 55);
+				g.setFont(font);
+				g.drawString("GameOver", 180, 240);
+			}
 		}
 		
 	}
