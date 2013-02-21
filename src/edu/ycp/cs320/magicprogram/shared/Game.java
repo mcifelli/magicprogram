@@ -21,23 +21,21 @@ public class Game {
 	
 	public void update() {
 		if (life > 0) {
+			
 			for (Creep creep : board.getCreeps()) {
-				if (creep.getLocation().getX() < board.getGoal().getTopLeft().getX()) {
-					creep.move(board.getGoal().getLocation());
-				} else {
-					creep.topLeft.x--;
-				}
 				
-				if (creep.getCenter().getY() < goal.topLeft.y + goal.getHeight()/2) {
-					creep.topLeft.y++;
-				} else {
-					creep.topLeft.y--;
-				}
+				creep.move(board.getGoal().getCenter());
+					
 				if (creep.getBody().overlaps(goal)) {
+					
 					board.getCreeps().remove(creep);
 					life=life-1;
 				}
 			}
 		}
+	}
+	
+	public Board getBoard() {
+		return board;
 	}
 }

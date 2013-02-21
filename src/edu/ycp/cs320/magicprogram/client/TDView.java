@@ -1,6 +1,5 @@
 package edu.ycp.cs320.magicprogram.client;
 
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -33,11 +32,11 @@ public class TDView extends Composite {
 		layoutPanel.setWidgetTopHeight(grid, 0.0, Unit.PX, 222.0, Unit.PX);
 		
 		btnAddCreep = new Button("add creep");
-		btnAddCreep.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				model.
-			}
-		});
+//		btnAddCreep.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//				model.getBoard().addCreep(new Creep(new Rectangle(new Point(0, 0), 10, 10), 10, 5));
+//			}
+//		});
 		layoutPanel.add(btnAddCreep);
 		layoutPanel.setWidgetLeftWidth(btnAddCreep, 35.0, Unit.PX, 81.0, Unit.PX);
 		layoutPanel.setWidgetTopHeight(btnAddCreep, 448.0, Unit.PX, 30.0, Unit.PX);
@@ -49,18 +48,10 @@ public class TDView extends Composite {
 	}
 	
 	public void update() {
-//		// If the size combo box hasn't been updated yet,
-//		// add all of the possible size values
-//		if (sizeComboBox.getItemCount() == 0) {
-//			Size[] sizes = Size.values();
-//			for (Size s : sizes) {
-//				sizeComboBox.addItem(s.toString());
-//			}
-//		}
-//		
-//		// Select the current pizza size in the combo box
-//		Size pizzaSize = model.getSize();
-//		sizeComboBox.setSelectedIndex(pizzaSize.ordinal());
-		
+		btnAddCreep.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				model.getBoard().addCreep(new Creep(new Rectangle(new Point(0, 0), 10, 10), 10, 5));
+			}
+		});
 	}
 }

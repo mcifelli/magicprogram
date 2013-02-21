@@ -45,4 +45,8 @@ public class Board {
 	public void setGoal(Rectangle goal) {
 		this.goal = goal;
 	}
+	
+	public void addCreep(Creep toAdd) {
+		creeps.add(toAdd);
+	}
 }
