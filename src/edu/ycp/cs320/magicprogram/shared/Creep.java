@@ -9,7 +9,7 @@ public class Creep {
 	// Constructors
 	public Creep(Point topLeft, double size) {
 		setBody(new Rectangle(topLeft, size));
-		setRange(new Circle(getCenter()));
+//		setRange(new Circle(getCenter()));
 		dead = false;
 	}
 	
