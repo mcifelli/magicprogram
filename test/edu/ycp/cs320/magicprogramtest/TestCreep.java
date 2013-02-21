@@ -13,12 +13,13 @@ public class TestCreep {
 	
 	@Before
 	public void setUp() {
-		a = new Creep();
-		b = new Creep();
+		a = new Creep(new Point(), 1, 1);
+		b = new Creep(new Point(5, 3), 5, 2);
 	}
 	
 	@Test
-	public void testGetTopLeft() {
-		
+	public void testGetBody() {
+		Rectangle ta = new Rectangle(new Point(), 1);
+		assertEquals(0.0, );
 	}
 }

@@ -3,16 +3,16 @@ package edu.ycp.cs320.magicprogram.shared;
 public class Creep {
 	// Physical attributes
 	private Rectangle body;
-	private Circle range;
+	private double range;
 	private boolean dead;
 	private double speed;
 	
 	// Constructors
-	public Creep(Point topLeft, double size, double speed) {
-		setBody(new Rectangle(topLeft, size));
-		setRange(new Circle());
+	public Creep(Rectangle body, double range, double speed) {
+		setBody(body);
+		setRange(range);
 		setDead(false);
-		setSpeed(speed);
+		this.speed = speed;
 	}
 	
 	// Getters/Setters
@@ -22,10 +22,10 @@ public class Creep {
 	public void setBody(Rectangle body) {
 		this.body = body;
 	}
-	public Circle getRange() {
+	public double getRange() {
 		return range;
 	}
-	public void setRange(Circle range) {
+	public void setRange(double range) {
 		this.range = range;
 	}
 	public Point getLocation() {
