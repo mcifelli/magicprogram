@@ -5,12 +5,14 @@ public class Creep {
 	private Rectangle body;
 	private Circle range;
 	private boolean dead;
+	private double speed;
 	
 	// Constructors
-	public Creep(Point topLeft, double size) {
+	public Creep(Point topLeft, double size, double speed) {
 		setBody(new Rectangle(topLeft, size));
-		setRange(new Circle(getCenter()));
-		dead = false;
+		setRange(new Circle());
+		setDead(false);
+		setSpeed(speed);
 	}
 	
 	// Getters/Setters
@@ -31,11 +33,33 @@ public class Creep {
 	}
 	
 	//Methods
-	public void move(Point newPoint) {
-		
+	public void move(Point wayPoint) {
+		double newX = body.getTopLeft().getX();
+		double newY = body.getTopLeft().getY();
+		if (body.getCenter().getX() < wayPoint.getX()) {
+			newX += speed;			
+		}
+		else {
+			newX -= speed;
+		}
+		if (body.getCenter().getY() < wayPoint.getY()) {
+			newY += speed;		
+		}
+		else {
+			newY -= speed;
+		}
+		body.setTopLeft(new Point(newX, newY));
 	}
 	
 	public void kill() {
-		dead = true;
+		setDead(true);
+	}
+
+	public boolean isDead() {
+		return dead;
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 }
