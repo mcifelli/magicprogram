@@ -136,7 +136,7 @@ public class Rectangle {
 			return false;
 		}	// if the rectangles overlap on the x-axis, we must check if they overlap in the y
 			// if the topmost point of a is lower than the bottommost point of b, they do not overlap on the y-axis
-		else if (this.getTopLeft().getY() < b.getBotLeft().getY() || this.getBotLeft().getY() > b.getTopLeft().getY()) {
+		else if (this.getTopLeft().getY() > b.getBotLeft().getY() || this.getBotLeft().getY() < b.getTopLeft().getY()) {
 			return false;
 		}
 		return true;

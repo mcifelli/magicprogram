@@ -61,7 +61,7 @@ public class Point {
 	 * @param plusY increase in y-value
 	 */
 	public void addY(double plusY) {
-		this.Y += plusY;
+		this.y += plusY;
 	}
 	
 	// Static Methods

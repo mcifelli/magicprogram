@@ -28,8 +28,8 @@ public class Creep {
 	public void setRange(double range) {
 		this.range = range;
 	}
-	public Point getLocation() {
-		return body.getLocation();
+	public Point getCenter() {
+		return body.getCenter();
 	}
 	
 	//Methods
