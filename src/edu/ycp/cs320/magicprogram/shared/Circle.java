@@ -1,4 +1,4 @@
-package edu.ycp.cs320.magicprogram;
+package edu.ycp.cs320.magicprogram.shared;
 
 public class Circle {
 	// Fields

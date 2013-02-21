@@ -1,4 +1,4 @@
-package edu.ycp.cs320.magicprogram;
+package edu.ycp.cs320.magicprogram.shared;
 
 
 public class Rectangle {
@@ -57,7 +57,10 @@ public class Rectangle {
 	}
 	public Point getCenter() {
 		return new Point(topLeft.getX() + width/2, topLeft.getY() + height/2);
-	} 
+	}
+	public Point getLocation() {
+		return this.topLeft;
+	}
 
 	// Methods
 	public boolean overlaps(Rectangle b) {
