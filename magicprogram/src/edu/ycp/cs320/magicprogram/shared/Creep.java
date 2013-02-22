@@ -6,13 +6,15 @@ public class Creep {
 	private double range;
 	private boolean dead;
 	private double speed;
+	private Point waypoint;
 	
 	// Constructors
-	public Creep(Rectangle body, double range, double speed) {
+	public Creep(Rectangle body, double range, double speed, Point waypoint) {
 		setBody(body);
 		setRange(range);
 		setDead(false);
 		this.speed = speed;
+		this.waypoint = waypoint;
 	}
 	
 	// Getters/Setters
@@ -28,10 +30,12 @@ public class Creep {
 	public void setRange(double range) {
 		this.range = range;
 	}
+
 	public Point getCenter() {
 		return body.getCenter();
 	}
 	
+
 	//Methods
 	public void move(Point wayPoint) {
 		double newX = body.getTopLeft().getX();

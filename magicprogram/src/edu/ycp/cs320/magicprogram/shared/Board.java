@@ -6,13 +6,16 @@ public class Board {
 	//Fields
 	private ArrayList<Creep> creeps;
 	private ArrayList<Tower> towers;
+
 	private ArrayList<Point> waypoints;
+
 	private Rectangle goal;
 	
 	// Constructors 
 	public Board() {
 		setCreeps(new ArrayList<Creep>());
 		setTowers(new ArrayList<Tower>());
+
 		setPath(new ArrayList<Point>());
 	}
 	
@@ -79,6 +82,7 @@ public class Board {
 	public void setTowers(ArrayList<Tower> towers) {
 		this.towers = towers;
 	}
+
 	/**
 	 * Get a list ordered waypoints
 	 * @return A list of ordered waypoints
@@ -97,6 +101,7 @@ public class Board {
 	 * Get the goal
 	 * @return The goal
 	 */
+
 	public Rectangle getGoal() {
 		return goal;
 	}

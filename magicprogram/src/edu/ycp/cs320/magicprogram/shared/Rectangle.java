@@ -151,7 +151,7 @@ public class Rectangle {
 		if (a.getTopLeft().getX() > b.getTopRight().getX() || a.getTopRight().getX() < b.getTopLeft().getX()) {
 			return false;
 		}
-		else if (a.getTopLeft().getY() < b.getBotLeft().getY() || a.getBotLeft().getY() > b.getTopLeft().getY()) {
+		else if (a.getTopLeft().getY() > b.getBotLeft().getY() || a.getBotLeft().getY() < b.getTopLeft().getY()) {
 			return false;
 		}
 		return true;
