@@ -30,9 +30,9 @@ public class Creep {
 	public void setRange(double range) {
 		this.range = range;
 	}
-	
-	public Point getWayPoint(){
-		return this.waypoint;
+
+	public Point getCenter() {
+		return body.getCenter();
 	}
 	
 	//Methods

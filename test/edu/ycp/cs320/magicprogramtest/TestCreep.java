@@ -13,7 +13,7 @@ public class TestCreep {
 	
 	@Before
 	public void setUp() {
-		a = new Creep(new Point(), 1, 1);
+		a = new Creep(new Point( 1, 1);
 		b = new Creep(new Point(5, 3), 5, 2);
 	}
 	
