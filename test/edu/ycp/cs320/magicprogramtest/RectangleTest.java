@@ -41,11 +41,41 @@ public class RectangleTest {
 	@Test
 	public void testGetTopLeft() {
 //		x and y cases for 5x4
-		assertEquals(0, fiveByFourAtOrigin.getTopLeft().x, DELTA);
-		assertEquals(0, fiveByFourAtOrigin.getTopLeft().y, DELTA);
+		assertEquals(0, fiveByFourAtOrigin.getTopLeft().getX(), DELTA);
+		assertEquals(0, fiveByFourAtOrigin.getTopLeft().getY(), DELTA);
 //		x and y cases for rectangle2
-		assertEquals(1, rectangle2.getTopLeft().x, DELTA);
-		assertEquals(2, rectangle2.getTopLeft().y, DELTA);
+		assertEquals(1, rectangle2.getTopLeft().getX(), DELTA);
+		assertEquals(2, rectangle2.getTopLeft().getY(), DELTA);
+	}
+	
+	@Test
+	public void testGetBotRight() {
+//		x and y cases for 5x4
+		assertEquals(5, fiveByFourAtOrigin.getBotRight().getX(), DELTA);
+		assertEquals(4, fiveByFourAtOrigin.getBotRight().getY(), DELTA);
+//		x and y cases for rectangle2
+		assertEquals(4, rectangle2.getBotRight().getX(), DELTA);
+		assertEquals(6, rectangle2.getBotRight().getY(), DELTA);
+	}
+	
+	@Test
+	public void testGetTopRight() {
+//		x and y cases for 5x4
+		assertEquals(5, fiveByFourAtOrigin.getTopRight().getX(), DELTA);
+		assertEquals(0, fiveByFourAtOrigin.getTopRight().getY(), DELTA);
+//		x and y cases for rectangle2
+		assertEquals(4, rectangle2.getTopRight().getX(), DELTA);
+		assertEquals(2, rectangle2.getTopRight().getY(), DELTA);
+	}
+	
+	@Test
+	public void testGetBotLeft() {
+//		x and y cases for 5x4
+		assertEquals(0, fiveByFourAtOrigin.getBotLeft().getX(), DELTA);
+		assertEquals(4, fiveByFourAtOrigin.getBotLeft().getY(), DELTA);
+//		x and y cases for rectangle2
+		assertEquals(1, rectangle2.getBotLeft().getX(), DELTA);
+		assertEquals(6, rectangle2.getBotLeft().getY(), DELTA);
 	}
 	
 	@Test
@@ -67,26 +97,52 @@ public class RectangleTest {
 	@Test
 	public void testSetTopLeft() throws Exception {
 		rectangle2.setTopLeft(offset);
-		assertEquals(1, rectangle2.getTopLeft().x, DELTA);
-		assertEquals(1, rectangle2.getTopLeft().y, DELTA);
+		assertEquals(1, rectangle2.getTopLeft().getX(), DELTA);
+		assertEquals(1, rectangle2.getTopLeft().getY(), DELTA);
 		fiveByFourAtOrigin.setTopLeft(offset);
-		assertEquals(1, fiveByFourAtOrigin.getTopLeft().x, DELTA);
-		assertEquals(1, fiveByFourAtOrigin.getTopLeft().y, DELTA);
+		assertEquals(1, fiveByFourAtOrigin.getTopLeft().getX(), DELTA);
+		assertEquals(1, fiveByFourAtOrigin.getTopLeft().getY(), DELTA);
 	}
 	
 	@Test
-	public void testOverlapsEasyCases() throws Exception {
-		Circle doesOverlap = new Circle(new Point(3.0, -0.8), 1.0);
-		Circle doesNotOverlap = new Circle(new Point(-1.2, 2.0), 1.0);
-		
-		assertTrue(fiveByFourAtOrigin.overlaps(doesOverlap));
+	public void testOverlapsCaseA() throws Exception {
+		Rectangle doesOverlapA = new Rectangle(new Point(3, 3), 4, 4);
+
+		assertTrue(fiveByFourAtOrigin.overlaps(doesOverlapA));
+	}
+	
+	@Test
+	public void testOverlapsCaseB() throws Exception {
+		Rectangle doesOverlapB = new Rectangle(new Point(-4, -4), 4, 4);
+
+		assertTrue(fiveByFourAtOrigin.overlaps(doesOverlapB));
+	}
+	
+	@Test
+	public void testOverlapsCaseC() throws Exception {
+		Rectangle doesOverlapC = new Rectangle(new Point(-4, 3), 4, 4);
+
+		assertTrue(fiveByFourAtOrigin.overlaps(doesOverlapC));
+	}
+	
+	@Test
+	public void testOverlapsCaseD() throws Exception {
+		Rectangle doesOverlapD = new Rectangle(new Point(3, -4), 4, 4);
+
+		assertTrue(fiveByFourAtOrigin.overlaps(doesOverlapD));
+	}
+	
+	@Test
+	public void testOverlapsNot() throws Exception {
+		Rectangle doesNotOverlap = new Rectangle(new Point(6, 3), 4, 4);
+	
 		assertFalse(fiveByFourAtOrigin.overlaps(doesNotOverlap));
 	}
 	
 	@Test
 	public void testOverlapsHardCase() throws Exception {
-		Circle doesNotOverlap = new Circle(new Point(-0.9, -0.9), 1.0);
+		Rectangle doesOverlap = new Rectangle(new Point(5, 4), 1.0);
 		
-		assertFalse(fiveByFourAtOrigin.overlaps(doesNotOverlap));
+		assertTrue(fiveByFourAtOrigin.overlaps(doesOverlap));
 	}
 }

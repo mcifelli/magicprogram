@@ -49,53 +49,31 @@ public class Rectangle {
 		}
 		return false;
 	}
+	
 	public Point getTopRight() {
 		return new Point(topLeft.getX() + width, topLeft.getY());
 	}
+	
 	public Point getBotLeft() {
 		return new Point(topLeft.getX(), topLeft.getY() + height);
 	}
 	public Point getCenter() {
 		return new Point(topLeft.getX() + width/2, topLeft.getY() + height/2);
 	}
+	
 	public Point getLocation() {
 		return this.topLeft;
 	}
 
 	// Methods
 	public boolean overlaps(Rectangle b) {
-		/* 
-		if(topLeft.getY() > rect.getTopLeft().getY() & topLeft.getY() < rect.getBotLeft().getY() 
-				& topLeft.getX() > rect.getTopLeft().getX() & topLeft.getX() < rect.getTopRight().getX()
-		){
-			return true;
-		}
-		if(topRight.getY() > rect.getTopLeft().getY() & topRight.getY() < rect.getBotLeft().getY() 
-				& topRight.getX() > rect.getTopLeft().getX() & topRight.getX() < rect.getTopRight().getX()
-		){
-			return true;
-		}
-		if(botLeft.getY() > rect.getTopLeft().getY() & botLeft.getY() < rect.getBotLeft().getY() 
-				& botLeft.getX() > rect.getTopLeft().getX() & botLeft.getX() < rect.getTopRight().getX()
-		){
-			return true;
-		}
-		if(botRight.getY() > rect.getTopLeft().getY() & botRight.getY() < rect.getBotLeft().getY() 
-				& botRight.getX() > rect.getTopLeft().getX() & botRight.getX() < rect.getTopRight().getX()
-		){
-			return true;
-		}
-		else{
-			return false;
-		}
-		*/
-		
+			
 		// if the leftmost point of a is to the right of b, or vice versa, the rectangles do not overlap on the x-axis
 		if (this.getTopLeft().getX() > b.getTopRight().getX() || this.getTopRight().getX() < b.getTopLeft().getX()) {
 			return false;
 		}	// if the rectangles overlap on the x-axis, we must check if they overlap in the y
 			// if the topmost point of a is lower than the bottommost point of b, they do not overlap on the y-axis
-		else if (this.getTopLeft().getY() < b.getBotLeft().getY() || this.getBotLeft().getY() > b.getTopLeft().getY()) {
+		else if (this.getTopLeft().getY() > b.getBotLeft().getY() || this.getBotLeft().getY() < b.getTopLeft().getY()) {
 			return false;
 		}
 		return true;
@@ -105,7 +83,7 @@ public class Rectangle {
 		if (a.getTopLeft().getX() > b.getTopRight().getX() || a.getTopRight().getX() < b.getTopLeft().getX()) {
 			return false;
 		}
-		else if (a.getTopLeft().getY() < b.getBotLeft().getY() || a.getBotLeft().getY() > b.getTopLeft().getY()) {
+		else if (a.getTopLeft().getY() > b.getBotLeft().getY() || a.getBotLeft().getY() < b.getTopLeft().getY()) {
 			return false;
 		}
 		return true;

@@ -22,7 +22,7 @@ public class game {
 		if (life > 0) {
 			for (Creep creep : board.getCreeps()) {
 				if (creep.getLocation().getX() < board.getGoal().getTopLeft().getX()) {
-					creep.moveTowards(board.getGoal().getLocation());
+					creep.move(board.getGoal().getLocation());
 				} else {
 					creep.topLeft.x--;
 				}
