@@ -35,6 +35,7 @@ public class Creep {
 		return body.getCenter();
 	}
 	
+
 	//Methods
 	public void move(Point wayPoint) {
 		double newX = body.getTopLeft().getX();
