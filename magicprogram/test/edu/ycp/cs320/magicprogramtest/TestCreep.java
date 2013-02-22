@@ -10,9 +10,9 @@ import edu.ycp.cs320.magicprogram.shared.*;
 public class TestCreep {
 	private Creep a;
 	private Creep b;
-	private Rectangle testRect, setRect;
+	private Rectangle testRect, setRect, fixRect;
 	private double range, newRange;
-	private Point center, waypoint;
+	private Point center, waypoint, fixpoint;
 	
 	@Before
 	public void setUp() {
@@ -22,11 +22,12 @@ public class TestCreep {
 		center = new Point(.5, .5);
 		waypoint = new Point(5, 5);
 		testRect = new Rectangle(new Point(0,0), 1, 1);
-//		testRect = new Rectangle(new Point(0, 0), 1, 1);
-//		setRect = new Rectangle(new Point(1, 1), 1, 1);
+		fixRect = new Rectangle(new Point(5,3),5,2);
+		fixpoint = new Point(2,2);
+
 		setRect = new Rectangle(new Point(1,1), 1, 1);
-//		a = new Creep(testRect, range, 1, center);
-//		b = new Creep(new Rectangle(new Point(5, 3), 5, 2), 2, 2);	
+		a = new Creep(testRect, range, 1, center);
+		b = new Creep(fixRect, newRange, 1, fixpoint);
 	}
 	
 	@Test
