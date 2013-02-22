@@ -29,6 +29,7 @@ public class Game {
 				if (creep.getBody().overlaps(goal)) {
 					
 					board.getCreeps().remove(creep);
+					System.out.printf("fuck you daniel");
 					life=life-1;
 				}
 			}
