@@ -11,6 +11,7 @@ public class Point {
 		setY(y);
 	}
 	
+	
 	public Point() {
 		setX(0.0);
 		setY(0.0);
