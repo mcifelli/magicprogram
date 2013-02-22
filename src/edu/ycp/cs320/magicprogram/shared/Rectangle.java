@@ -61,9 +61,6 @@ public class Rectangle {
 		return new Point(topLeft.getX() + width/2, topLeft.getY() + height/2);
 	}
 	
-	public Point getLocation() {
-		return this.topLeft;
-	}
 
 	// Methods
 	public boolean overlaps(Rectangle b) {

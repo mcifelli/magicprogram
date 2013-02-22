@@ -5,13 +5,11 @@ import java.util.ArrayList;
 public class Board {
 	private ArrayList<Creep> creeps;
 	private ArrayList<Tower> towers;
-	private Path path;
 	private Rectangle goal;
 	
 	public Board() {
 		setCreeps(new ArrayList<Creep>());
 		setTowers(new ArrayList<Tower>());
-		setPath(new Path());
 	}
 
 	public ArrayList<Creep> getCreeps() {
@@ -30,13 +28,6 @@ public class Board {
 		this.towers = towers;
 	}
 
-	public Path getPath() {
-		return path;
-	}
-
-	public void setPath(Path path) {
-		this.path = path;
-	}
 
 	public Rectangle getGoal() {
 		return goal;
