@@ -2,7 +2,7 @@ package edu.ycp.cs320.magicprogram.shared;
 
 import java.util.ArrayList;
 
-public class game {
+public class Game {
 	public static final double WIDTH = 900;
 	//default: 640 x 480 (w x h)
 	public static final double HEIGHT = 660;
@@ -12,7 +12,7 @@ public class game {
 	private Board board;
 	private int life;
 
-	public game() {
+	public Game() {
 		goal = new Rectangle(new Point(430, 300), 50, 50);
 		board = new Board();
 		life = 20;
