@@ -3,6 +3,11 @@ package edu.ycp.cs320.magicprogram.shared;
 import java.util.ArrayList;
 
 public class Game {
+	
+	public enum Events {
+		
+	}
+	
 	public static final double WIDTH = 900;
 	//default: 640 x 480 (w x h)
 	public static final double HEIGHT = 660;
