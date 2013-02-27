@@ -25,15 +25,10 @@ public class MagicprogramUI implements EntryPoint {
 	private Creep creep;
 	private Point spawnPoint;
 	
-//	private Canvas canvas;
-	private Canvas canvas_1;
-	
 	Game game = new Game();
 	/**
 	 * @wbp.nonvisual location=118,99
 	 */
-//	private final java.awt.Canvas canvas = new java.awt.Canvas();
-//	private static final TreeImages treeImages = GWT.create(TreeImages.class);
 	
 	public MagicprogramUI() {
 		

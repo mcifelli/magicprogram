@@ -19,15 +19,7 @@ public class GameView extends Composite implements ISubscriber {
 		LayoutPanel layoutPanel = new LayoutPanel();
 		initWidget(layoutPanel);
 		
-//		canvas_1 = new Canvas();
-//		canvas_1 = Canvas.createIfSupported();
-//		canvas_1.setEnabled(true);
-
-//		layoutPanel.add(canvas_1);
-//		layoutPanel.setWidgetLeftWidth(canvas_1, 24.0, Unit.PX, 406.0, Unit.PX);
-//		layoutPanel.setWidgetTopHeight(canvas_1, 86.0, Unit.PX, 18.0, Unit.PX);
 		
-//		canvas_1.
 		
 		
 	}
