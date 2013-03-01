@@ -7,15 +7,16 @@ public class Creep {
 	private boolean dead;
 	private double speed;
 	private Point waypoint;
-	
+	private int hp;
 	
 	// Constructors
-	public Creep(Rectangle body, double range, double speed, Point waypoint) {
+	public Creep(Rectangle body, double range, double speed, Point waypoint, int hp) {
 		setBody(body);
 		setRange(range);
 		setDead(false);
 		this.speed = speed;
 		this.setWaypoint(waypoint);
+		this.hp=hp;
 	}
 	
 	
@@ -41,6 +42,14 @@ public class Creep {
 	public void setWaypoint(Point waypoint) {
 		this.waypoint = waypoint;
 	}
+	public int getHP() {
+		return hp;
+	}
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	
+	
 	
 
 	//Methods

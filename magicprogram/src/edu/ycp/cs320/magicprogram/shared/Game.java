@@ -30,7 +30,15 @@ public class Game {
 				}
 			}
 		}
+		//tower shooting function
+		//if statement for any creep in range of tower
+			//creep damage calculate function call
+			//creep die
+	
+	
 	}
+	
+	
 	
 	public Board getBoard(){
 		return board;
