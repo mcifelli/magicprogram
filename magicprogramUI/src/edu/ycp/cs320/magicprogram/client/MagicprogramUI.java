@@ -21,11 +21,8 @@ public class MagicprogramUI implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
-	private Board board;
-	private Creep creep;
-	private Point spawnPoint;
 	
-	Game game = new Game();
+	Game game;
 	/**
 	 * @wbp.nonvisual location=118,99
 	 */
@@ -37,6 +34,11 @@ public class MagicprogramUI implements EntryPoint {
 	public void onModuleLoad() {
 		// create a panel
 		LayoutPanel panel = new LayoutPanel();
+		
+		game = new Game();
+		game.getPath().add(new Point());
+		game.getPath().add(new Point());
+		game.getPath().add(new Point());
 		
 		GameView gameView = new GameView();
 		gameView.setModel(game);
@@ -52,19 +54,19 @@ public class MagicprogramUI implements EntryPoint {
 		RootLayoutPanel.get().setWidgetLeftRight(panel, 10.0, Unit.PX, 10.0, Unit.PX);
 		RootLayoutPanel.get().setWidgetTopBottom(panel, 10.0, Unit.PX, 10.0, Unit.PX);
 		
-		Button creepButton = new Button("New button");
+		Button creepButton = new Button("add creep");
 		creepButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				creepButtonClicked();
+				game.addCreep();
 			}
 		});
-		creepButton.setText("add creep");
 		panel.add(creepButton);
 		panel.setWidgetLeftWidth(creepButton, 325.0, Unit.PX, 81.0, Unit.PX);
 		panel.setWidgetTopHeight(creepButton, 52.0, Unit.PX, 30.0, Unit.PX);
-	}
-	
-	public void creepButtonClicked() {
-		board.addCreep(creep);
+		
+		Canvas gameViewer = Canvas.createIfSupported();
+		panel.setWidgetLeftWidth(gameViewer, 325.0, Unit.PX, 81.0, Unit.PX);
+		panel.setWidgetTopHeight(gameViewer, 52.0, Unit.PX, 30.0, Unit.PX);
+		panel.add(gameViewer);
 	}
 }
