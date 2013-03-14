@@ -17,7 +17,6 @@ public class TestCreep {
 	
 	@Before
 	public void setUp() {
-
 		range = 1;
 		newRange = 2;
 		center = new Point(.5, .5);
@@ -25,11 +24,10 @@ public class TestCreep {
 		testRect = new Rectangle(new Point(0,0), 1, 1);
 		fixRect = new Rectangle(new Point(5,3),5,2);
 		fixpoint = new Point(2,2);
-		hp = 1;
 
 		setRect = new Rectangle(new Point(1,1), 1, 1);
-		a = new Creep(testRect, range, 1, center,hp);
-		b = new Creep(fixRect, newRange, 1, fixpoint,hp);
+		a = new Creep(testRect, range, 1, center);
+		b = new Creep(fixRect, newRange, 1, fixpoint);
 	}
 	
 	@Test
