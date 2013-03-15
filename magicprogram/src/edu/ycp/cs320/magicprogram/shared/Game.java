@@ -12,21 +12,36 @@ public class Game {
 	//fields
 	private Rectangle goal;
 	private int life;
+	private Stack<Creep> queue;
 	private ArrayList<Creep> creeps;
 	private ArrayList<Tower> towers;
-	private String [][] grid = new String[10][10];
+	private String[][] grid = new String[10][10];
 	private ArrayList<Point> waypoints;
-
+	private int queueTime;
 	
 	
 	public Game() {
-		life = 20;
-		setCreeps(new ArrayList<Creep>());
-		setTowers(new ArrayList<Tower>());
-		setPath(new ArrayList<Point>());
 		waypoints.add(new Point(50.0,0.0));
 		waypoints.add(new Point(50.0,50.0));
-		addCreep();
+		
+		setCreeps(new ArrayList<Creep>());
+		
+		setTowers(new ArrayList<Tower>());
+		
+		setPath(new ArrayList<Point>());
+		
+		life = 20;
+		
+		queue = new Stack<Creep>();
+		queue.add(new Creep(new Point(), waypoints));
+		queue.add(new Creep(new Point(), waypoints));
+		queue.add(new Creep(new Point(), waypoints));
+		queue.add(new Creep(new Point(), waypoints));
+		queue.add(new Creep(new Point(), waypoints));
+		queue.add(new Creep(new Point(), waypoints));
+		queue.add(new Creep(new Point(), waypoints));
+		queue.add(new Creep(new Point(), waypoints));
+		queueTime = 0;
 	}
 	
 	
@@ -41,6 +56,9 @@ public class Game {
 	
 	public void update() {
 		if (life > 0) {
+			if (queue.size() > 0 && queueTime % 5 == 0) {
+				creeps.add(queue.pop());
+			}
 			for (Creep creep : creeps){
 				System.out.println("moving creep");
 				creep.move();
