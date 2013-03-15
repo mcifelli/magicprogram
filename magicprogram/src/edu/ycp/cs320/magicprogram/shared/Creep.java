@@ -6,21 +6,24 @@ import java.util.Stack;
 
 public class Creep {
 	// Physical attributes
-	private Rectangle body;
+	private Point position;
+	private int size;
 	private double range = 1;
 	private double speed = 1;
 	private int hp = 10;
 	private Stack<Point> path;
 	
 	// Constructors
-	public Creep(ArrayList<Point> path) {
+	public Creep(Point position, ArrayList<Point> path) {
+		speed = 1;
+		this.position = position;
+		size = 50;
 		this.path = new Stack();
 		Collections.reverse(path);
 		for (Point waypoint : path) {
 			this.path.push(waypoint);
 		}
 		Collections.reverse(path);
-		this.body = new Rectangle(this.path.pop(), 1, 1);
 	}
 	
 	// Getters/Setters
@@ -30,46 +33,54 @@ public class Creep {
 	public void setRange(double range) {
 		this.range = range;
 	}
-	public Point getCenter() {
-		return body.getCenter();
-	}
 	public int getHP() {
 		return hp;
 	}
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
-	public Rectangle getBody() {
-		return body;
+	public Point getPos() {
+		return position;
 	}
 	
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
 	//Methods
 	/**
 	 * Move towards the next waypoint
 	 */
 	public void move() {
 		if (!path.isEmpty()) {
-			Point distance = Point.distanceBetweenXY(getCenter(), path.peek());
+			System.out.println("next point in path: " + path.peek().getX()+ ", " + path.peek().getY());
 			
-			if (speed > Math.abs(distance.getX()) && speed > Math.abs(distance.getY())) {
+			if (speed > position.distanceTo(path.peek())) {
+				System.out.println("too close to point" + path.peek().getX()+ ", " + path.peek().getY());
 				// the creep will overshoot the point
 				// solution: the creep goes to the point
-				body.setTopLeft(path.pop());
+				position = path.pop();
 			}
 			else {
-				// Full step needed on x-axis
-				if (body.getCenter().getX() < path.peek().getX()) {
-					body.getTopLeft().addX(speed);
+//				 Full step needed on x-axis
+				if (position.getX() < path.peek().getX()) {
+					System.out.println("moving towards " + path.peek().getX()+ ", " + path.peek().getY());
+					position.addX(speed);
 				}
 				else {
-					body.getTopLeft().addX(-1 * speed);
+					position.addX(-1 * speed);
 				}
 				// Full step needed on y-axis
-				if (body.getCenter().getY() < path.peek().getY()) {
-					body.getTopLeft().addY(speed);	
+				if (position.getY() < path.peek().getY()) {
+					System.out.println("moving towards " + path.peek().getX()+ ", " + path.peek().getY());
+					position.addY(speed);	
 				}
 				else {
-					body.getTopLeft().addY(-1 * speed);
+					position.addY(-1 * speed);
 				}
 			}
 		}

@@ -24,7 +24,9 @@ public class Game {
 		setCreeps(new ArrayList<Creep>());
 		setTowers(new ArrayList<Tower>());
 		setPath(new ArrayList<Point>());
-		waypoints.add(new Point(0.0,0.0));
+		waypoints.add(new Point(50.0,0.0));
+		waypoints.add(new Point(50.0,50.0));
+		addCreep();
 	}
 	
 	
@@ -34,19 +36,14 @@ public class Game {
 	 * Adds a default creep to the board. The creep is given a path to follow
 	 */
 	public void addCreep() {
-		creeps.add(new Creep(waypoints));
+		creeps.add(new Creep(new Point(0.0, 0.0), waypoints));
 	}
 	
 	public void update() {
 		if (life > 0) {
 			for (Creep creep : creeps){
-				
+				System.out.println("moving creep");
 				creep.move();
-				
-				if(creep.getBody().overlaps(goal)){
-					creeps.remove(creep);
-					life--;
-				}
 			}
 		}
 		//tower shooting function
