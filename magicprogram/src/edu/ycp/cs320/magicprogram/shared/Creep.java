@@ -1,69 +1,81 @@
 package edu.ycp.cs320.magicprogram.shared;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
+
 public class Creep {
 	// Physical attributes
 	private Rectangle body;
-	private double range;
-	private boolean dead;
-	private double speed;
-	private Point waypoint;
+	private double range = 1;
+	private double speed = 1;
+	private int hp = 10;
+	private Stack<Point> path;
 	
 	// Constructors
-	public Creep(Rectangle body, double range, double speed, Point waypoint) {
-		setBody(body);
-		setRange(range);
-		setDead(false);
-		this.speed = speed;
-		this.waypoint = waypoint;
+	public Creep(ArrayList<Point> path) {
+		this.path = new Stack();
+		Collections.reverse(path);
+		for (Point waypoint : path) {
+			this.path.push(waypoint);
+		}
+		Collections.reverse(path);
+		this.body = new Rectangle(this.path.pop(), 1, 1);
 	}
 	
 	// Getters/Setters
-	public Rectangle getBody() {
-		return body;
-	}
-	public void setBody(Rectangle body) {
-		this.body = body;
-	}
 	public double getRange() {
 		return range;
 	}
 	public void setRange(double range) {
 		this.range = range;
 	}
-
 	public Point getCenter() {
 		return body.getCenter();
 	}
+	public int getHP() {
+		return hp;
+	}
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	public Rectangle getBody() {
+		return body;
+	}
 	
-
 	//Methods
-	public void move(Point wayPoint) {
-		double newX = body.getTopLeft().getX();
-		double newY = body.getTopLeft().getY();
-		if (body.getCenter().getX() < wayPoint.getX()) {
-			newX += speed;			
+	/**
+	 * Move towards the next waypoint
+	 */
+	public void move() {
+		if (!path.isEmpty()) {
+			Point distance = Point.distanceBetweenXY(getCenter(), path.peek());
+			
+			if (speed > Math.abs(distance.getX()) && speed > Math.abs(distance.getY())) {
+				// the creep will overshoot the point
+				// solution: the creep goes to the point
+				body.setTopLeft(path.pop());
+			}
+			else {
+				// Full step needed on x-axis
+				if (body.getCenter().getX() < path.peek().getX()) {
+					body.getTopLeft().addX(speed);
+				}
+				else {
+					body.getTopLeft().addX(-1 * speed);
+				}
+				// Full step needed on y-axis
+				if (body.getCenter().getY() < path.peek().getY()) {
+					body.getTopLeft().addY(speed);	
+				}
+				else {
+					body.getTopLeft().addY(-1 * speed);
+				}
+			}
 		}
-		else {
-			newX -= speed;
-		}
-		if (body.getCenter().getY() < wayPoint.getY()) {
-			newY += speed;		
-		}
-		else {
-			newY -= speed;
-		}
-		body.setTopLeft(new Point(newX, newY));
 	}
 	
 	public void kill() {
-		setDead(true);
-	}
-
-	public boolean isDead() {
-		return dead;
-	}
-
-	public void setDead(boolean dead) {
-		this.dead = dead;
+		this.hp = 0;
 	}
 }

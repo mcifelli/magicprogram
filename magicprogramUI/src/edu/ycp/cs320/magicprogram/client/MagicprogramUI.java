@@ -13,7 +13,8 @@ public class MagicprogramUI implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
-
+	
+	Game game;
 	/**
 	 * @wbp.nonvisual location=118,99
 	 */
@@ -21,6 +22,15 @@ public class MagicprogramUI implements EntryPoint {
 	public void onModuleLoad() {
 		// create a panel
 		FlowPanel fpanel = new FlowPanel();
+//		LayoutPanel panel = new LayoutPanel();
+		
+//		game = new Game();
+//		game.getPath().add(new Point());
+//		game.getPath().add(new Point());
+//		game.getPath().add(new Point());
+		
+		GameView gameView = new GameView(fpanel);
+		gameView.setModel(game);
 		
 		
 		Game game = new Game();
@@ -38,6 +48,23 @@ public class MagicprogramUI implements EntryPoint {
 		
 		view.start();
 		
+//<<<<<<< HEAD
+//=======
+//		Button creepButton = new Button("add creep");
+//		creepButton.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//				game.addCreep();
+//			}
+//		});
+//		panel.add(creepButton);
+//		panel.setWidgetLeftWidth(creepButton, 325.0, Unit.PX, 81.0, Unit.PX);
+//		panel.setWidgetTopHeight(creepButton, 52.0, Unit.PX, 30.0, Unit.PX);
+//		
+//		Canvas gameViewer = Canvas.createIfSupported();
+//		panel.setWidgetLeftWidth(gameViewer, 325.0, Unit.PX, 81.0, Unit.PX);
+//		panel.setWidgetTopHeight(gameViewer, 52.0, Unit.PX, 30.0, Unit.PX);
+//		panel.add(gameViewer);
+//>>>>>>> mcifelli/master
 	}
 
 }

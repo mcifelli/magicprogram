@@ -16,7 +16,6 @@ public class TestCreep {
 	
 	@Before
 	public void setUp() {
-
 		range = 1;
 		newRange = 2;
 		center = new Point(.5, .5);

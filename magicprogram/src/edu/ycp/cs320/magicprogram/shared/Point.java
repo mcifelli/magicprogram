@@ -32,7 +32,7 @@ public class Point {
 	 * Calculates the distance between two points, returning seperated values.
 	 * 
 	 * @param b Another point
-	 * @return A point (x-distance, y-distance)
+	 * @return a point (x-distance, y-distance)
 	 */
 	public Point distanceToXY(Point b) {
 		double distanceX = this.getX() - b.getX();
@@ -72,9 +72,22 @@ public class Point {
 	 * @return A point (x-distance, y-distance)
 	 */
 	public static Point distanceBetweenXY(Point a, Point b) {
-		double distanceX = a.getX() - b.getX();
-		double distanceY = a.getY() - b.getY();
-		return new Point(distanceX, distanceY);
+		Point distance = new Point();
+		
+		if (a.getX() < b.getX()) {
+			distance.setX(b.getX() - a.getX());	
+		}
+		else {
+			distance.setX(a.getX() - b.getX());
+		}
+		if (a.getY() < b.getY()) {
+			distance.setX(b.getY() - a.getY());	
+		}
+		else {
+			distance.setX(a.getY() - b.getY());
+		}
+		
+		return distance;
 	}
 	/**
 	 * Calculates the distance between the two points, returning one number.
