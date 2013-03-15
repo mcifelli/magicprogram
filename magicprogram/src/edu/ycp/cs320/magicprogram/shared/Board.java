@@ -6,7 +6,7 @@ public class Board {
 	//Fields
 	private ArrayList<Creep> creeps;
 	private ArrayList<Tower> towers;
-	private String [][] grid= new String[10][10];
+
 	private ArrayList<Point> waypoints;
 
 	private Rectangle goal;

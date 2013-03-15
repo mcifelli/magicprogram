@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 public class Game {
 	
-	public enum Events {
-		
-	}
-	
 	public static final double WIDTH = 900;
 	//default: 640 x 480 (w x h)
 	public static final double HEIGHT = 660;
+	
+	public static final double CSIZE = 10;
 	
 	//fields
 	private Rectangle goal;
 	private Board board;
 	private int life;
+	private ArrayList<Creep> creeps;
+	private ArrayList<Tower> towers;
 
 	public Game() {
 		goal = new Rectangle(new Point(430, 300), 50, 50);
@@ -35,15 +35,7 @@ public class Game {
 				}
 			}
 		}
-		//tower shooting function
-		//if statement for any creep in range of tower
-			//creep damage calculate function call
-			//creep die
-	
-	
 	}
-	
-	
 	
 	public Board getBoard(){
 		return board;
