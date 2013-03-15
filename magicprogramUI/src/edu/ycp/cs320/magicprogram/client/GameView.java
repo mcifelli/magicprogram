@@ -35,54 +35,63 @@ public class GameView implements HasAllMouseHandlers {
 			@Override
 			public void run() {
 				updateGame();
-				drawCanvas(canvas);
+//				drawCanvas(canvas);
 			}
 		};
 		timer.scheduleRepeating(10);
 		
-//		canvas.addMouseDownHandler(new MouseDownHandler() {
-//
-//			@Override
-//			public void onMouseDown(MouseDownEvent event) {
-//				// TODO Auto-generated method stub
-//				clickHandle(event);
-//			}
-//			
-//		});
+		canvas.addMouseDownHandler(new MouseDownHandler() {
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				// TODO Auto-generated method stub
+				clickHandle(event);
+//				drawBlue(canvas);
+			}
+		});
 		
-	    canvas.addTouchMoveHandler(new TouchMoveHandler() {
-	        public void onTouchMove(TouchMoveEvent event) {
-	          event.preventDefault();
-	          if (event.getTouches().length() > 0) {
-	            Touch touch = event.getTouches().get(0);
-	            mouse.setX(touch.getRelativeX(canvas.getElement()));
-	            mouse.setY(touch.getRelativeY(canvas.getElement()));
-	          }
-	          event.preventDefault();
-	        }
-	      });
+//	    canvas.addTouchMoveHandler(new TouchMoveHandler() {
+//	        public void onTouchMove(TouchMoveEvent event) {
+//	          event.preventDefault();
+//	          if (event.getTouches().length() > 0) {
+//	            Touch touch = event.getTouches().get(0);
+//	            mouse.setX(touch.getRelativeX(canvas.getElement()));
+//	            mouse.setY(touch.getRelativeY(canvas.getElement()));
+//	          }
+//	          event.preventDefault();
+//	          System.out.println("hey");
+//	          drawBlue(canvas);
+//	        }
+//	    });
 		
 		
 	}
 	
-//	//mouse has been clicked
-//	protected void clickHandle(MouseDownEvent event) {
-//		mouse.setX(event.getClientX());
-//		mouse.setY(event.getClientY());
+	//mouse has been clicked
+	protected void clickHandle(MouseDownEvent event) {
+		mouse.setX(event.getClientX());
+		mouse.setY(event.getClientY());
 //		model.getBoard().addCreep(new Creep(new Rectangle(new Point(mouse.getX(), mouse.getY()), Game.CSIZE, Game.CSIZE), 10, 2, new Point(mouse.getX(), mouse.getY())));
-//	}
+	}
 	
 	//update UI
 	public void updateGame() {
 		model.update();
 	}
 	
+	public void drawBlue(Canvas canvas) {
+		canvas.getContext2d().setFillStyle("Blue");
+		canvas.getContext2d().fillRect(4, 4, 80, 40);
+	}
+	
 	public void drawCanvas(Canvas canvas) {
 		for(int i = 0; i < model.getBoard().getCreeps().size(); i++) {
-			canvas.getContext2d().fillRect(model.getBoard().getCreeps().get(i).getCenter().getX(), model.getBoard().getCreeps().get(i).getCenter().getY(), model.getBoard().getCreeps().get(i).getBody().getWidth(), model.getBoard().getCreeps().get(i).getBody().getHeight());
+			if(model.getBoard().getCreeps().size() > 0) {
+				canvas.getContext2d().setFillStyle("Blue");
+				canvas.getContext2d().fillRect(model.getBoard().getCreeps().get(i).getCenter().getX(), model.getBoard().getCreeps().get(i).getCenter().getY(), model.getBoard().getCreeps().get(i).getBody().getWidth(), model.getBoard().getCreeps().get(i).getBody().getHeight());
+			}
 		}
-		canvas.getContext2d().setFillStyle("#ff0000");
-		canvas.getContext2d().fillRect(20, 20, 80, 40);
+//		canvas.getContext2d().setFillStyle("#ff0000");
+//		canvas.getContext2d().fillRect(20, 20, 80, 40);
 	}
 
 	@Override
