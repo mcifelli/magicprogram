@@ -34,6 +34,7 @@ public class MagicprogramUI implements EntryPoint {
 	private FlowPanel flowPanel;
 	private Canvas canvas;
 	private Context2d context;
+	private Button btnAddCreepTo;
 	/**
 	 * @wbp.nonvisual location=118,99
 	 */
@@ -59,6 +60,14 @@ public class MagicprogramUI implements EntryPoint {
 	    
 	    flowPanel.add(canvas);
 	    canvas.setSize("400px", "400px");
+	    
+	    btnAddCreepTo = new Button("Send Creep");
+	    btnAddCreepTo.addClickHandler(new ClickHandler() {
+	    	public void onClick(ClickEvent event) {
+	    		game.getCreeps().add(new Creep(new Point(), game.getWaypoints()));
+	    	}
+	    });
+	    flowPanel.add(btnAddCreepTo);
 	    
 	    context = canvas.getContext2d();
 	    
