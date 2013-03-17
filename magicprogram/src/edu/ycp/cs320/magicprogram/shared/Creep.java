@@ -14,16 +14,21 @@ public class Creep {
 	private Stack<Point> path;
 	
 	// Constructors
-	public Creep(Point position, ArrayList<Point> path) {
-		speed = 1;
+	public Creep(Point position, ArrayList<Point> waypoints) {
+		System.out.println("making new creep");
+		speed = 5;
+		
 		this.position = position;
+		
 		size = 50;
-		this.path = new Stack();
-		Collections.reverse(path);
-		for (Point waypoint : path) {
-			this.path.push(waypoint);
+		
+		path = new Stack<Point>();
+		Collections.reverse(waypoints);
+		for (Point waypoint : waypoints) {
+			System.out.println("Added waypoint");
+			path.push(waypoint);
 		}
-		Collections.reverse(path);
+		Collections.reverse(waypoints);
 	}
 	
 	// Getters/Setters
@@ -83,6 +88,10 @@ public class Creep {
 					position.addY(-1 * speed);
 				}
 			}
+		}
+		else {
+			System.out.println("Path is empty");
+			
 		}
 	}
 	
