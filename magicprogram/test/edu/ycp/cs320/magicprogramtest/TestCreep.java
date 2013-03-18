@@ -1,6 +1,9 @@
 package edu.ycp.cs320.magicprogramtest;
 
 import static junit.framework.Assert.*;
+
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,6 +16,7 @@ public class TestCreep {
 	private Rectangle testRect, setRect, fixRect;
 	private double range, newRange;
 	private Point center, waypoint, fixpoint;
+	private ArrayList<Point> waypoints;
 	
 	@Before
 	public void setUp() {
@@ -23,22 +27,24 @@ public class TestCreep {
 		testRect = new Rectangle(new Point(0,0), 1, 1);
 		fixRect = new Rectangle(new Point(5,3),5,2);
 		fixpoint = new Point(2,2);
+		waypoints.add(new Point(1, 1));
+		waypoints.add(new Point(2, 2));
 
 		setRect = new Rectangle(new Point(1,1), 1, 1);
-		a = new Creep(testRect, range, 1, center);
-		b = new Creep(fixRect, newRange, 1, fixpoint);
+		a = new Creep(center, waypoints);
+		b = new Creep(center, waypoints);
 	}
 	
 	@Test
-	public void testGetBody() {
+	public void testGetPos() {
 //		Rectangle ta = new Rectangle(new Point(), 1);
-		assertEquals(testRect, a.getBody());
+		assertEquals(center, a.getPos());
 	}
 	
 	@Test
-	public void testSetBody() {
-		a.setBody(setRect);
-		assertEquals(setRect, a.getBody());
+	public void testSetPos() {
+		a.setPos(waypoint);
+		assertEquals(waypoint, a.getPos());
 	}
 	
 	@Test
@@ -53,8 +59,8 @@ public class TestCreep {
 	}
 	
 	@Test
-	public void testgetLocation() {
-		assertEquals(center, a.getCenter());
+	public void testgetSize() {
+		assertEquals(center, a.getSize());
 	}
 
 

@@ -75,7 +75,7 @@ public class GameView {
 		for(int i = 0; i < model.getCreeps().size(); i++) {
 			if(model.getCreeps().size() > 0) {
 				canvas.getContext2d().setFillStyle("Blue");
-				canvas.getContext2d().fillRect(model.getCreeps().get(i).getCenter().getX(), model.getCreeps().get(i).getCenter().getY(), model.getCreeps().get(i).getBody().getWidth(), model.getCreeps().get(i).getBody().getHeight());
+				canvas.getContext2d().fillRect(model.getCreeps().get(i).getPos().getX(), model.getCreeps().get(i).getPos().getY(), model.getCreeps().get(i).getSize(), model.getCreeps().get(i).getSize());
 			}
 		}
 //		canvas.getContext2d().setFillStyle("#ff0000");

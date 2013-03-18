@@ -30,7 +30,7 @@ public class Creep {
 		}
 		Collections.reverse(waypoints);
 	}
-	
+
 	// Getters/Setters
 	public double getRange() {
 		return range;
@@ -47,7 +47,9 @@ public class Creep {
 	public Point getPos() {
 		return position;
 	}
-	
+	public void setPos(Point pos) {
+		this.position = pos;
+	}
 	public int getSize() {
 		return size;
 	}
