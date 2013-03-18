@@ -25,17 +25,25 @@ public class Game {
 
 
 	private String [][] grid = new String[10][10];
-	private ArrayList<Point> waypoints;
 
+	private ArrayList<Point> waypoints;
 
 	
 	
 	public Game() {
-		life = 20;
+		waypoints = new ArrayList<Point>();
+		waypoints.add(new Point(50.0,0.0));
+		waypoints.add(new Point(50.0,50.0));
+		
 		setCreeps(new ArrayList<Creep>());
+		
 		setTowers(new ArrayList<Tower>());
+		
 		setPath(new ArrayList<Point>());
-		waypoints.add(new Point(0.0,0.0));
+		
+		life = 20;
+		
+		
 	}
 	
 	
@@ -44,19 +52,14 @@ public class Game {
 	 * Adds a default creep to the board. The creep is given a path to follow
 	 */
 	public void addCreep() {
-		creeps.add(new Creep(waypoints));
+		creeps.add(new Creep(new Point(0.0, 0.0), waypoints));
 	}
 	
 	public void update() {
 		if (life > 0) {
 			for (Creep creep : creeps){
-				
+				System.out.println("moving creep");
 				creep.move();
-				
-				if(creep.getBody().overlaps(goal)){
-					creeps.remove(creep);
-					life--;
-				}
 			}
 		}
 	}
@@ -124,5 +127,12 @@ public class Game {
 	 */
 	public void setGoal(Rectangle goal) {
 		this.goal = goal;
+	}
+
+
+
+	public ArrayList<Point> getWaypoints() {
+		// TODO Auto-generated method stub
+		return waypoints;
 	}
 }
