@@ -23,7 +23,7 @@ public class GameView extends Composite implements MouseMoveHandler{
 	public GameView(Game game) {
 		// GAME
 		model = game;
-		showGrid = false;
+		showGrid = true;
 		
 		// CANVAS
 		canvas = Canvas.createIfSupported();
@@ -33,7 +33,7 @@ public class GameView extends Composite implements MouseMoveHandler{
 		
 		// LAYOUT PANEL
 		VerticalPanel panel = new VerticalPanel();
-		panel.add(canvas);}
+		panel.add(canvas);
 		
 		
 		// INIT WIDGET

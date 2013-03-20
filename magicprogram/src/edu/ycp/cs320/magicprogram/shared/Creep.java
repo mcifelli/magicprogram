@@ -23,12 +23,10 @@ public class Creep {
 		size = 50;
 		
 		path = new Stack<Point>();
-		Collections.reverse(waypoints);
-		for (Point waypoint : waypoints) {
+		for (int i = waypoints.size() - 1; i >= 0; i--) {
 			System.out.println("Added waypoint");
-			path.push(waypoint);
+			path.push(waypoints.get(i));
 		}
-		Collections.reverse(waypoints);
 	}
 	
 	// Getters/Setters

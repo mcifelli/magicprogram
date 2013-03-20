@@ -45,21 +45,14 @@ public class MagicprogramUI implements EntryPoint {
 	
 	public void onModuleLoad() {
 		game = new Game();
-		gameView = new GameView();
+		gameView = new GameView(game);
 		gameView.setModel(game);
 	    rootPanel = RootPanel.get();
-	    rootPanel.setSize("700px", "500px");
 	    
 	    flowPanel = new FlowPanel();
 	    rootPanel.add(flowPanel, 0, 0);
-	    flowPanel.setSize("700px", "500px");
 	    
-	    canvas = Canvas.createIfSupported();
-	    canvas.setCoordinateSpaceWidth(400);
-	    canvas.setCoordinateSpaceHeight(400);
-	    
-	    flowPanel.add(canvas);
-	    canvas.setSize("400px", "400px");
+	    flowPanel.add(gameView);
 	    
 	    btnAddCreepTo = new Button("Send Creep");
 	    btnAddCreepTo.addClickHandler(new ClickHandler() {
@@ -69,21 +62,12 @@ public class MagicprogramUI implements EntryPoint {
 	    });
 	    flowPanel.add(btnAddCreepTo);
 	    
-	    context = canvas.getContext2d();
-	    
 	    // setup timer
 	    Timer timer = new Timer() {
 	      @Override
 	      public void run() {
 	    	  game.update();
-	    	  context.beginPath();
-	    	  context.setFillStyle(CssColor.make("white"));
-	    	  context.fillRect(0, 0, 400, 400);
-	    	  context.setFillStyle(CssColor.make("red"));
-	    	  for (Creep creep : game.getCreeps()) {
-	    		  context.fillRect(creep.getPos().getX(), creep.getPos().getY(), creep.getSize(), creep.getSize());
-	    	  }
-	    	  context.closePath();
+	    	  gameView.update();
 	      }
 	    };
 	    timer.scheduleRepeating(25);
