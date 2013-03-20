@@ -14,7 +14,7 @@ public class Game {
 	private int life;
 	private ArrayList<Creep> creeps;
 	private ArrayList<Tower> towers;
-	private String[][] grid = new String[10][10];
+	private String[][] board = new String[32][32];
 	private ArrayList<Point> waypoints;
 	
 	
@@ -31,7 +31,11 @@ public class Game {
 		
 		life = 20;
 		
-		
+		for (String[] row : board) {
+			for (String col : row) {
+				col = "land";
+			}
+		}
 	}
 	
 	
@@ -56,74 +60,37 @@ public class Game {
 	
 	
 	// Getters/Setters
-	/**
-	 * Gets a list of creeps
-	 * @return The creeps on the board
-	 */
 	public ArrayList<Creep> getCreeps() {
 		return creeps;
 	}
-	
-	/**
-	 * Replaces the list of creeps
-	 * @param creeps A new list of creeps
-	 */
 	public void setCreeps(ArrayList<Creep> creeps) {
 		this.creeps = creeps;
 	}
-	
-	/**
-	 * Get a list towers
-	 * @return The towers on the board
-	 */
 	public ArrayList<Tower> getTowers() {
 		return towers;
 	}
-	
-	/**
-	 * Replaces the list of towers
-	 * @param creeps A new list of towers
-	 */
 	public void setTowers(ArrayList<Tower> towers) {
 		this.towers = towers;
 	}
-	
-	/**
-	 * Get a list ordered waypoints
-	 * @return A list of ordered waypoints
-	 */
 	public ArrayList<Point> getPath() {
 		return waypoints;
 	}
-	
-	/**
-	 * Replaces the ordered list of waypoints
-	 * @param path A new ordered list of waypoints
-	 */
 	public void setPath(ArrayList<Point> waypoints) {
 		this.waypoints = waypoints;
 	}
-	
-	/**
-	 * Get the goal
-	 * @return The goal
-	 */
 	public Rectangle getGoal() {
 		return goal;
 	}
-	
-	/**
-	 * Replace the goal
-	 * @param goal A new goal
-	 */
 	public void setGoal(Rectangle goal) {
 		this.goal = goal;
 	}
-
-
-
 	public ArrayList<Point> getWaypoints() {
-		// TODO Auto-generated method stub
 		return waypoints;
+	}
+	public String[][] getBoard() {
+		return board;
+	}
+	public void setBoard(String[][] board) {
+		this.board = board;
 	}
 }
