@@ -21,13 +21,13 @@ public class Game {
 	private Rectangle goal;
 	private int life;
 	private ArrayList<Creep> creeps;
-	private ArrayList<Tower> towers;
+//	private ArrayList<Tower> towers;
 
 
 	private String [][] grid = new String[10][10];
 
-	private String[][] board = new String[32][32];
-
+	private Tower[][] towers = new Tower[32][32];
+	
 	private ArrayList<Point> waypoints;
 
 	
@@ -39,17 +39,9 @@ public class Game {
 		
 		setCreeps(new ArrayList<Creep>());
 		
-		setTowers(new ArrayList<Tower>());
-		
 		setPath(new ArrayList<Point>());
 		
 		life = 20;
-		
-		for (String[] row : board) {
-			for (String col : row) {
-				col = "land";
-			}
-		}
 	}
 	
 	
@@ -82,10 +74,10 @@ public class Game {
 	public void setCreeps(ArrayList<Creep> creeps) {
 		this.creeps = creeps;
 	}
-	public ArrayList<Tower> getTowers() {
+	public Tower[][] getTowers() {
 		return towers;
 	}
-	public void setTowers(ArrayList<Tower> towers) {
+	public void setTowers(Tower[][] towers) {
 		this.towers = towers;
 	}
 	public ArrayList<Point> getPath() {
@@ -102,11 +94,5 @@ public class Game {
 	}
 	public ArrayList<Point> getWaypoints() {
 		return waypoints;
-	}
-	public String[][] getBoard() {
-		return board;
-	}
-	public void setBoard(String[][] board) {
-		this.board = board;
 	}
 }
