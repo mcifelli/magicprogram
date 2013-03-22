@@ -3,7 +3,7 @@ package edu.ycp.cs320.magicprogram.shared;
 
 public class Point {
 	// Fields
-	double x, y;
+	private double x, y;
 
 	// Constructors
 	/**

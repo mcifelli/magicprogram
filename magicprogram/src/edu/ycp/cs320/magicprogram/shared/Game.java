@@ -55,11 +55,16 @@ public class Game {
 		creeps.add(new Creep(new Point(0.0, 0.0), waypoints));
 	}
 	
+	public void addCreepAt(Point pos) {
+		creeps.add(new Creep(new Point(pos.getX(), pos.getY()), waypoints));
+	}
+	
 	public void update() {
 		if (life > 0) {
 			for (Creep creep : creeps){
 				System.out.println("moving creep");
 				creep.move();
+//				creep.setPos(new Point(creep.getPos().getX() + 1, creep.getPos().getY() + 1));
 			}
 		}
 	}
