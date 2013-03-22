@@ -23,6 +23,7 @@ public class Creep {
 		size = 50;
 		
 		path = new Stack<Point>();
+<<<<<<< HEAD
 		Collections.reverse(waypoints);
 		for (Point waypoint : waypoints) {
 			System.out.println("Added waypoint");
@@ -50,6 +51,31 @@ public class Creep {
 	public void setPos(Point pos) {
 		this.position = pos;
 	}
+=======
+		for (int i = waypoints.size() - 1; i >= 0; i--) {
+			System.out.println("Added waypoint");
+			path.push(waypoints.get(i));
+		}
+	}
+	
+	// Getters/Setters
+	public double getRange() {
+		return range;
+	}
+	public void setRange(double range) {
+		this.range = range;
+	}
+	public int getHP() {
+		return hp;
+	}
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	public Point getPos() {
+		return position;
+	}
+	
+>>>>>>> refs/remotes/mcifelli/master
 	public int getSize() {
 		return size;
 	}

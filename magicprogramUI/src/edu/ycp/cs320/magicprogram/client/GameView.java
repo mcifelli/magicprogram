@@ -2,6 +2,7 @@ package edu.ycp.cs320.magicprogram.client;
 
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.canvas.client.Canvas;
+
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
 
@@ -75,5 +76,4 @@ public class GameView {
 			}
 		}
 	}
-
 }

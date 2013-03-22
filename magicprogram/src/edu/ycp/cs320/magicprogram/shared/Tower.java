@@ -2,27 +2,17 @@ package edu.ycp.cs320.magicprogram.shared;
 
 public class Tower {
 	// Physical attributes
-	private Rectangle body;
-	private Circle range;
+	private int boardX;
+	private int boardY;
+	private double range;
+	private int damage;
+	private int attackSpeed;
 	// 
 	
-	public Tower(Point topLeft, double size) {
-		setBody(new Rectangle(topLeft, size));
-		setRange(new Circle(getCenter()));
+	public Tower(int boardX, int boardY) {
+		this.boardX = boardX;
+		this.boardY = boardY;
 	}
-	public Rectangle getBody() {
-		return body;
-	}
-	public void setBody(Rectangle body) {
-		this.body = body;
-	}
-	public Circle getRange() {
-		return range;
-	}
-	public void setRange(Circle range) {
-		this.range = range;
-	}
-	public Point getCenter() {
-		return body.getCenter();
-	}
+	
+	
 }

@@ -27,11 +27,11 @@ public class MagicprogramUI implements EntryPoint {
 
 		// create a panel
 		game = new Game();
+
 		FlowPanel fpanel = new FlowPanel();
 		
 		GameView view = new GameView(fpanel);
 		view.setModel(game);
-		
 		
 		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
 		rootLayoutPanel.setSize(WIDTH + "px", HEIGHT + "px");

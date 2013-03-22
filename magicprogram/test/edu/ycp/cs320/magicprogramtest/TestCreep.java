@@ -31,8 +31,13 @@ public class TestCreep {
 		waypoints.add(new Point(2, 2));
 
 		setRect = new Rectangle(new Point(1,1), 1, 1);
+<<<<<<< HEAD
 		a = new Creep(center, waypoints);
 		b = new Creep(center, waypoints);
+=======
+		//a = new Creep(testRect, range, 1, center);
+		//b = new Creep(fixRect, newRange, 1, fixpoint);
+>>>>>>> refs/remotes/mcifelli/master
 	}
 	
 	@Test
@@ -42,9 +47,15 @@ public class TestCreep {
 	}
 	
 	@Test
+<<<<<<< HEAD
 	public void testSetPos() {
 		a.setPos(waypoint);
 		assertEquals(waypoint, a.getPos());
+=======
+	public void testSetBody() {
+		//a.setBody(setRect);
+		assertEquals(setRect, a.getBody());
+>>>>>>> refs/remotes/mcifelli/master
 	}
 	
 	@Test
