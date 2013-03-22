@@ -22,14 +22,12 @@ public class Game {
 	private int life;
 	private ArrayList<Creep> creeps;
 	private ArrayList<Tower> towers;
-<<<<<<< HEAD
 
 
 	private String [][] grid = new String[10][10];
 
-=======
 	private String[][] board = new String[32][32];
->>>>>>> refs/remotes/mcifelli/master
+
 	private ArrayList<Point> waypoints;
 
 	
