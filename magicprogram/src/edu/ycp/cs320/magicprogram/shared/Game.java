@@ -29,8 +29,6 @@ public class Game {
 	private Tower[][] towers = new Tower[32][32];
 	
 	private ArrayList<Point> waypoints;
-
-	
 	
 	public Game() {
 		waypoints = new ArrayList<Point>();
