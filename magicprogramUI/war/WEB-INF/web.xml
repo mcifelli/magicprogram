@@ -16,6 +16,16 @@
     <url-pattern>/magicprogramui/greet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>LevelServiceImpl</servlet-name>
+    <servlet-class>edu.ycp.cs320.magicprogram.server.LevelServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LevelServiceImpl</servlet-name>
+    <url-pattern>/magicprogramui/level</url-pattern>
+  </servlet-mapping>
+  
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>MagicprogramUI.html</welcome-file>

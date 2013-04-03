@@ -65,18 +65,9 @@ public class Game {
 	public void update() {
 		if (life > 0) {
 			for (Creep creep : creeps){
-//				System.out.println("moving creep");
+				
 				creep.move();
-//				creep.setPos(new Point(creep.getPos().getX() + 1, creep.getPos().getY() + 1));
-//				if(creep.getPos().getX() < goal.getCenter().getX()) {
-//					creep.getPos().addX(creep.getSpeed());
-//				}
-//				if(creep.getPos().getY() < goal.getCenter().getY()) {
-//					creep.getPos().addY(creep.getSpeed());
-//				}
-//				if(creep.getPos().distanceTo(goal.getCenter()) == 0) {
-//					creeps.remove(creep);
-//				}
+				
 			}
 		}
 		
