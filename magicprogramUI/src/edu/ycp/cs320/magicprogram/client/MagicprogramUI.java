@@ -36,10 +36,10 @@ public class MagicprogramUI implements EntryPoint {
 
 		// create a panel
 		game = new Game();
-//<<<<<<< HEAD
-
+		game.addWaypoints();
+		
 		FlowPanel fpanel = new FlowPanel();
-//=======
+
 		gameView = new GameView(game);
 		gameView.setModel(game);
 	    rootPanel = RootPanel.get();
@@ -48,29 +48,8 @@ public class MagicprogramUI implements EntryPoint {
 	    rootPanel.add(flowPanel, 0, 0);
 	    
 	    flowPanel.add(gameView);
-	    
-//	    btnAddCreepTo = new Button("Send Creep");
-//	    btnAddCreepTo.addClickHandler(new ClickHandler() {
-//	    	public void onClick(ClickEvent event) {
-//	    		game.getCreeps().add(new Creep(new Point(), game.getWaypoints()));
-//	    	}
-//	    });
-//	    flowPanel.add(btnAddCreepTo);
-	    
-//>>>>>>> refs/remotes/mcifelli/master
 
 	    gameView.start();
-		
-//		GameView view = new GameView(fpanel);
-//		view.setModel(game);
-//		
-//		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
-//		rootLayoutPanel.setSize(WIDTH + "px", HEIGHT + "px");
-//		rootLayoutPanel.add(fpanel);
-//		rootLayoutPanel.setWidgetLeftWidth(fpanel, 0.0, Unit.PX, WIDTH, Unit.PX);
-//		rootLayoutPanel.setWidgetTopHeight(fpanel, 0.0, Unit.PX, HEIGHT, Unit.PX);
-//		
-//		view.start();
 
 	}
 

@@ -26,11 +26,11 @@ public class Game {
 	
 	public Game() {
 		waypoints = new ArrayList<Point>();
-		waypoints.add(new Point(50.0,0.0));
-		waypoints.add(new Point(50.0,50.0));
-		waypoints.add(new Point(100, 0));
-		waypoints.add(new Point(100, 100));
-		
+//		waypoints.add(new Point(50.0,0.0));
+//		waypoints.add(new Point(50.0,50.0));
+//		waypoints.add(new Point(100, 0));
+//		waypoints.add(new Point(100, 100));
+
 		setCreeps(new ArrayList<Creep>());
 		
 		setPath(new ArrayList<Point>());
@@ -47,7 +47,15 @@ public class Game {
 	 * Adds a default creep to the board. The creep is given a path to follow
 	 */
 	public void addCreep() {
-		creeps.add(new Creep(new Point(0.0, 0.0), this.waypoints));
+		creeps.add(new Creep(new Point(0.0, 0.0), waypoints));
+	}
+	
+	public void addWaypoints() {
+		waypoints.add(new Point(50.0,0.0));
+		waypoints.add(new Point(50.0,50.0));
+		waypoints.add(new Point(100, 0));
+		waypoints.add(new Point(100, 100));
+		waypoints.add(goal.getCenter());
 	}
 	
 	public void addCreepAt(Point pos) {

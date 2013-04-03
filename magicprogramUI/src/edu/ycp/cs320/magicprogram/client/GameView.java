@@ -126,15 +126,6 @@ public class GameView extends Composite{
 			}
 		});
 		
-//	    btnAddCreepTo = new Button("Send Creep");
-//	    btnAddCreepTo.addClickHandler(new ClickHandler() {
-//	    	public void onClick(ClickEvent event) {
-//	    		model.getCreeps().add(new Creep(new Point(), model.getWaypoints()));
-//	    	}
-//	    });
-//	    btnAddCreepTo.
-		
-		
 		// MOUSE DOWN HANDLER
 		canvas.addMouseDownHandler(new MouseDownHandler() {
 			@Override

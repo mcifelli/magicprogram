@@ -25,15 +25,22 @@ public class Creep {
 		
 		path = new Stack<Point>();
 
-//		for (int i = waypoints.size() - 1; i >= 0; i--) {
-//			System.out.println("Added waypoint");
-//			this.path.push(waypoints.get(i));
-//		}
-		for (int i = 0; i < waypoints.size(); i++) {
+		for (int i = waypoints.size() - 1; i >= 0; i--) {
 			System.out.println("Added waypoint");
-//			this.path.push(waypoints.get(i));
-			this.path.add(waypoints.get(i));
+			this.path.push(waypoints.get(i));
 		}
+		
+//		if(waypoints.isEmpty()) {
+//			System.out.println("no waypoints to add");
+//		}
+//		
+//		for (int i = 0; i < waypoints.size(); i++) {
+//			System.out.println("Added waypoint");
+////			this.path.push(waypoints.get(i));
+//			this.path.add(waypoints.get(i));
+//		}
+		
+
 
 	}
 
