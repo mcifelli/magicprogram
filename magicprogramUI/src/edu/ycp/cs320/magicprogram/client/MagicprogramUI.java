@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import edu.ycp.cs320.magicprogram.server.FakeDatabase;
 import edu.ycp.cs320.magicprogram.shared.*;
 
 
@@ -50,6 +51,9 @@ public class MagicprogramUI implements EntryPoint {
 	    flowPanel.add(gameView);
 
 	    gameView.start();
+	    
+//	    FakeDatabase db = new FakeDatabase();
+//	    db.getLevel(1);
 
 	}
 
