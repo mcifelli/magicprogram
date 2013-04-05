@@ -15,9 +15,10 @@ public class Game {
 	private ArrayList<Creep> creeps;
 	private Tower[][] towers = new Tower[32][32];
 	private ArrayList<Point> waypoints;
+	private Point bounds;
 	
 	
-	public Game() {
+	public Game(double boundX, double boundY) {
 		waypoints = new ArrayList<Point>();
 		waypoints.add(new Point(50.0,0.0));
 		waypoints.add(new Point(50.0,50.0));
@@ -27,6 +28,8 @@ public class Game {
 		setPath(new ArrayList<Point>());
 		
 		life = 20;
+		
+		setBounds(new Point(boundX, boundY));
 	}
 	
 	
@@ -77,5 +80,17 @@ public class Game {
 	}
 	public ArrayList<Point> getWaypoints() {
 		return waypoints;
+	}
+
+
+
+	public Point getBounds() {
+		return bounds;
+	}
+
+
+
+	public void setBounds(Point bounds) {
+		this.bounds = bounds;
 	}
 }

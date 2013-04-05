@@ -1,18 +1,9 @@
 package edu.ycp.cs320.magicprogram.client;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 
 import edu.ycp.cs320.magicprogram.shared.*;
 //import com.google.gwt.user.client.ui.TreeImages;
@@ -28,82 +19,36 @@ public class MagicprogramUI implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	
+	
+	// Statics
+	private final int WIDTH = 500;
+	private final int HEIGHT = 500;
+	
+	// Fields
 	private Game game;
-	private GameView gameView;
+	private GameView view;
+	private GameController controller;
 	private RootPanel rootPanel;
-	private FlowPanel flowPanel;
-	private Canvas canvas;
-	private Context2d context;
-	private Button btnAddCreepTo;
+	private AbsolutePanel mainPanel;
 	/**
 	 * @wbp.nonvisual location=118,99
 	 */
 	
-	public MagicprogramUI() {
-		
-	}
-	
 	public void onModuleLoad() {
-		game = new Game();
-		gameView = new GameView(game);
-		gameView.setModel(game);
+		game = new Game(WIDTH, HEIGHT);
+		
 	    rootPanel = RootPanel.get();
 	    
-	    flowPanel = new FlowPanel();
-	    rootPanel.add(flowPanel, 0, 0);
+	    mainPanel = new AbsolutePanel();
+	    rootPanel.add(mainPanel, 0, 0);
+	    mainPanel.setSize("500px", "600px");
 	    
-	    flowPanel.add(gameView);
+	    view = new GameView(game);
+	    mainPanel.add(view, 0, 0);
+	    view.setSize(WIDTH + "px", HEIGHT + "px");
 	    
-	    btnAddCreepTo = new Button("Send Creep");
-	    btnAddCreepTo.addClickHandler(new ClickHandler() {
-	    	public void onClick(ClickEvent event) {
-	    		game.getCreeps().add(new Creep(new Point(), game.getWaypoints()));
-	    	}
-	    });
-	    flowPanel.add(btnAddCreepTo);
-	    
-	    // setup timer
-	    Timer timer = new Timer() {
-	      @Override
-	      public void run() {
-	    	  game.update();
-	    	  gameView.update();
-	      }
-	    };
-	    timer.scheduleRepeating(25);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		RootLayoutPanel rootLayoutPanel = RootLayoutPanel.get();
-//		rootLayoutPanel.add(panel);
-//		RootLayoutPanel.get().setWidgetLeftRight(panel, 10.0, Unit.PX, 10.0, Unit.PX);
-//		RootLayoutPanel.get().setWidgetTopBottom(panel, 10.0, Unit.PX, 10.0, Unit.PX);
-//		
-//		Button creepButton = new Button("add creep");
-//		creepButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				game.addCreep();
-//			}
-//		});
-//		panel.add(creepButton);
-//		panel.setWidgetLeftWidth(creepButton, 325.0, Unit.PX, 81.0, Unit.PX);
-//		panel.setWidgetTopHeight(creepButton, 52.0, Unit.PX, 30.0, Unit.PX);
+	    controller = new GameController(game, view);
+	    mainPanel.add(controller, 0, 500);
+	    controller.setSize(WIDTH + "px", "50px");
 	}
 }

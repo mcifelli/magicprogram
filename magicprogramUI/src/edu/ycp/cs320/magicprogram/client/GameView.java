@@ -3,6 +3,7 @@ package edu.ycp.cs320.magicprogram.client;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
 
 import edu.ycp.cs320.magicprogram.shared.*;
@@ -17,16 +18,16 @@ public class GameView extends Composite{
 	
 	// Fields
 	private Game model;
-	private int selectionX;
-	private int selectionY;
-	private boolean showGrid;
+	private Point select;
+	private boolean buildMode;
 	private int unitX;
 	private int unitY;
 	
 	public GameView(Game game) {
 		// GAME
 		model = game;
-		showGrid = true;
+		buildMode = false;
+		select = new Point(-1, -1);
 		
 		// Calculate UNITS
 		unitX = WIDTH / model.getTowers()[0].length;
@@ -42,9 +43,8 @@ public class GameView extends Composite{
 		canvas.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-				selectionX = event.getX() - (event.getX() % unitX);
-				selectionY = event.getY() - (event.getY() % unitY);
-				System.out.print("New Selector point: (" + selectionX + ", " + selectionY);
+				select.setX(event.getX() - (event.getX() % unitX));
+				select.setY(event.getY() - (event.getY() % unitY));
 			}
 		});
 		
@@ -53,9 +53,19 @@ public class GameView extends Composite{
 		canvas.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				model.getTowers()[selectionY / unitY][selectionX / unitX] = new Tower();
+				model.getTowers()[((int)select.getY() / unitY)][ ((int)select.getX() / unitX)] = new Tower();
+				select.setXY(-1, -1);
 			}
 		});
+		
+	    // setup timer
+	    Timer timer = new Timer() {
+	      @Override
+	      public void run() {
+	    	  update();
+	      }
+	    };
+	    timer.scheduleRepeating(25);
 		
 		// LAYOUT PANEL
 		VerticalPanel panel = new VerticalPanel();
@@ -78,8 +88,27 @@ public class GameView extends Composite{
 		// REFRESH
 		context.clearRect(0, 0, WIDTH, HEIGHT);
 		
-		// ----GRID
-		if (showGrid) {
+		// DRAW TOWERS
+				Tower towers[][] = model.getTowers();
+				context.setFillStyle("#FF0000");
+				for (int row = 0; row < towers.length; row++) {
+					for (int col = 0; col < towers[row].length; col++) {
+						if (towers[row][col] != null) {
+							context.fillRect(col * unitX, row * unitY, unitX, unitY);
+						}
+					}
+				}
+		
+		// DRAW CREEPS
+		context.setFillStyle("#FF0000");
+		for (Creep c : model.getCreeps()) {
+			int size = c.getSize();
+			context.fillRect(c.getPos().getX(), c.getPos().getY(), size, size);
+		}
+		
+		// DRAW BUILD OVERLAY
+		if (buildMode && select.getX() != -1 && select.getY() != -1) {
+			// DRAW GRID
 			context.setStrokeStyle("#000000");
 			for (int y = 0; y < HEIGHT; y += unitY) {
 				context.moveTo(0, y - 0.5);
@@ -94,32 +123,15 @@ public class GameView extends Composite{
 		
 			// DRAW SELECTOR
 			context.setFillStyle("#0000FF");
-			context.fillRect(selectionX, selectionY, unitX, unitY);
-		}
-		
-		// draw TOWERS
-		Tower towers[][] = model.getTowers();
-		context.setFillStyle("#FF0000");
-		for (int row = 0; row < towers.length; row++) {
-			for (int col = 0; col < towers[row].length; col++) {
-				if (towers[row][col] != null) {
-					context.fillRect(col * unitX, row * unitY, unitX, unitY);
-					
-				}
-				
-			}
-		}
-		
-		
-		// DRAW CREEPS
-		context.setFillStyle("#FF0000");
-		for (Creep curr : model.getCreeps()) {
-			context.fillRect(curr.getPos().getX(), curr.getPos().getY(), curr.getSize(), curr.getSize());
+			context.fillRect(select.getX(), select.getY(), unitX, unitY);
 		}
 	}
 	
-	public void toggleGrid() {
-		showGrid = !showGrid;
+	public boolean getBuildMode() {
+		return buildMode;
 	}
 	
+	public void setBuildMode(boolean buildMode) {
+		this.buildMode = buildMode;
+	}
 }
