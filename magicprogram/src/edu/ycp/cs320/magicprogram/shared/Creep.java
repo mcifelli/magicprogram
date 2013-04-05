@@ -8,7 +8,7 @@ import java.util.Stack;
 public class Creep {
 	// Physical attributes
 	private Point position;
-	private int size;
+	private int size = 5;
 	private double range = 1;
 	private double speed = 1;
 	private int hp = 10;
@@ -78,7 +78,6 @@ public class Creep {
 	public void move() {
 		if (!path.isEmpty()) {
 			System.out.println("next point in path: " + path.peek().getX()+ ", " + path.peek().getY());
-			
 			if (speed > position.distanceTo(path.peek())) {
 				System.out.println("too close to point" + path.peek().getX()+ ", " + path.peek().getY());
 				// the creep will overshoot the point
@@ -86,7 +85,7 @@ public class Creep {
 				position = path.pop();
 			}
 			else {
-//				 Full step needed on x-axis
+				// Full step needed on x-axis
 				if (position.getX() < path.peek().getX()) {
 					System.out.println("moving towards " + path.peek().getX()+ ", " + path.peek().getY());
 					position.addX(speed);
@@ -105,11 +104,7 @@ public class Creep {
 			}
 		}
 		else {
-//			System.out.println("Path is empty");	
+			System.out.println("Path is empty");
 		}
-	}
-	
-	public void kill() {
-		this.hp = 0;
 	}
 }

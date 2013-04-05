@@ -11,10 +11,10 @@ public class Tower {
 	public Tower() {
 		
 	}
+
 	
 	public Rectangle getBlock() {
 		return this.towerBlock;
 	}
-	
 	
 }
