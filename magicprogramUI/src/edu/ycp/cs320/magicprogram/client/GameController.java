@@ -14,13 +14,13 @@ public class GameController extends Composite{
 	// FIELDS
 	private Game model;
 	private GameView view;
+	private AbsolutePanel mainPanel;
 	
 	// CONSTRUCTOR
 	public GameController(Game game, GameView gameView) {
-		
-		AbsolutePanel absolutePanel = new AbsolutePanel();
-		initWidget(absolutePanel);
-		absolutePanel.setSize("500px", "50px");
+		mainPanel = new AbsolutePanel();
+		initWidget(mainPanel);
+		mainPanel.setSize("500px", "50px");
 		
 		// BUTTON - SEND WAVE
 		Button buttonSendWave = new Button("Send Wave");
@@ -29,7 +29,7 @@ public class GameController extends Composite{
 				// TODO add code here
 			}
 		});
-		absolutePanel.add(buttonSendWave, 10, 10);
+		mainPanel.add(buttonSendWave, 10, 10);
 		buttonSendWave.setSize("100px", "30px");
 		
 		// BUTTON - BUILD TOWER
@@ -37,18 +37,11 @@ public class GameController extends Composite{
 		buttonBuildTower.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (!view.getBuildMode()) {
-					view.setBuildMode(true);
-										
+					view.setBuildMode(true);					
 				}
-				
-				
-				
-				
-				
-				
 			}
 		});
-		absolutePanel.add(buttonBuildTower, 116, 10);
+		mainPanel.add(buttonBuildTower, 116, 10);
 		buttonBuildTower.setSize("100px", "30px");
 		// MODEL and VIEW
 		model = game;

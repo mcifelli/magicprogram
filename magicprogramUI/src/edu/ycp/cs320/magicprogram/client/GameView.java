@@ -14,7 +14,9 @@ public class GameView extends Composite{
 	private final int HEIGHT = 500;
 	
 	// Widgets and Panels
-	public Canvas canvas;
+	private Canvas background;
+	private Canvas foreground;
+	private AbsolutePanel mainPanel;
 	
 	// Fields
 	private Game model;
@@ -30,17 +32,29 @@ public class GameView extends Composite{
 		select = new Point(-1, -1);
 		
 		// Calculate UNITS
-		unitX = WIDTH / model.getTowers()[0].length;
-		unitY = HEIGHT / model.getTowers().length;
+		unitX = WIDTH / model.getStructures()[0].length;
+		unitY = HEIGHT / model.getStructures().length;
 		
-		// CANVAS
-		canvas = Canvas.createIfSupported();
-		canvas.setSize(WIDTH + "px", HEIGHT + "px");
-		canvas.setCoordinateSpaceHeight(HEIGHT);
-		canvas.setCoordinateSpaceWidth(WIDTH);
+		// LAYOUT PANEL
+		mainPanel = new AbsolutePanel();
+		
+		// FOREGROUND CANVAS
+		foreground = Canvas.createIfSupported();
+		foreground.setSize(WIDTH + "px", HEIGHT + "px");
+		foreground.setCoordinateSpaceHeight(HEIGHT);
+		foreground.setCoordinateSpaceWidth(WIDTH);
+		mainPanel.add(foreground);
+		
+		// BACKGROUND CANVAS
+		background = Canvas.createIfSupported();
+		background.setSize(WIDTH + "px", HEIGHT + "px");
+		background.setCoordinateSpaceHeight(HEIGHT);
+		background.setCoordinateSpaceWidth(WIDTH);
+		updateBackground();
+		mainPanel.add(background);
 		
 		// MOUSE MOVE HANDLER
-		canvas.addMouseMoveHandler(new MouseMoveHandler() {
+		foreground.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				select.setX(event.getX() - (event.getX() % unitX));
@@ -48,17 +62,20 @@ public class GameView extends Composite{
 			}
 		});
 		
-		
 		// MOUSE DOWN HANDLER
-		canvas.addMouseDownHandler(new MouseDownHandler() {
+		foreground.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				model.getTowers()[((int)select.getY() / unitY)][ ((int)select.getX() / unitX)] = new Tower();
-				select.setXY(-1, -1);
+				if (buildMode && (select.getX() != -1) && select.getY() != -1) {
+					if (model.buildStructure(Structure.tower, (int)select.getY() / unitY, (int)select.getX() / unitX)) {
+						select.setXY(-1, -1);
+						buildMode = false;
+					}
+				}
 			}
-		});
-		
-	    // setup timer
+		});	
+
+		// TIMER
 	    Timer timer = new Timer() {
 	      @Override
 	      public void run() {
@@ -67,13 +84,8 @@ public class GameView extends Composite{
 	    };
 	    timer.scheduleRepeating(25);
 		
-		// LAYOUT PANEL
-		VerticalPanel panel = new VerticalPanel();
-		panel.add(canvas);
-		
-		
 		// INIT WIDGET
-		initWidget(panel);
+		initWidget(mainPanel);
 		setSize(WIDTH + "px", HEIGHT + "px");
 	}
 	
@@ -82,22 +94,65 @@ public class GameView extends Composite{
 	}
 	
 	public void update() {
-		Context2d context = canvas.getContext2d();
-		context.beginPath();
+		updateForeground();
+	}
+	
+	private void updateBackground() {
+		Context2d context = background.getContext2d();
 		
 		// REFRESH
 		context.clearRect(0, 0, WIDTH, HEIGHT);
 		
-		// DRAW TOWERS
-				Tower towers[][] = model.getTowers();
-				context.setFillStyle("#FF0000");
-				for (int row = 0; row < towers.length; row++) {
-					for (int col = 0; col < towers[row].length; col++) {
-						if (towers[row][col] != null) {
-							context.fillRect(col * unitX, row * unitY, unitX, unitY);
-						}
-					}
+		// DRAW TERRAIN
+		Terrain map[][] = model.getMap();
+		for (int row = 0; row < map.length; row++) {
+			for (int col = 0; col < map[row].length; col++) {
+				// choose color
+				switch(map[row][col]) {
+				case grass:
+					context.setFillStyle("#00FF00");
+					break;
+				case road:
+					context.setFillStyle("#C0C0C0");
+					break;
+				case water:
+					context.setFillStyle("#0000FF");
+					break;
+				default:
+					context.setFillStyle("#FFFFFF");
+					break;
 				}
+				
+				if (map[row][col] != null) {
+					context.fillRect(col * unitX, row * unitY, unitX, unitY);
+				}
+			}
+		}
+	}
+	
+	private void updateForeground() {
+		Context2d context = foreground.getContext2d();
+		context.drawImage(background.getCanvasElement(), 0, 0);
+		
+		// DRAW TOWERS
+		Structure[][] structures = model.getStructures();
+		for (int row = 0; row < structures.length; row++) {
+			for (int col = 0; col < structures[row].length; col++) {
+				if (structures[row][col] != null) {
+					switch(structures[row][col]) {
+						case base:
+							context.setFillStyle("#FF00FF");
+							break;
+						case tower:
+							context.setFillStyle("#00FFFF");
+							break;
+						default:
+							break;
+					}
+					context.fillRect(col * unitX, row * unitY, unitX, unitY);
+				}
+			}
+		}
 		
 		// DRAW CREEPS
 		context.setFillStyle("#FF0000");
@@ -108,10 +163,10 @@ public class GameView extends Composite{
 		
 		// DRAW BUILD OVERLAY
 		if (buildMode && select.getX() != -1 && select.getY() != -1) {
-			// DRAW GRID
+			// grid
 			context.setStrokeStyle("#000000");
 			for (int y = 0; y < HEIGHT; y += unitY) {
-				context.moveTo(0, y - 0.5);
+				context.moveTo(0, y - 0.5);  
 				context.lineTo(WIDTH, y - 0.5);
 				context.stroke();
 			}
@@ -121,8 +176,14 @@ public class GameView extends Composite{
 				context.stroke();
 			}
 		
-			// DRAW SELECTOR
-			context.setFillStyle("#0000FF");
+			// selector
+			if (model.canBuildStructure(Structure.tower, (int)select.getY() / unitY, (int)select.getX() / unitX)) {
+				context.setFillStyle("#FF00FF");	
+			}
+			else {
+				context.setFillStyle("#000000");	
+				
+			}
 			context.fillRect(select.getX(), select.getY(), unitX, unitY);
 		}
 	}

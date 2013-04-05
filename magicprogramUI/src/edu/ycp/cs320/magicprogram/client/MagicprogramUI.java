@@ -15,11 +15,6 @@ import com.google.gwt.user.client.ui.Label;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class MagicprogramUI implements EntryPoint {
-	/**
-	 * This is the entry point method.
-	 */
-	
-	
 	// Statics
 	private final int WIDTH = 500;
 	private final int HEIGHT = 500;
@@ -30,10 +25,10 @@ public class MagicprogramUI implements EntryPoint {
 	private GameController controller;
 	private RootPanel rootPanel;
 	private AbsolutePanel mainPanel;
-	/**
-	 * @wbp.nonvisual location=118,99
-	 */
 	
+	/**
+	 * This is the entry point method.
+	 */
 	public void onModuleLoad() {
 		game = new Game(WIDTH, HEIGHT);
 		
