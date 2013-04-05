@@ -8,16 +8,17 @@ public class Game {
 	private final int ROW = 25;
 	private final int COL = 25;
 	
+	private final Point BOUNDS = new Point(500.0, 500.0);
+	
 	// FIELDS
-	private Rectangle goal;
 	private int life = 10;
 	private ArrayList<Creep> creeps;
-	private Structure[][] structures = new Structure[ROW][COL];
+	private ArrayList<Structure> structures;
 	private Terrain[][] map = new Terrain[ROW][COL];
 	private ArrayList<Point> waypoints;
-	private Point bounds;
+	private double gridUnit;
 	
-	public Game(double boundX, double boundY) {
+	public Game() {
 		// WAYPOINTS
 		waypoints = new ArrayList<Point>();
 		waypoints.add(new Point(50.0,0.0));
@@ -26,7 +27,6 @@ public class Game {
 		// CREEPS
 		setCreeps(new ArrayList<Creep>());
 		setPath(new ArrayList<Point>());
-		setBounds(new Point(boundX, boundY));
 		
 		// TERRAIN
 		for (int row = 0; row < map.length; row++) {
@@ -85,6 +85,11 @@ public class Game {
 		map[22][24] = Terrain.road;
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
+		
+		gridUnit = BOUNDS.getX() / COL;
+		
+		structures = new ArrayList<Structure>();
+		structures.add(new Structure(new Point(BOUNDS.getX() - gridUnit, BOUNDS.getX() - gridUnit), Structure.Type.base));
 	}
 	
 	// Methods
@@ -104,16 +109,28 @@ public class Game {
 		}
 	}
 	
-	public boolean buildStructure(Structure structure, int row, int col) {
-		if (canBuildStructure(structure, col, col)) {
-			structures[row][col] = structure;
+	public boolean buildStructure(Structure structure) {
+		if (canBuildStructure(structure)) {
+			structures.add(structure);
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean canBuildStructure(Structure structure, int row, int col) {
-		return (structures[row][col] == null && map[row][col] == Terrain.grass);
+	public boolean canBuildStructure(Structure structure) {
+		Point gc = convertToGridCoords(structure.getTopLeft());
+		// check if there is another structure at the location
+		for (Structure s : structures) {
+			if (structure.getTopLeft().equals(s.getTopLeft())) {
+				return false;
+			}
+		}
+		// check if the terrain is buildable
+		return (map[(int)gc.getY()][(int)gc.getX()] == Terrain.grass);
+	}
+	
+	public Point convertToGridCoords(Point point) {
+		return (new Point(point.getY() / gridUnit, point.getX() / gridUnit));
 	}
 	
 	// Getters/Setters
@@ -123,10 +140,10 @@ public class Game {
 	public void setCreeps(ArrayList<Creep> creeps) {
 		this.creeps = creeps;
 	}
-	public Structure[][] getStructures() {
+	public ArrayList<Structure> getStructures() {
 		return structures;
 	}
-	public void setStructures(Structure[][] structures) {
+	public void setStructures(ArrayList<Structure> structures) {
 		this.structures = structures;
 	}
 	public ArrayList<Point> getPath() {
@@ -135,25 +152,22 @@ public class Game {
 	public void setPath(ArrayList<Point> waypoints) {
 		this.waypoints = waypoints;
 	}
-	public Rectangle getGoal() {
-		return goal;
-	}
-	public void setGoal(Rectangle goal) {
-		this.goal = goal;
-	}
 	public ArrayList<Point> getWaypoints() {
 		return waypoints;
-	}
-	public Point getBounds() {
-		return bounds;
-	}
-	public void setBounds(Point bounds) {
-		this.bounds = bounds;
 	}
 	public Terrain[][] getMap() {
 		return map;
 	}
 	public void setMap(Terrain[][] map) {
 		this.map = map;
+	}
+	public ArrayList<Structure> getStructs() {
+		return structures;
+	}
+	public double getGridUnit() {
+		return gridUnit;
+	}
+	public void setGridUnit(double gridUnit) {
+		this.gridUnit = gridUnit;
 	}
 }

@@ -30,7 +30,7 @@ public class MagicprogramUI implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		game = new Game(WIDTH, HEIGHT);
+		game = new Game();
 		
 	    rootPanel = RootPanel.get();
 	    

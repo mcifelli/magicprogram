@@ -32,8 +32,8 @@ public class GameView extends Composite{
 		select = new Point(-1, -1);
 		
 		// Calculate UNITS
-		unitX = WIDTH / model.getStructures()[0].length;
-		unitY = HEIGHT / model.getStructures().length;
+		unitX = (int) model.getGridUnit();
+		unitY = (int) model.getGridUnit();
 		
 		// LAYOUT PANEL
 		mainPanel = new AbsolutePanel();
@@ -67,7 +67,7 @@ public class GameView extends Composite{
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				if (buildMode && (select.getX() != -1) && select.getY() != -1) {
-					if (model.buildStructure(Structure.tower, (int)select.getY() / unitY, (int)select.getX() / unitX)) {
+					if (model.buildStructure(new Structure(select, Structure.Type.tower))) {
 						select.setXY(-1, -1);
 						buildMode = false;
 					}
@@ -109,18 +109,18 @@ public class GameView extends Composite{
 			for (int col = 0; col < map[row].length; col++) {
 				// choose color
 				switch(map[row][col]) {
-				case grass:
-					context.setFillStyle("#00FF00");
-					break;
-				case road:
-					context.setFillStyle("#C0C0C0");
-					break;
-				case water:
-					context.setFillStyle("#0000FF");
-					break;
-				default:
-					context.setFillStyle("#FFFFFF");
-					break;
+					case grass:
+						context.setFillStyle("#00FF00");
+						break;
+					case road:
+						context.setFillStyle("#C0C0C0");
+						break;
+					case water:
+						context.setFillStyle("#0000FF");
+						break;
+					default:
+						context.setFillStyle("#FFFFFF");
+						break;
 				}
 				
 				if (map[row][col] != null) {
@@ -135,23 +135,20 @@ public class GameView extends Composite{
 		context.drawImage(background.getCanvasElement(), 0, 0);
 		
 		// DRAW TOWERS
-		Structure[][] structures = model.getStructures();
-		for (int row = 0; row < structures.length; row++) {
-			for (int col = 0; col < structures[row].length; col++) {
-				if (structures[row][col] != null) {
-					switch(structures[row][col]) {
-						case base:
-							context.setFillStyle("#FF00FF");
-							break;
-						case tower:
-							context.setFillStyle("#00FFFF");
-							break;
-						default:
-							break;
-					}
-					context.fillRect(col * unitX, row * unitY, unitX, unitY);
-				}
+		for (Structure s : model.getStructs()) {
+			switch (s.getType()) {
+				case base:
+					context.setFillStyle("#FFFFFF");
+					break;
+				case tower:
+					context.setFillStyle("#00FFFF");
+					break;
+				default:
+					break;
 			}
+			int x = (int) s.getTopLeft().getX();
+			int y = (int) s.getTopLeft().getY();
+			context.fillRect(x, y, x + unitX, y + unitY);
 		}
 		
 		// DRAW CREEPS
@@ -177,12 +174,11 @@ public class GameView extends Composite{
 			}
 		
 			// selector
-			if (model.canBuildStructure(Structure.tower, (int)select.getY() / unitY, (int)select.getX() / unitX)) {
-				context.setFillStyle("#FF00FF");	
+			if (model.canBuildStructure(new Structure(select, Structure.Type.tower))) {
+				context.setFillStyle("#FF00FF");
 			}
 			else {
-				context.setFillStyle("#000000");	
-				
+				context.setFillStyle("#000000");
 			}
 			context.fillRect(select.getX(), select.getY(), unitX, unitY);
 		}
