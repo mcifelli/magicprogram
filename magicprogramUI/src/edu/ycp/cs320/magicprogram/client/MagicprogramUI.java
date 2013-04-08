@@ -33,7 +33,7 @@ public class MagicprogramUI implements EntryPoint {
 	 */
 	
 	public void onModuleLoad() {
-
+		
 		// create a panel
 		game = new Game();
 		game.addWaypoints();
@@ -44,6 +44,8 @@ public class MagicprogramUI implements EntryPoint {
 		view.setModel(game);
 
 		game = new Game(WIDTH, HEIGHT);
+
+		game = new Game();
 		
 	    rootPanel = RootPanel.get();
 	    

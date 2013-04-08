@@ -1,9 +1,8 @@
 package edu.ycp.cs320.magicprogram.shared;
 
-
 public class Point {
 	// Fields
-	private double x, y;
+	double x, y;
 
 	// Constructors
 	/**
@@ -35,8 +34,8 @@ public class Point {
 	 * @return a point (x-distance, y-distance)
 	 */
 	public Point distanceToXY(Point b) {
-		double distanceX = this.getX() - b.getX();
-		double distanceY = this.getY() - b.getY();
+		double distanceX = this.x() - b.x();
+		double distanceY = this.y() - b.y();
 		return new Point(distanceX, distanceY);
 	}
 	/**
@@ -47,7 +46,7 @@ public class Point {
 	 */
 	public double distanceTo(Point b) {
 		Point d = distanceToXY(b);
-		return Math.sqrt(d.getX() * d.getX() + d.getY() * d.getY());
+		return Math.sqrt(d.x() * d.x() + d.y() * d.y());
 	}
 	/**
 	 * Adds the input to the point's x-value
@@ -74,17 +73,17 @@ public class Point {
 	public static Point distanceBetweenXY(Point a, Point b) {
 		Point distance = new Point();
 		
-		if (a.getX() < b.getX()) {
-			distance.setX(b.getX() - a.getX());	
+		if (a.x() < b.x()) {
+			distance.setX(b.x() - a.x());	
 		}
 		else {
-			distance.setX(a.getX() - b.getX());
+			distance.setX(a.x() - b.x());
 		}
-		if (a.getY() < b.getY()) {
-			distance.setX(b.getY() - a.getY());	
+		if (a.y() < b.y()) {
+			distance.setX(b.y() - a.y());	
 		}
 		else {
-			distance.setX(a.getY() - b.getY());
+			distance.setX(a.y() - b.y());
 		}
 		
 		return distance;
@@ -97,7 +96,7 @@ public class Point {
 	 */
 	public static double distanceBetween(Point a, Point b) {
 		Point d = distanceBetweenXY(a, b);
-		return Math.sqrt(d.getX() * d.getX() + d.getY() * d.getY());
+		return Math.sqrt(d.x() * d.x() + d.y() * d.y());
 	}
 	
 	// Getters/Setters
@@ -105,7 +104,7 @@ public class Point {
 	 * Get x-value
 	 * @return x-value
 	 */
-	public double getX() {
+	public double x() {
 		return x;
 	}
 	/**
@@ -119,7 +118,7 @@ public class Point {
 	 * Get y-value
 	 * @return y-value
 	 */
-	public double getY() {
+	public double y() {
 		return y;
 	}
 	/**

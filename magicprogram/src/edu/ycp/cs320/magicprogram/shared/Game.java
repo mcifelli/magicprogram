@@ -1,58 +1,32 @@
 package edu.ycp.cs320.magicprogram.shared;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class Game {
 	// CONSTANTS
-	private final int ROW = 25;
-	private final int COL = 25;
+	public final int ROW = 25;
+	public final int COL = 25;
 	
-
-
-	public static final double WIDTH = 900;
-	//default: 640 x 480 (w x h)
-	public static final double HEIGHT = 660;
+	private final Point BOUNDS = new Point(500.0, 500.0);
 	
-	public static final double CSIZE = 10;
-
-	private Rectangle goal;
+	// FIELDS
 	private int life = 10;
 	private ArrayList<Creep> creeps;
-
-
-	private Terrain [][] grid = new Terrain[32][32];
-
-	private Tower[][] towers = new Tower[32][32];
-	private Structure[][] structures = new Structure[ROW][COL];
+	private ArrayList<Structure> structures;
 	private Terrain[][] map = new Terrain[ROW][COL];
 	private ArrayList<Point> waypoints;
-	private Point bounds;
+	private double gridUnit;
 	
 	public Game() {
-		
-	}
-//=======
-	public Game(double boundX, double boundY) {
 		// WAYPOINTS
-//>>>>>>> refs/remotes/mcifelli/master
 		waypoints = new ArrayList<Point>();
-
 		waypoints.add(new Point(50.0,0.0));
 		waypoints.add(new Point(50.0,50.0));
 		
 		// CREEPS
-
 		setCreeps(new ArrayList<Creep>());
 		setPath(new ArrayList<Point>());
-		setBounds(new Point(boundX, boundY));
 		
-
-		life = 20;
-		
-		goal = new Rectangle();
-		this.goal.setTopLeft(new Point(250, 250));
-
 		// TERRAIN
 		for (int row = 0; row < map.length; row++) {
 			for (int col = 0; col < map[row].length; col++) {
@@ -110,8 +84,12 @@ public class Game {
 		map[22][24] = Terrain.road;
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
+		
+		gridUnit = BOUNDS.x() / COL;
+		
+		structures = new ArrayList<Structure>();
+		structures.add(new Structure( Structure.Type.base, new Point(BOUNDS.x() - gridUnit, BOUNDS.x() - gridUnit), new Point(ROW, COL)));
 	}
-
 	
 	// Methods
 	/**
@@ -121,41 +99,36 @@ public class Game {
 		creeps.add(new Creep(new Point(0.0, 0.0), waypoints));
 	}
 	
-	public void addWaypoints() {
-		waypoints.add(new Point(50.0,0.0));
-		waypoints.add(new Point(50.0,50.0));
-		waypoints.add(new Point(100, 0));
-		waypoints.add(new Point(100, 100));
-		waypoints.add(goal.getCenter());
-	}
-	
-	public void addCreepAt(Point pos) {
-		creeps.add(new Creep(new Point(pos.getX(), pos.getY()), waypoints));
-	}
-	
 	public void update() {
 		if (life > 0) {
 			for (Creep creep : creeps){
-				
+				System.out.println("moving creep");
 				creep.move();
-				
 			}
 		}
-		
 	}
 	
-	public boolean buildStructure(Structure structure, int row, int col) {
-		if (canBuildStructure(structure, col, col)) {
-			structures[row][col] = structure;
+	public boolean buildStructure(Structure.Type type, int row, int col) {
+		Structure newStruct = new Structure(type, new Point(col * COL, row * ROW), new Point(col, row));
+		if (canBuildStructure(newStruct)) {
+			structures.add(newStruct);
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean canBuildStructure(Structure structure, int row, int col) {
-		return (structures[row][col] == null && map[row][col] == Terrain.grass);
+	public boolean canBuildStructure(Structure newStruct) {
+		Point gp = newStruct.getGridPoint();
+		// check if there is another structure at the location
+		for (Structure s : structures) {
+			if (newStruct.getTopLeft().equals(s.getTopLeft())) {
+				return false;
+			}
+		}
+		// check if the terrain is buildable
+		return (map[(int) gp.y()][(int) gp.x()] == Terrain.grass);
 	}
-
+	
 	// Getters/Setters
 	public ArrayList<Creep> getCreeps() {
 		return creeps;
@@ -163,10 +136,10 @@ public class Game {
 	public void setCreeps(ArrayList<Creep> creeps) {
 		this.creeps = creeps;
 	}
-	public Structure[][] getStructures() {
+	public ArrayList<Structure> getStructures() {
 		return structures;
 	}
-	public void setStructures(Structure[][] structures) {
+	public void setStructures(ArrayList<Structure> structures) {
 		this.structures = structures;
 	}
 	public ArrayList<Point> getPath() {
@@ -175,34 +148,23 @@ public class Game {
 	public void setPath(ArrayList<Point> waypoints) {
 		this.waypoints = waypoints;
 	}
-	public Rectangle getGoal() {
-		return goal;
-	}
-	public void setGoal(Rectangle goal) {
-		this.goal = goal;
-	}
 	public ArrayList<Point> getWaypoints() {
 		return waypoints;
-	}
-//<<<<<<< HEAD
-	public Terrain[][] getTerrain() {
-		return grid;
-	}
-	public void setTerrain(int first, int second, Terrain terrain) {
-		this.grid[first][second] = terrain;
-	}
-//=======
-	public Point getBounds() {
-		return bounds;
-	}
-	public void setBounds(Point bounds) {
-		this.bounds = bounds;
 	}
 	public Terrain[][] getMap() {
 		return map;
 	}
 	public void setMap(Terrain[][] map) {
 		this.map = map;
-//>>>>>>> refs/remotes/mcifelli/master
+	}
+	public ArrayList<Structure> getStructs() {
+		return structures;
+	}
+	public double getGridUnit() {
+		return gridUnit;
+	}
+	public void setGridUnit(double gridUnit) {
+		this.gridUnit = gridUnit;
 	}
 }
+>>>>>>> refs/remotes/mcifelli/master

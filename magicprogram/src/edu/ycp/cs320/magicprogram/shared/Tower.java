@@ -6,15 +6,5 @@ public class Tower {
 	private int damage;
 	private int attackSpeed;
 	// 
-	private Rectangle towerBlock;
-	
-	public Tower() {
-		
-	}
-
-	
-	public Rectangle getBlock() {
-		return this.towerBlock;
-	}
 	
 }
