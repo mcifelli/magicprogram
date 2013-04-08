@@ -1,12 +1,11 @@
 package edu.ycp.cs320.magicprogram.shared;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class Game {
 	// CONSTANTS
-	private final int ROW = 25;
-	private final int COL = 25;
+	public final int ROW = 25;
+	public final int COL = 25;
 	
 	private final Point BOUNDS = new Point(500.0, 500.0);
 	
@@ -86,10 +85,10 @@ public class Game {
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
 		
-		gridUnit = BOUNDS.getX() / COL;
+		gridUnit = BOUNDS.x() / COL;
 		
 		structures = new ArrayList<Structure>();
-		structures.add(new Structure(new Point(BOUNDS.getX() - gridUnit, BOUNDS.getX() - gridUnit), Structure.Type.base));
+		structures.add(new Structure( Structure.Type.base, new Point(BOUNDS.x() - gridUnit, BOUNDS.x() - gridUnit), new Point(ROW, COL)));
 	}
 	
 	// Methods
@@ -109,28 +108,25 @@ public class Game {
 		}
 	}
 	
-	public boolean buildStructure(Structure structure) {
-		if (canBuildStructure(structure)) {
-			structures.add(structure);
+	public boolean buildStructure(Structure.Type type, int row, int col) {
+		Structure newStruct = new Structure(type, new Point(col * COL, row * ROW), new Point(col, row));
+		if (canBuildStructure(newStruct)) {
+			structures.add(newStruct);
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean canBuildStructure(Structure structure) {
-		Point gc = convertToGridCoords(structure.getTopLeft());
+	public boolean canBuildStructure(Structure newStruct) {
+		Point gp = newStruct.getGridPoint();
 		// check if there is another structure at the location
 		for (Structure s : structures) {
-			if (structure.getTopLeft().equals(s.getTopLeft())) {
+			if (newStruct.getTopLeft().equals(s.getTopLeft())) {
 				return false;
 			}
 		}
 		// check if the terrain is buildable
-		return (map[(int)gc.getY()][(int)gc.getX()] == Terrain.grass);
-	}
-	
-	public Point convertToGridCoords(Point point) {
-		return (new Point(point.getY() / gridUnit, point.getX() / gridUnit));
+		return (map[(int) gp.y()][(int) gp.x()] == Terrain.grass);
 	}
 	
 	// Getters/Setters

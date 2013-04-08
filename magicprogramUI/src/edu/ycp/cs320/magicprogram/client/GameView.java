@@ -14,62 +14,66 @@ public class GameView extends Composite{
 	private final int HEIGHT = 500;
 	
 	// Widgets and Panels
-	private Canvas background;
-	private Canvas foreground;
-	private AbsolutePanel mainPanel;
+	private Canvas background;			// contains terrain, constant rendering not necessary  
+	private Canvas foreground;			// contains structures and creeps, uses context from background as a backdrop
+	private AbsolutePanel mainPanel;	// main panel of the application
 	
 	// Fields
 	private Game model;
-	private Point select;
-	private boolean buildMode;
-	private int unitX;
-	private int unitY;
+	private int selectCol;		// selected col
+	private int selectRow;		// selected row
+	private int COL;			// height of the game grid
+	private int ROW;			// width of the game grid
+	private int pieceWIDTH;		// width of one grid piece
+	private int pieceHEIGHT; 	// height of one grid piece
+	private boolean buildMode;	// if true, a build overlay is displayed and a tower can be placed
 	
 	public GameView(Game game) {
 		// GAME
 		model = game;
 		buildMode = false;
-		select = new Point(-1, -1);
-		
-		// Calculate UNITS
-		unitX = (int) model.getGridUnit();
-		unitY = (int) model.getGridUnit();
+		selectCol = 0;
+		selectRow = 0;
+		COL = model.getMap().length;
+		ROW = model.getMap()[0].length;
+		pieceWIDTH = WIDTH / COL;
+		pieceHEIGHT = HEIGHT / ROW; 
 		
 		// LAYOUT PANEL
 		mainPanel = new AbsolutePanel();
 		
 		// FOREGROUND CANVAS
-		foreground = Canvas.createIfSupported();
-		foreground.setSize(WIDTH + "px", HEIGHT + "px");
-		foreground.setCoordinateSpaceHeight(HEIGHT);
-		foreground.setCoordinateSpaceWidth(WIDTH);
-		mainPanel.add(foreground);
+		foreground = Canvas.createIfSupported();			// init the foreground canvas
+		foreground.setSize(WIDTH + "px", HEIGHT + "px");	// set size to height and width
+		foreground.setCoordinateSpaceHeight(HEIGHT);		// set coordinate height
+		foreground.setCoordinateSpaceWidth(WIDTH);			// set coordinate width
+		mainPanel.add(foreground);							// add to main panel
 		
 		// BACKGROUND CANVAS
-		background = Canvas.createIfSupported();
-		background.setSize(WIDTH + "px", HEIGHT + "px");
-		background.setCoordinateSpaceHeight(HEIGHT);
-		background.setCoordinateSpaceWidth(WIDTH);
-		updateBackground();
-		mainPanel.add(background);
+		background = Canvas.createIfSupported();			// init the background canvas
+		background.setSize(WIDTH + "px", HEIGHT + "px");	// set size to height and width
+		background.setCoordinateSpaceHeight(HEIGHT);		// set coordinate height
+		background.setCoordinateSpaceWidth(WIDTH);			// set coordinate width
+		mainPanel.add(background);							// add to main panel
 		
 		// MOUSE MOVE HANDLER
 		foreground.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-				select.setX(event.getX() - (event.getX() % unitX));
-				select.setY(event.getY() - (event.getY() % unitY));
+			public void onMouseMove(MouseMoveEvent event) {					// on mouse move:
+				if (buildMode) {												// if in build mode:
+					selectCol = event.getX() - (event.getX() / COL);			// update selected column
+					selectRow = event.getY() - (event.getY() / ROW);			// update selected row
+				}
 			}
 		});
 		
 		// MOUSE DOWN HANDLER
 		foreground.addMouseDownHandler(new MouseDownHandler() {
 			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				if (buildMode && (select.getX() != -1) && select.getY() != -1) {
-					if (model.buildStructure(new Structure(select, Structure.Type.tower))) {
-						select.setXY(-1, -1);
-						buildMode = false;
+			public void onMouseDown(MouseDownEvent event) {							// on mouse click:
+				if (buildMode) {														// if in build mode:
+					if (model.buildStructure(Structure.Type.tower, selectRow, selectCol)) {	// if tower is constructed
+						buildMode = false;														// turn off build mode
 					}
 				}
 			}
@@ -78,19 +82,15 @@ public class GameView extends Composite{
 		// TIMER
 	    Timer timer = new Timer() {
 	      @Override
-	      public void run() {
-	    	  update();
+	      public void run() {			// on every tick:
+	    	  updateForeground();			// update the foreground 
 	      }
 	    };
-	    timer.scheduleRepeating(25);
+	    timer.scheduleRepeating(25);	// tick every 25 us
 		
 		// INIT WIDGET
-		initWidget(mainPanel);
-		setSize(WIDTH + "px", HEIGHT + "px");
-	}
-	
-	public void setModel(Game game) {
-		this.model = game;
+		initWidget(mainPanel);			// init the widget
+		setSize(WIDTH + "px", HEIGHT + "px");	// set widget size
 	}
 	
 	public void update() {
@@ -98,17 +98,16 @@ public class GameView extends Composite{
 	}
 	
 	private void updateBackground() {
-		Context2d context = background.getContext2d();
+		Context2d context = background.getContext2d();			// get the context
 		
 		// REFRESH
-		context.clearRect(0, 0, WIDTH, HEIGHT);
+		context.clearRect(0, 0, WIDTH, HEIGHT);					// clear the canvas
 		
 		// DRAW TERRAIN
-		Terrain map[][] = model.getMap();
-		for (int row = 0; row < map.length; row++) {
-			for (int col = 0; col < map[row].length; col++) {
-				// choose color
-				switch(map[row][col]) {
+		Terrain map[][] = model.getMap();						// get the terrain map
+		for (int row = 0; row < map.length; row++) {			// loop through map
+			for (int col = 0; col < map[row].length; col++) {		// ""
+				switch(map[row][col]) {									// determine the terrain and change color accordingly
 					case grass:
 						context.setFillStyle("#00FF00");
 						break;
@@ -122,9 +121,8 @@ public class GameView extends Composite{
 						context.setFillStyle("#FFFFFF");
 						break;
 				}
-				
-				if (map[row][col] != null) {
-					context.fillRect(col * unitX, row * unitY, unitX, unitY);
+				if (map[row][col] != null) {	// if there is something to draw, fill the rectangle
+					context.fillRect( col * pieceWIDTH, row * pieceHEIGHT, pieceWIDTH, pieceHEIGHT);
 				}
 			}
 		}
@@ -146,9 +144,9 @@ public class GameView extends Composite{
 				default:
 					break;
 			}
-			int x = (int) s.getTopLeft().getX();
-			int y = (int) s.getTopLeft().getY();
-			context.fillRect(x, y, x + unitX, y + unitY);
+			int x = (int) s.getTopLeft().x();
+			int y = (int) s.getTopLeft().y();
+			context.fillRect(x, y, x + pieceWIDTH, y + pieceHEIGHT);
 		}
 		
 		// DRAW CREEPS
@@ -159,7 +157,8 @@ public class GameView extends Composite{
 		}
 		
 		// DRAW BUILD OVERLAY
-		if (buildMode && select.getX() != -1 && select.getY() != -1) {
+		if (buildMode) {
+			System.out.println("buildmode activated");
 			// grid
 			context.setStrokeStyle("#000000");
 			for (int y = 0; y < HEIGHT; y += unitY) {
