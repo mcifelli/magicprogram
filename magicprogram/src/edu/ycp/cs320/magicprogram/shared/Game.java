@@ -167,4 +167,3 @@ public class Game {
 		this.gridUnit = gridUnit;
 	}
 }
->>>>>>> refs/remotes/mcifelli/master

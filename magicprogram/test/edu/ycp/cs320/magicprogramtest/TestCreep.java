@@ -13,7 +13,7 @@ import edu.ycp.cs320.magicprogram.shared.*;
 public class TestCreep {
 	private Creep a;
 	private Creep b;
-	private Rectangle testRect, setRect, fixRect;
+
 	private double range, newRange;
 	private Point center, waypoint, fixpoint;
 	private ArrayList<Point> waypoints;
@@ -24,13 +24,12 @@ public class TestCreep {
 		newRange = 2;
 		center = new Point(.5, .5);
 		waypoint = new Point(5, 5);
-		testRect = new Rectangle(new Point(0,0), 1, 1);
-		fixRect = new Rectangle(new Point(5,3),5,2);
+
 		fixpoint = new Point(2,2);
 		waypoints.add(new Point(1, 1));
 		waypoints.add(new Point(2, 2));
 
-		setRect = new Rectangle(new Point(1,1), 1, 1);
+
 
 		a = new Creep(center, waypoints);
 		b = new Creep(center, waypoints);

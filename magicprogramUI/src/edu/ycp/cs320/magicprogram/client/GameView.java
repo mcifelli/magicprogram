@@ -154,7 +154,7 @@ public class GameView extends Composite{
 		context.setFillStyle("#FF0000");
 		for (Creep c : model.getCreeps()) {
 			int size = c.getSize();
-			context.fillRect(c.getPos().getX(), c.getPos().getY(), size, size);
+			context.fillRect(c.getPos().x(), c.getPos().y(), size, size);
 		}
 		
 		// DRAW BUILD OVERLAY

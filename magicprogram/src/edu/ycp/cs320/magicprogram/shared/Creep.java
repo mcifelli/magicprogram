@@ -29,18 +29,6 @@ public class Creep {
 			System.out.println("Added waypoint");
 			this.path.push(waypoints.get(i));
 		}
-		
-//		if(waypoints.isEmpty()) {
-//			System.out.println("no waypoints to add");
-//		}
-//		
-//		for (int i = 0; i < waypoints.size(); i++) {
-//			System.out.println("Added waypoint");
-////			this.path.push(waypoints.get(i));
-//			this.path.add(waypoints.get(i));
-//		}
-		
-
 
 	}
 
@@ -77,25 +65,25 @@ public class Creep {
 	 */
 	public void move() {
 		if (!path.isEmpty()) {
-			System.out.println("next point in path: " + path.peek().getX()+ ", " + path.peek().getY());
+			System.out.println("next point in path: " + path.peek().x()+ ", " + path.peek().y());
 			if (speed > position.distanceTo(path.peek())) {
-				System.out.println("too close to point" + path.peek().getX()+ ", " + path.peek().getY());
+				System.out.println("too close to point" + path.peek().x()+ ", " + path.peek().y());
 				// the creep will overshoot the point
 				// solution: the creep goes to the point
 				position = path.pop();
 			}
 			else {
 				// Full step needed on x-axis
-				if (position.getX() < path.peek().getX()) {
-					System.out.println("moving towards " + path.peek().getX()+ ", " + path.peek().getY());
+				if (position.x() < path.peek().x()) {
+					System.out.println("moving towards " + path.peek().x()+ ", " + path.peek().x());
 					position.addX(speed);
 				}
 				else {
 					position.addX(-1 * speed);
 				}
 				// Full step needed on y-axis
-				if (position.getY() < path.peek().getY()) {
-					System.out.println("moving towards " + path.peek().getX()+ ", " + path.peek().getY());
+				if (position.y() < path.peek().y()) {
+					System.out.println("moving towards " + path.peek().x()+ ", " + path.peek().x());
 					position.addY(speed);	
 				}
 				else {
