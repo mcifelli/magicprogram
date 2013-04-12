@@ -52,7 +52,6 @@ public class Creep {
 	 */
 	public void move() {
 		if (!path.isEmpty()) {
-			System.out.println("next point in path: " + path.peek().x()+ ", " + path.peek().y());
 			if (speed >= center.distanceTo(path.peek())) {
 				// the creep will overshoot the point
 				// solution: the creep goes to the point

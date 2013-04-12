@@ -15,7 +15,7 @@ public class Game {
 	private ArrayList<Structure> structures;
 	private Terrain[][] map = new Terrain[ROW][COL];
 	private ArrayList<Point> waypoints;
-	private double gridUnit;
+	private int gridUnit = (int)(BOUNDS.x()/ROW);
 	
 	public Game() {
 		// WAYPOINTS
@@ -83,39 +83,52 @@ public class Game {
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
 		structures = new ArrayList<Structure>();
-		structures.add(new Structure(Structure.Type.base, new Point(BOUNDS.x() - gridUnit, BOUNDS.x() - gridUnit), (int)BOUNDS.x() / COL));
-		structures.add(new Structure(Structure.Type.spawner, new Point(), (int)BOUNDS.x() / COL));
+		structures.add(new Structure(Structure.Type.base, new Point(BOUNDS.x() - gridUnit, BOUNDS.x() - gridUnit), gridUnit));
+		structures.add(new Structure(Structure.Type.spawner, new Point(), gridUnit));
+		structures.add(new Structure(Structure.Type.spawner, new Point(0, gridUnit), gridUnit));
 	}
 	
 	// Methods
 	/**
 	 * Adds a default creep to the board. The creep is given a path to follow
 	 */
-	public void addCreep() {
-		creeps.add(new Creep(new Point(10, 10)));
-	}
 	
 	public void update() {
-		for (Creep creep : creeps){					// CREEPS
-			creep.move();								// move creeps
+		for (Creep creep : creeps) {
+			creep.move();
 		}
-		for (Structure structure : structures) {	// STRUCTURES
-				switch (structure.getType()) {
-					case base:							// BASE
-						break;								// do nothing
-					case spawner:						// SPAWNER
-						addCreep();
-						break;
-					case tower:							// TOWER
-						for (Creep creep : creeps) {		// look at creeps
-							if (structure.getCenter().distanceTo(creep.getCenter()) <= structure.getRange());	// if creep is in range
-								creep.setHP() -= structure.getDamage();
-						}									
-						break;
-					default:
-						break;
-				}
-			
+		for (Structure structure : structures) {
+			switch (structure.getType()) {
+				case base:
+					for (Creep creep : creeps) {
+						if (structure.getCenter().distanceTo(creep.getCenter()) <= (structure.getSize() / 2)) {
+							creeps.remove(creep);
+						}
+					}
+					break;
+				case spawner:
+					if (structure.tick() == 0) {
+						creeps.add(new Creep(structure.getCenter()));
+					}
+					break;
+				case tower:
+					if (structure.getFocus() == null) {
+						for (Creep creep : creeps) {
+							if (structure.getCenter().distanceTo(creep.getCenter()) <= structure.getRange()) {
+								structure.setFocus(creep);
+							}
+						}
+					}
+					else {
+						structure.attack();
+						if (structure.getFocus().getHP() <= 0) {
+							creeps.remove(structure.getFocus());
+							structure.setFocus(null);
+						}
+					}
+					break;
+				default:break;
+			}
 		}
 	}
 	
@@ -135,7 +148,6 @@ public class Game {
 			}
 		}
 		// check if the terrain is buildable
-		System.out.println("Grid point of new structure = (" + newStruct.gp().x() +  ", " + newStruct.gp().y() + ")");
 		return (map[(int)newStruct.gp().y()][(int)newStruct.gp().x()] == Terrain.grass);
 	}
 	
@@ -170,10 +182,10 @@ public class Game {
 	public ArrayList<Structure> getStructs() {
 		return structures;
 	}
-	public double getGridUnit() {
+	public int getGridUnit() {
 		return gridUnit;
 	}
-	public void setGridUnit(double gridUnit) {
+	public void setGridUnit(int gridUnit) {
 		this.gridUnit = gridUnit;
 	}
 }
