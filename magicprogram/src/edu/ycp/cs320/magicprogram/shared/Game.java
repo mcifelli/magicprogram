@@ -89,11 +89,11 @@ public class Game {
 		gridUnit = BOUNDS.x() / COL;
 		
 		structures = new ArrayList<Structure>();
-		structures.add(new Structure( Structure.Type.base, new Point(BOUNDS.x() - gridUnit, BOUNDS.x() - gridUnit), new Point(ROW, COL)));
+		structures.add(new Structure( Structure.Type.base, new Point(BOUNDS.x() - gridUnit, BOUNDS.y() - gridUnit), ROW));
 	}
 	
 	public boolean buildStructure(Structure.Type type, int row, int col) {
-		Structure newStruct = new Structure(type, new Point(col * COL, row * ROW), new Point(col, row));
+		Structure newStruct = new Structure(type, new Point(col * COL, row * ROW), col);
 		if (canBuildStructure(newStruct)) {
 			structures.add(newStruct);
 			return true;
@@ -135,7 +135,7 @@ public class Game {
 					case tower:							// TOWER
 						for (Creep creep : creeps) {		// look at creeps
 							if (structure.getCenter().distanceTo(creep.getCenter()) <= structure.getRange());	// if creep is in range
-								creep.setHP(creep.getHP() - structure.getDamage());
+//							creep.setHp(creep.getHP() - structure.getDamage());
 						}									
 						break;
 					default:

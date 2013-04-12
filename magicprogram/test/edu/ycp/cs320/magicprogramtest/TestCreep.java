@@ -42,18 +42,6 @@ public class TestCreep {
 
 	}
 	
-	@Test
-	public void testGetPos() {
-//		Rectangle ta = new Rectangle(new Point(), 1);
-		assertEquals(center, a.getPos());
-	}
-	
-	@Test
-
-	public void testSetPos() {
-		a.setPos(waypoint);
-		assertEquals(waypoint, a.getPos());
-	}
 
 //	public void testSetBody() {
 //		//a.setBody(setRect);

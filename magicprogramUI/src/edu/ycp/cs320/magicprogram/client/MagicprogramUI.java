@@ -36,8 +36,6 @@ public class MagicprogramUI implements EntryPoint {
 		
 		// create a panel
 		game = new Game();
-		
-		FlowPanel fpanel = new FlowPanel();
 
 		view = new GameView(game);
 
@@ -53,13 +51,8 @@ public class MagicprogramUI implements EntryPoint {
 	    
 	    flowPanel.add(view);
 
-//	    view.start();
-//	    view = new GameView(game);
 	    mainPanel.add(view, 0, 0);
 	    view.setSize(WIDTH + "px", HEIGHT + "px");
-	    
-//	    FakeDatabase db = new FakeDatabase();
-//	    db.getLevel(1);
 
 	    controller = new GameController(game, view);
 	    mainPanel.add(controller, 0, 500);

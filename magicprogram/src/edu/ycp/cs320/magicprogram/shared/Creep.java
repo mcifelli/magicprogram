@@ -3,8 +3,6 @@ package edu.ycp.cs320.magicprogram.shared;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Queue;
-=======
->>>>>>> refs/remotes/mcifelli/master
 import java.util.Stack;
 
 public class Creep {
@@ -87,10 +85,10 @@ public class Creep {
 	public void move() {
 		if (!path.isEmpty()) {
 			System.out.println("next point in path: " + path.peek().x()+ ", " + path.peek().y());
-
+			
 			if (speed > position.distanceTo(path.peek())) {
 				System.out.println("too close to point" + path.peek().x()+ ", " + path.peek().y());
-
+			}
 			if (speed >= center.distanceTo(path.peek())) {
 
 				// the creep will overshoot the point
@@ -103,7 +101,7 @@ public class Creep {
 				if (position.x() < path.peek().x()) {
 					System.out.println("moving towards " + path.peek().x()+ ", " + path.peek().x());
 					position.addX(speed);
-
+				}
 				if (center.x() < path.peek().x()) {
 					center.addX(speed);
 
@@ -116,7 +114,7 @@ public class Creep {
 				if (position.y() < path.peek().y()) {
 					System.out.println("moving towards " + path.peek().x()+ ", " + path.peek().x());
 					position.addY(speed);	
-
+				}
 				if (center.y() < path.peek().y()) {
 					center.addY(speed);	
 
