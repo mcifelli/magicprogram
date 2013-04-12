@@ -21,7 +21,7 @@ public class GameController extends Composite{
 		mainPanel.setSize("500px", "50px");
 		
 		// BUTTON - SEND WAVE
-		Button buttonSendWave = new Button("Send Wave");
+		Button buttonSendWave = new Button("Start");
 		buttonSendWave.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
@@ -42,8 +42,19 @@ public class GameController extends Composite{
 				}
 			}
 		});
-		mainPanel.add(buttonBuildTower, 116, 10);
+		mainPanel.add(buttonBuildTower, 120, 10);
 		buttonBuildTower.setSize("100px", "30px");
+		
+		// BUTTON - BUILD TOWER
+		Button buttonShowRange = new Button("Show Range");
+		buttonShowRange.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				view.toggleShowRange();
+			}
+		});
+		mainPanel.add(buttonShowRange, 230, 10);
+		buttonBuildTower.setSize("100px", "30px");
+		
 		// MODEL and VIEW
 		model = game;
 		view = gameView;

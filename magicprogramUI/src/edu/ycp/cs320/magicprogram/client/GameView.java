@@ -24,6 +24,7 @@ public class GameView extends Composite{
 	private int pieceHeight; 	// height of one grid piece
 	private boolean buildMode;	// if true, a build overlay is displayed and a tower can be placed
 	private boolean canBuild;	// if true, the selector will indicate that a tower can be placed
+	private boolean showRange;
 	private Structure select;
 	
 	public GameView(Game game) {
@@ -31,6 +32,7 @@ public class GameView extends Composite{
 		model = game;
 		buildMode = false;
 		canBuild = false;
+		showRange = false;
 		pieceWidth = WIDTH / model.getMap()[0].length;
 		pieceHeight = HEIGHT / model.getMap().length; 
 		select = new Structure(Structure.Type.tower, new Point(), pieceWidth);
@@ -75,7 +77,6 @@ public class GameView extends Composite{
 						canBuild = false;								// can build out of build mode...
 					}
 				}
-				System.out.println("Mouse Pointer At------: (" + event.getX() + ", " + event.getY() + ")");
 			}
 		});	
 
@@ -95,12 +96,12 @@ public class GameView extends Composite{
 	}
 	
 	private void updateBackground() {
-		Context2d context = background.getContext2d();			// get the context
-		context.clearRect(0, 0, WIDTH, HEIGHT);					// refresh the canvas
-		Terrain map[][] = model.getMap();						// get the terrain map
-		for (int row = 0; row < map.length; row++) {			// loop through map
-			for (int col = 0; col < map[row].length; col++) {		// ""
-				switch(map[row][col]) {									// determine the terrain and change color accordingly
+		Context2d context = background.getContext2d();
+		context.clearRect(0, 0, WIDTH, HEIGHT);
+		Terrain map[][] = model.getMap();
+		for (int row = 0; row < map.length; row++) {
+			for (int col = 0; col < map[row].length; col++) {
+				switch(map[row][col]) {
 					case grass:
 						context.setFillStyle("#00FF00");
 						break;
@@ -114,7 +115,7 @@ public class GameView extends Composite{
 						context.setFillStyle("#FFFFFF");
 						break;
 				}
-				if (map[row][col] != null) {	// if there is something to draw, fill the rectangle
+				if (map[row][col] != null) {
 					context.fillRect(col * pieceWidth, row * pieceHeight, pieceWidth, pieceHeight);
 				}
 			}
@@ -124,20 +125,29 @@ public class GameView extends Composite{
 	private void updateForeground() {
 		Context2d context = foreground.getContext2d();			// get the context
 		context.drawImage(background.getCanvasElement(), 0, 0);	// refresh the canvas with the background
-		for (Structure struct : model.getStructs()) {			// loop through structures
-			switch (struct.getType()) {							// determine color of structure based on type
+		for (Structure structure : model.getStructs()) {			// loop through structures
+			switch (structure.getType()) {							// determine color of structure based on type
 				case base:
-					context.setFillStyle("#FFFFFF");
+					context.setFillStyle("white");
 					break;
 				case tower:
-					context.setFillStyle("#00FFFF");
+					context.setFillStyle("cyan");
 					break;
 				case spawner:
 					context.setFillStyle("#000000");
 				default:
 					break;
 			}
-			context.fillRect(struct.tl().x(), struct.tl().y(), pieceWidth, pieceHeight);
+			context.fillRect(structure.tl().x(), structure.tl().y(), pieceWidth, pieceHeight);
+			if (structure.getFocus() != null) {
+				drawLine(context, structure.getCenter(), structure.getFocus().getCenter());
+			}
+			if (showRange) {
+				context.beginPath();
+				context.arc(structure.getCenter().x(), structure.getCenter().y(), structure.getRange(), 0, 0);
+				context.stroke();
+				context.closePath();
+			}
 		}
 		
 		// DRAW CREEPS
@@ -148,20 +158,15 @@ public class GameView extends Composite{
 		
 		// DRAW BUILD OVERLAY
 		if (buildMode) {
-			System.out.println("buildmode activated");
 			// grid
 			context.setStrokeStyle("#000000");
 			for (int y = 0; y < HEIGHT; y += pieceHeight) {
-				context.moveTo(0, y - 0.5);  
-				context.lineTo(WIDTH, y - 0.5);
-				context.stroke();
+				drawLine(context, 0, y - 0.5, WIDTH, y - 0.5);
 			}
 			for (int x = 0; x < WIDTH; x += pieceWidth) {
-				context.moveTo(x - 0.5, 0);
-				context.lineTo(x - 0.5, HEIGHT);
-				context.stroke();
+				drawLine(context, x - 0.5, 05, x - 0.5, HEIGHT);
 			}
-		
+			
 			// selector
 			if (canBuild) {
 				context.setFillStyle("#FF00FF");
@@ -173,11 +178,27 @@ public class GameView extends Composite{
 		}
 	}
 	
+	public void drawLine(Context2d context, Point a, Point b) {
+		drawLine(context, a.x(), a.y(), b.x(), b.y());
+	}
+	
+	public void drawLine(Context2d context, double a_x, double a_y, double b_x, double b_y) {
+		context.beginPath();
+		context.moveTo(a_x, a_y);  
+		context.lineTo(b_x, b_y);
+		context.stroke();
+		context.closePath();
+	}
+	
 	public boolean getBuildMode() {
 		return buildMode;
 	}
 	
 	public void setBuildMode(boolean buildMode) {
 		this.buildMode = buildMode;
+	}
+
+	public void toggleShowRange() {
+		showRange = !showRange;
 	}
 }
