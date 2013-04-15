@@ -1,19 +1,11 @@
 package edu.ycp.cs320.magicprogram.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import edu.ycp.cs320.magicprogram.server.FakeDatabase;
 import edu.ycp.cs320.magicprogram.shared.*;
-
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -27,7 +19,6 @@ public class MagicprogramUI implements EntryPoint {
 	private RootPanel rootPanel;
 	private FlowPanel flowPanel;
 	private GameController controller;
-//	private Button btnAddCreepTo;
 	/**
 	 * @wbp.nonvisual location=118,99
 	 */
@@ -59,7 +50,6 @@ public class MagicprogramUI implements EntryPoint {
 	    controller = new GameController(game, view);
 	    mainPanel.add(controller, 0, 500);
 	    controller.setSize(WIDTH + "px", "50px");
-	    
 	    
 	}
 
