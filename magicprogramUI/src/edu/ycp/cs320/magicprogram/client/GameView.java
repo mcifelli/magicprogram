@@ -103,7 +103,7 @@ public class GameView extends Composite{
 			for (int col = 0; col < map[row].length; col++) {
 				switch(map[row][col]) {
 					case grass:
-						context.setFillStyle("#00FF00");
+						context.setFillStyle("#228B22");
 						break;
 					case road:
 						context.setFillStyle("#C0C0C0");
@@ -125,12 +125,14 @@ public class GameView extends Composite{
 	private void updateForeground() {
 		Context2d context = foreground.getContext2d();			// get the context
 		context.drawImage(background.getCanvasElement(), 0, 0);	// refresh the canvas with the background
+		String filename = "";
 		for (Structure structure : model.getStructs()) {			// loop through structures
 			switch (structure.getType()) {							// determine color of structure based on type
 				case base:
 					context.setFillStyle("white");
 					break;
 				case tower:
+					filename = "basic-tower";
 					context.setFillStyle("cyan");
 					break;
 				case spawner:
@@ -142,7 +144,7 @@ public class GameView extends Composite{
 			if (structure.getFocus() != null) {
 				drawLine(context, structure.getCenter(), structure.getFocus().getCenter());
 			}
-			if (showRange) {
+			if (true) {
 				context.beginPath();
 				context.arc(structure.getCenter().x(), structure.getCenter().y(), structure.getRange(), 0, 0);
 				context.stroke();

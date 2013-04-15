@@ -36,6 +36,8 @@ public class MagicprogramUI implements EntryPoint {
 		
 		// create a panel
 		game = new Game();
+		
+		flowPanel = new FlowPanel();
 
 		view = new GameView(game);
 
