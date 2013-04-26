@@ -100,9 +100,10 @@ public class Game {
 		for (Structure structure : structures) {
 			switch (structure.getType()) {
 				case base:
-					for (Creep creep : creeps) {
-						if (structure.getCenter().distanceTo(creep.getCenter()) <= (structure.getSize() / 2)) {
-							creeps.remove(creep);
+					for (int i = 0; i < creeps.size(); i++) {
+						if (structure.getCenter().distanceTo(creeps.get(i).getCenter()) <= (structure.getSize() / 2)) {
+							creeps.remove(i);
+							i--;
 						}
 					}
 					break;
