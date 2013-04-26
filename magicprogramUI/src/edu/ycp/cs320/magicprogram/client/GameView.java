@@ -144,9 +144,9 @@ public class GameView extends Composite{
 			if (structure.getFocus() != null) {
 				drawLine(context, structure.getCenter(), structure.getFocus().getCenter());
 			}
-			if (true) {
+			if (showRange) {
 				context.beginPath();
-				context.arc(structure.getCenter().x(), structure.getCenter().y(), structure.getRange(), 0, 0);
+				context.arc(structure.getCenter().x(), structure.getCenter().y(), structure.getRange(), 0, 2 * Math.PI);
 				context.stroke();
 				context.closePath();
 			}
