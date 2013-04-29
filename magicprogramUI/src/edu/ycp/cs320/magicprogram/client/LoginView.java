@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.user.client.ui.Label;
 
 public class LoginView extends Composite{
 	private TextBox txtbxUsername;
@@ -15,7 +16,6 @@ public class LoginView extends Composite{
 	private Button btnLogIn;
 	
 	public LoginView() {
-		
 		AbsolutePanel absolutePanel = new AbsolutePanel();
 		initWidget(absolutePanel);
 		absolutePanel.setSize("500px", "500px");
@@ -26,15 +26,16 @@ public class LoginView extends Composite{
 				txtbxUsername.setText("");
 			}
 		});
-		txtbxUsername.addMouseUpHandler(new MouseUpHandler() {
-			public void onMouseUp(MouseUpEvent event) {
-				txtbxUsername.setText("");
-			}
-		});
+
 		txtbxUsername.setText("Username");
 		absolutePanel.add(txtbxUsername, 155, 133);
 		
 		txtbxPassword = new TextBox();
+		txtbxPassword.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				txtbxPassword.setText("");
+			}
+		});
 		txtbxPassword.setText("Password");
 		absolutePanel.add(txtbxPassword, 155, 173);
 		

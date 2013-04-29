@@ -26,8 +26,8 @@ public class MagicprogramUI implements EntryPoint {
 	    rootPanel = RootPanel.get();
 	    
 	    // init game and view
-		game = new Game();
-		view = new GameView(game);
+//		game = new Game();
+//		view = new GameView(game);
 		
 	    // init the main panel as an absolute panel and add it to root
 	    mainPanel = new AbsolutePanel();
@@ -35,8 +35,9 @@ public class MagicprogramUI implements EntryPoint {
 	    rootPanel.add(mainPanel, 0, 0);
 	    
 	    // add gameview to main panel
-	    mainPanel.add(view, 0, 0);
-	    view.setSize(WIDTH + "px", HEIGHT + "px");
+//	    mainPanel.add(view, 0, 0);
+	    mainPanel.add(new LoginView());
+//	    view.setSize(WIDTH + "px", HEIGHT + "px");
 	    
 	    controller = new GameController(game, view);
 	    mainPanel.add(controller, 0, 500);
