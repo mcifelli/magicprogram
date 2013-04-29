@@ -1,4 +1,11 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=refs/remotes/mcifelli/master
 eclipse.preferences.version=1
+<<<<<<< HEAD
 lastWarOutDir=H\:/git/magicprogram/magicprogramUI/war
+=======
+lastWarOutDir=H\:/git/magicprogram2/magicprogramUI/war
+>>>>>>> refs/remotes/Paul2/master
 warSrcDir=war
 warSrcDirIsOutput=false

@@ -19,10 +19,12 @@ public class Level implements Serializable {
 	
 	private Terrain[][] map = new Terrain[ROW][COL];
 	private ArrayList<Point> waypoints;
+	private ArrayList<Structure> spawners;
+	private ArrayList<Structure> towers;
+	private Structure base;
 	private int gridUnit = (int)(BOUNDS.x()/ROW);
 	
 	public Level() {
-		
 		// TERRAIN
 		for (int row = 0; row < map.length; row++) {
 			for (int col = 0; col < map[row].length; col++) {

@@ -16,13 +16,12 @@ public class Game {
 	private Terrain[][] map = new Terrain[ROW][COL];
 	private ArrayList<Point> waypoints;
 	private int gridUnit = (int)(BOUNDS.x()/ROW);
+	private int killCount=0;
+	private int money = 0;
 	
 	public Game() {
 		// WAYPOINTS
 		waypoints = new ArrayList<Point>();
-
-		waypoints.add(new Point(50.0,0.0));
-		waypoints.add(new Point(50.0,50.0));
 		
 		// CREEPS
 		setCreeps(new ArrayList<Creep>());
@@ -85,9 +84,6 @@ public class Game {
 		map[22][24] = Terrain.road;
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
-		
-		gridUnit = (int) (BOUNDS.x() / COL);
-		
 		structures = new ArrayList<Structure>();
 
 		structures.add(new Structure( Structure.Type.base, new Point(BOUNDS.x() - gridUnit, BOUNDS.y() - gridUnit), ROW));
@@ -102,18 +98,6 @@ public class Game {
 		return false;
 	}
 	
-	public boolean canBuildStructure(Structure newStruct) {
-		Point gp = newStruct.getGridPoint();
-		// check if there is another structure at the location
-		for (Structure s : structures) {
-			if (newStruct.getTopLeft().equals(s.getTopLeft())) {
-				return false;
-			}
-		}
-		// check if the terrain is buildable
-		return (map[(int) gp.y()][(int) gp.x()] == Terrain.grass);
-	}
-	
 	// Methods
 	/**
 	 * Adds a default creep to the board. The creep is given a path to follow
@@ -123,7 +107,6 @@ public class Game {
 		for (Creep creep : creeps) {
 			creep.move();
 		}	
-
 		for (Structure structure : structures) {
 			switch (structure.getType()) {
 				case base:
@@ -152,14 +135,14 @@ public class Game {
 						if (structure.getFocus().getHP() <= 0) {
 							creeps.remove(structure.getFocus());
 							structure.setFocus(null);
+							killCount++; //counts creep dead
+							money += 20;
 						}
 					}
 					break;
 				default:break;
 			}
-
 		}
-
 	}
 	
 	public boolean buildStructure(Structure newStruct) {
@@ -168,6 +151,17 @@ public class Game {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean canBuildStructure(Structure newStruct) {
+		// check if there is another structure at the location
+		for (Structure s : structures) {
+			if (newStruct.getTopLeft().equalTo(s.getTopLeft())) {
+				return false;
+			}
+		}
+		// check if the terrain is buildable
+		return (map[(int)newStruct.gp().y()][(int)newStruct.gp().x()] == Terrain.grass);
 	}
 	
 	// Getters/Setters
@@ -208,8 +202,31 @@ public class Game {
 		this.gridUnit = gridUnit;
 	}
 
-	public void addCreep() {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * @return the killCount
+	 */
+	public int getKillCount() {
+		return killCount;
+	}
+
+	/**
+	 * @param killCount the killCount to set
+	 */
+	public void setKillCount(int killCount) {
+		this.killCount = killCount;
+	}
+
+	/**
+	 * @return the money
+	 */
+	public int getMoney() {
+		return money;
+	}
+
+	/**
+	 * @param money the money to set
+	 */
+	public void setMoney(int money) {
+		this.money = money;
 	}
 }
