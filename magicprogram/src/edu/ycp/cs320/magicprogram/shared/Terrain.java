@@ -4,4 +4,5 @@ public enum Terrain {
 	grass,
 	road,
 	water;
+	//terrains
 }

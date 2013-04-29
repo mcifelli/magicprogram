@@ -24,9 +24,6 @@ public class GameController extends Composite{
 		Button buttonSendWave = new Button("Start");
 		buttonSendWave.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// TODO add code here
-
-				model.addCreep();
 			}
 		});
 		mainPanel.add(buttonSendWave, 10, 10);

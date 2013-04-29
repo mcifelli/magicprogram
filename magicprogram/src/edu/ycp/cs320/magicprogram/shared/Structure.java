@@ -124,7 +124,6 @@ public class Structure {
 		return focus;
 	}
 	public void setFocus(Creep newFocus) {
-		focus = newFocus;
+		focus = newFocus;	//focus
 	}
-
 }

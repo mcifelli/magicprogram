@@ -1,5 +1,6 @@
 package edu.ycp.cs320.magicprogram.shared;
 
+
 public class Point {
 	// Fields
 	private double x, y;
@@ -87,7 +88,6 @@ public class Point {
 		return x;
 	}
 	public double y() {
-		return y;
+		return y;	//returns y
 	}
 }
-

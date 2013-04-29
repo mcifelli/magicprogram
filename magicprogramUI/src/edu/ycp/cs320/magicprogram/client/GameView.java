@@ -125,14 +125,12 @@ public class GameView extends Composite{
 	private void updateForeground() {
 		Context2d context = foreground.getContext2d();			// get the context
 		context.drawImage(background.getCanvasElement(), 0, 0);	// refresh the canvas with the background
-		String filename = "";
 		for (Structure structure : model.getStructs()) {			// loop through structures
 			switch (structure.getType()) {							// determine color of structure based on type
 				case base:
 					context.setFillStyle("white");
 					break;
 				case tower:
-					filename = "basic-tower";
 					context.setFillStyle("cyan");
 					break;
 				case spawner:
@@ -141,6 +139,11 @@ public class GameView extends Composite{
 					break;
 			}
 			context.fillRect(structure.tl().x(), structure.tl().y(), pieceWidth, pieceHeight);
+			context.setFillStyle("black");
+			context.fillText("Kills:" , 40, 20);
+			context.fillText(Integer.toString(model.getKillCount()), 75,20);
+			context.fillText("Money:", 40, 30);
+			context.fillText(Integer.toString(model.getMoney()), 75,30);
 			if (structure.getFocus() != null) {
 				drawLine(context, structure.getCenter(), structure.getFocus().getCenter());
 			}
