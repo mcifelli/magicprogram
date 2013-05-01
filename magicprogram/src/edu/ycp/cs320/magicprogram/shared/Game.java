@@ -27,6 +27,7 @@ public class Game {
 	public boolean buildTower(Structure newTower) {
 		if (canBuildTower(newTower)) {
 			level.getTowers().add(new Structure(newTower));
+			level.getMap()[(int)newTower.gp().y()][(int)newTower.gp().x()] = Terrain.structure;
 			return true;
 		}
 		return false;
