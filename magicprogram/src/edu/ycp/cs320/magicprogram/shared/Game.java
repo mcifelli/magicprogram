@@ -3,165 +3,89 @@ package edu.ycp.cs320.magicprogram.shared;
 import java.util.ArrayList;
 
 public class Game {
-	// CONSTANTS
-	public final int ROW = 25;
-	public final int COL = 25;
+	// GAME FIELDS
+	private int life;
+	private ArrayList<Creep> creeps = new ArrayList<Creep>();
+	private int killCount;
+	private int money;
 	
-	private final Point BOUNDS = new Point(500.0, 500.0);
+	// BOARD FIELDS
+	private Level level;
 	
-	// FIELDS
-	private int life = 10;
-	private ArrayList<Creep> creeps;
-	private ArrayList<Structure> structures;
-	private Terrain[][] map = new Terrain[ROW][COL];
-	private ArrayList<Point> waypoints;
-	private int gridUnit = (int)(BOUNDS.x()/ROW);
-	private int killCount=0;
-	private int money = 0;
 	
-	public Game() {
-		// WAYPOINTS
-		waypoints = new ArrayList<Point>();
+	public Game(Level level) {
+		// COPY LEVEL
+		this.level = new Level(level);
 		
-		// CREEPS
-		setCreeps(new ArrayList<Creep>());
-		setPath(new ArrayList<Point>());
-		
-		// TERRAIN
-		for (int row = 0; row < map.length; row++) {
-			for (int col = 0; col < map[row].length; col++) {
-				map[row][col] = Terrain.grass;
-			}
-		}
-		map[0][0] = Terrain.road;
-		map[1][0] = Terrain.road;
-		map[2][0] = Terrain.road;
-		map[3][0] = Terrain.road;
-		map[4][0] = Terrain.road;
-		map[5][0] = Terrain.road;
-		map[5][0] = Terrain.road;
-		map[5][0] = Terrain.road;
-		map[5][1] = Terrain.road;
-		map[5][2] = Terrain.road;
-		map[5][3] = Terrain.road;
-		map[5][4] = Terrain.road;
-		map[5][5] = Terrain.road;
-		map[5][6] = Terrain.road;
-		map[5][7] = Terrain.road;
-		map[5][8] = Terrain.road;
-		map[5][9] = Terrain.road;
-		map[5][10] = Terrain.road;
-		map[5][11] = Terrain.road;
-		map[5][12] = Terrain.road;
-		map[5][13] = Terrain.road;
-		map[5][14] = Terrain.road;
-		map[5][15] = Terrain.road;
-		map[5][16] = Terrain.road;
-		map[5][17] = Terrain.road;
-		map[5][18] = Terrain.road;
-		map[5][19] = Terrain.road;
-		map[5][20] = Terrain.road;
-		map[5][21] = Terrain.road;
-		map[5][22] = Terrain.road;
-		map[5][23] = Terrain.road;
-		map[5][24] = Terrain.road;
-		map[6][24] = Terrain.road;
-		map[7][24] = Terrain.road;
-		map[8][24] = Terrain.road;
-		map[9][24] = Terrain.road;
-		map[10][24] = Terrain.road;
-		map[11][24] = Terrain.road;
-		map[12][24] = Terrain.road;
-		map[13][24] = Terrain.road;
-		map[14][24] = Terrain.road;
-		map[15][24] = Terrain.road;
-		map[16][24] = Terrain.road;
-		map[17][24] = Terrain.road;
-		map[18][24] = Terrain.road;
-		map[19][24] = Terrain.road;
-		map[20][24] = Terrain.road;
-		map[21][24] = Terrain.road;
-		map[22][24] = Terrain.road;
-		map[23][24] = Terrain.road;
-		map[24][24] = Terrain.road;
-		structures = new ArrayList<Structure>();
-
-		structures.add(new Structure( Structure.Type.base, new Point(BOUNDS.x() - gridUnit, BOUNDS.y() - gridUnit), ROW));
+		// RESET GAME VALUES
+		this.setLife(10);
+		this.creeps = new ArrayList<Creep>();
+		this.killCount = 0;
+		this.money = 0;
 	}
 	
-	public boolean buildStructure(Structure.Type type, int row, int col) {
-		Structure newStruct = new Structure(type, new Point(col * COL, row * ROW), col);
-		if (canBuildStructure(newStruct)) {
-			structures.add(newStruct);
+	public boolean buildTower(Structure newTower) {
+		if (canBuildTower(newTower)) {
+			level.getTowers().add(new Structure(newTower));
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean canBuildTower(Structure newTower) {
+		// get the map from the level
+		Terrain[][] map = level.getMap();
+		
+		// check if the terrain is buildable
+		switch(map[(int)newTower.gp().y()][(int)newTower.gp().x()]) {
+			case grass:
+				return true;
+			case road:
+				return false;
+			case structure:
+				return false;
+			case water:
+				return false;
+			default:
+				return false;
+		}
 	}
 	
 	// Methods
-	/**
-	 * Adds a default creep to the board. The creep is given a path to follow
-	 */
-	
 	public void update() {
-		for (Creep creep : creeps) {
-			creep.move();
-		}	
-		for (Structure structure : structures) {
-			switch (structure.getType()) {
-				case base:
-					for (int i = 0; i < creeps.size(); i++) {
-						if (structure.getCenter().distanceTo(creeps.get(i).getCenter()) <= (structure.getSize() / 2)) {
-							creeps.remove(i);
-							i--;
-						}
-					}
-					break;
-				case spawner:
-					if (structure.tick() == 0) {
-						creeps.add(new Creep(structure.getCenter()));
-					}
-					break;
-				case tower:
-					if (structure.getFocus() == null) {
-						for (Creep creep : creeps) {
-							if (structure.getCenter().distanceTo(creep.getCenter()) <= structure.getRange()) {
-								structure.setFocus(creep);
-							}
-						}
-					}
-					else {
-						structure.attack();
-						if (structure.getFocus().getHP() <= 0) {
-							creeps.remove(structure.getFocus());
-							structure.setFocus(null);
-							killCount++; //counts creep dead
-							money += 20;
-						}
-					}
-					break;
-				default:break;
+		Structure base = level.getBase();
+		ArrayList<Structure> spawners = level.getSpawners();
+		ArrayList<Structure> towers = level.getTowers();
+		for (int i = 0; i < creeps.size(); i++) {
+			creeps.get(i).move();
+			if (base.getCenter().distanceTo(creeps.get(i).getCenter()) <= (base.getSize() / 2)) {
+				creeps.remove(i);
+				i--;
 			}
 		}
-	}
-	
-	public boolean buildStructure(Structure newStruct) {
-		if (canBuildStructure(newStruct)) {
-			structures.add(new Structure(newStruct));
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean canBuildStructure(Structure newStruct) {
-		// check if there is another structure at the location
-		for (Structure s : structures) {
-			if (newStruct.getTopLeft().equalTo(s.getTopLeft())) {
-				return false;
+		for (Structure spawner : spawners) {
+			if (spawner.tick() == 0) {
+				creeps.add(new Creep(spawner.getCenter()));
 			}
 		}
-		// check if the terrain is buildable
-		return (map[(int)newStruct.gp().y()][(int)newStruct.gp().x()] == Terrain.grass);
+		for (Structure tower : towers) {
+			if (tower.getFocus() == null) {
+				for (Creep creep : creeps) {
+					if (tower.getCenter().distanceTo(creep.getCenter()) <= tower.getRange()) {
+						tower.setFocus(creep);
+					}
+				}
+			}
+			else {
+				tower.attack();
+				if (tower.getFocus().getHP() <= 0) {
+					creeps.remove(tower.getFocus());
+					tower.setFocus(null);
+					killCount++; //counts creep dead
+					money += 20;
+				}
+			}
+		}
 	}
 	
 	// Getters/Setters
@@ -171,62 +95,25 @@ public class Game {
 	public void setCreeps(ArrayList<Creep> creeps) {
 		this.creeps = creeps;
 	}
-	public ArrayList<Structure> getStructures() {
-		return structures;
-	}
-	public void setStructures(ArrayList<Structure> structures) {
-		this.structures = structures;
-	}
-	public ArrayList<Point> getPath() {
-		return waypoints;
-	}
-	public void setPath(ArrayList<Point> waypoints) {
-		this.waypoints = waypoints;
-	}
-	public ArrayList<Point> getWaypoints() {
-		return waypoints;
-	}
-	public Terrain[][] getMap() {
-		return map;
-	}
-	public void setMap(Terrain[][] map) {
-		this.map = map;
-	}
-	public ArrayList<Structure> getStructs() {
-		return structures;
-	}
-	public int getGridUnit() {
-		return gridUnit;
-	}
-	public void setGridUnit(int gridUnit) {
-		this.gridUnit = gridUnit;
-	}
-
-	/**
-	 * @return the killCount
-	 */
 	public int getKillCount() {
 		return killCount;
 	}
-
-	/**
-	 * @param killCount the killCount to set
-	 */
 	public void setKillCount(int killCount) {
 		this.killCount = killCount;
 	}
-
-	/**
-	 * @return the money
-	 */
 	public int getMoney() {
 		return money;
 	}
-
-	/**
-	 * @param money the money to set
-	 */
 	public void setMoney(int money) {
 		this.money = money;
+	}
+	public int getLife() {
+		return life;
+	}
+	public void setLife(int life) {
+		this.life = life;
+	}
+	public Level getLevel() {
+		return this.level;
 	}
 }

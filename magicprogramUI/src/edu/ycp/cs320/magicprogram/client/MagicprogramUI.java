@@ -12,7 +12,7 @@ import edu.ycp.cs320.magicprogram.shared.*;
 public class MagicprogramUI implements EntryPoint {
 	// Statics
 	private final int WIDTH = 500;
-	private final int HEIGHT = 500;
+	private final int HEIGHT = 700;
 	
 	// Fields
 	private Game game;
@@ -26,21 +26,22 @@ public class MagicprogramUI implements EntryPoint {
 	    rootPanel = RootPanel.get();
 	    
 	    // init game and view
-//		game = new Game();
-//		view = new GameView(game);
+		game = new Game(new Level());
+		view = new GameView(game);
 		
 	    // init the main panel as an absolute panel and add it to root
 	    mainPanel = new AbsolutePanel();
 	    mainPanel.setSize(WIDTH + "px", HEIGHT + "px");
 	    rootPanel.add(mainPanel, 0, 0);
 	    
-	    // add gameview to main panel
-//	    mainPanel.add(view, 0, 0);
-	    mainPanel.add(new LoginView());
-//	    view.setSize(WIDTH + "px", HEIGHT + "px");
-	    
 	    controller = new GameController(game, view);
+	    
+//	    // add login to main panel
+	    mainPanel.add(view, 0, 0);
+//	    mainPanel.add(new LoginView());
+	    view.setSize(WIDTH + "px", HEIGHT + "px");
 	    mainPanel.add(controller, 0, 500);
 	    controller.setSize(WIDTH + "px", "50px");
+	   
 	}
 }

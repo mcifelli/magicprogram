@@ -33,8 +33,8 @@ public class GameView extends Composite{
 		buildMode = false;
 		canBuild = false;
 		showRange = false;
-		pieceWidth = WIDTH / model.getMap()[0].length;
-		pieceHeight = HEIGHT / model.getMap().length; 
+		pieceWidth = WIDTH / model.getLevel().getMap()[0].length;
+		pieceHeight = HEIGHT / model.getLevel().getMap().length; 
 		select = new Structure(Structure.Type.tower, new Point(), pieceWidth);
 		
 		// LAYOUT PANEL
@@ -62,7 +62,7 @@ public class GameView extends Composite{
 				if (buildMode) {												// if in build mode:
 					select.tl().setX(event.getX() - (event.getX() % pieceWidth));	// update top left x of select
 					select.tl().setY(event.getY() - (event.getY() % pieceWidth));	// update top left y of select
-					canBuild = model.canBuildStructure(select);						// test if can build at location
+					canBuild = model.canBuildTower(select);						// test if can build at location
 				}
 			}
 		});
@@ -72,7 +72,7 @@ public class GameView extends Composite{
 			@Override
 			public void onMouseDown(MouseDownEvent event) {	// on mouse click:
 				if (buildMode) {								// if in build mode:
-					if (model.buildStructure(select)) {				// attempt tower construction
+					if (model.buildTower(select)) {				// attempt tower construction
 						buildMode = false;								// turn off build mode
 						canBuild = false;								// can build out of build mode...
 					}
@@ -98,7 +98,7 @@ public class GameView extends Composite{
 	private void updateBackground() {
 		Context2d context = background.getContext2d();
 		context.clearRect(0, 0, WIDTH, HEIGHT);
-		Terrain map[][] = model.getMap();
+		Terrain map[][] = model.getLevel().getMap();
 		for (int row = 0; row < map.length; row++) {
 			for (int col = 0; col < map[row].length; col++) {
 				switch(map[row][col]) {
@@ -125,35 +125,31 @@ public class GameView extends Composite{
 	private void updateForeground() {
 		Context2d context = foreground.getContext2d();			// get the context
 		context.drawImage(background.getCanvasElement(), 0, 0);	// refresh the canvas with the background
-		for (Structure structure : model.getStructs()) {			// loop through structures
-			switch (structure.getType()) {							// determine color of structure based on type
-				case base:
-					context.setFillStyle("white");
-					break;
-				case tower:
-					context.setFillStyle("cyan");
-					break;
-				case spawner:
-					context.setFillStyle("#000000");
-				default:
-					break;
-			}
-			context.fillRect(structure.tl().x(), structure.tl().y(), pieceWidth, pieceHeight);
+		
+		// DRAW SPAWNERS
+		for (Structure spawner : model.getLevel().getSpawners()) {
 			context.setFillStyle("black");
-			context.fillText("Kills:" , 40, 20);
-			context.fillText(Integer.toString(model.getKillCount()), 75,20);
-			context.fillText("Money:", 40, 30);
-			context.fillText(Integer.toString(model.getMoney()), 75,30);
-			if (structure.getFocus() != null) {
-				drawLine(context, structure.getCenter(), structure.getFocus().getCenter());
+			context.fillRect(spawner.tl().x(), spawner.tl().y(), pieceWidth, pieceHeight);
+		}
+		
+		// DRAW TOWERS
+		for (Structure tower : model.getLevel().getTowers()) {
+			context.setFillStyle("cyan");
+			if (tower.getFocus() != null) {
+				drawLine(context, tower.getCenter(), tower.getFocus().getCenter());
 			}
 			if (showRange) {
 				context.beginPath();
-				context.arc(structure.getCenter().x(), structure.getCenter().y(), structure.getRange(), 0, 2 * Math.PI);
+				context.arc(tower.getCenter().x(), tower.getCenter().y(), tower.getRange(), 0, 2 * Math.PI);
 				context.stroke();
 				context.closePath();
 			}
+			context.fillRect(tower.tl().x(), tower.tl().y(), pieceWidth, pieceHeight);
 		}
+		
+		// DRAW BASE
+		context.setFillStyle("white");
+		context.fillRect(model.getLevel().getBase().tl().x(), model.getLevel().getBase().tl().y(), pieceWidth, pieceHeight);
 		
 		// DRAW CREEPS
 		context.setFillStyle("#FF0000");
@@ -181,6 +177,13 @@ public class GameView extends Composite{
 			}
 			context.fillRect(select.tl().x(), select.tl().y(), pieceWidth, pieceHeight);
 		}
+		
+		// DRAW INFORMATION OVERLAY
+		context.setFillStyle("black");
+		context.fillText("Kills:" , 40, 20);
+		context.fillText(Integer.toString(model.getKillCount()), 75,20);
+		context.fillText("Money:", 40, 30);
+		context.fillText(Integer.toString(model.getMoney()), 75,30);
 	}
 	
 	public void drawLine(Context2d context, Point a, Point b) {

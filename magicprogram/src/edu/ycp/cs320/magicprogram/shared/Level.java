@@ -3,20 +3,17 @@ package edu.ycp.cs320.magicprogram.shared;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.ycp.cs320.magicprogram.shared.Structure.Type;
+
 public class Level implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	// CONSTANTS
-	public final int ROW = 25;
-	public final int COL = 25;
-	private final Point BOUNDS = new Point(500.0, 500.0);
+	public int ROW = 25;
+	public int COL = 25;
+	private Point BOUNDS = new Point(500.0, 500.0);
 	
-	private int data1;
-
-	private int data2;
-
-	private int data3;
-	
+	// BOARD FIELDS
 	private Terrain[][] map = new Terrain[ROW][COL];
 	private ArrayList<Point> waypoints;
 	private ArrayList<Structure> spawners;
@@ -84,31 +81,71 @@ public class Level implements Serializable {
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
 		
-		gridUnit = (int) (BOUNDS.x() / COL);
+		spawners = new ArrayList<Structure>();
+		towers = new ArrayList<Structure>();
+		base = new Structure(Type.base, new Point((COL * gridUnit) - gridUnit, (ROW * gridUnit) - gridUnit), gridUnit);
+		
+		this.spawners.add(new Structure(Type.spawner, new Point(), gridUnit));
+		
+		setGridUnit((int) (BOUNDS.x() / COL));
+	}
+	
+	public Level(Level level) {
+		this.ROW = level.getRow();
+		this.COL = level.getCol();
+		this.BOUNDS = level.getBounds();
+		this.waypoints = level.getWaypoints();
+		this.map = level.getMap();
+		this.spawners = level.getSpawners();
+		this.towers = level.getTowers();
+		this.base = level.getBase();
 	}
 
-	public int getData1() {
-		return data1;
+	// GETTERS & SETTERS
+	public int getRow() {
+		return ROW;
 	}
-
-	public void setData1(int data1) {
-		this.data1 = data1;
+	public int getCol() {
+		return COL;
 	}
-
-	public int getData2() {
-		return data2;
+	public Point getBounds() {
+		return BOUNDS;
 	}
-
-	public void setData2(int data2) {
-		this.data2 = data2;
+	public ArrayList<Point> getWaypoints() {
+		return waypoints;
 	}
-
-	public int getData3() {
-		return data3;
+	public void setWaypoints(ArrayList<Point> waypoints) {
+		this.waypoints = waypoints;
 	}
-
-	public void setData3(int data3) {
-		this.data3 = data3;
+	public ArrayList<Structure> getSpawners() {
+		return spawners;
+	}
+	public void setSpawners(ArrayList<Structure> spawners) {
+		this.spawners = spawners;
+	}
+	public ArrayList<Structure> getTowers() {
+		return towers;
+	}
+	public void setTowers(ArrayList<Structure> towers) {
+		this.towers = towers;
+	}
+	public Structure getBase() {
+		return base;
+	}
+	public void setBase(Structure base) {
+		this.base = base;
+	}
+	public int getGridUnit() {
+		return gridUnit;
+	}
+	public void setGridUnit(int gridUnit) {
+		this.gridUnit = gridUnit;
+	}
+	public Terrain[][] getMap() {
+		return map;
+	}
+	public void setMap(Terrain[][] map) {
+		this.map = map;
 	}
 	
 }
