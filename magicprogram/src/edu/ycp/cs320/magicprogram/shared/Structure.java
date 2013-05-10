@@ -35,6 +35,11 @@ public class Structure {
 			break;
 		}
 	}
+	
+	public Structure() {
+		
+		
+	}
 
 	public Structure(Structure copy) {
 		this.type = copy.type;

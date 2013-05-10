@@ -11,6 +11,10 @@ public class Creep {
 	private int hp = 10;
 	private Stack<Point> path;
 	
+	public Creep(){
+		
+	}
+	
 	// Constructors
 	public Creep(Point center) {
 		this.center = center;

@@ -14,6 +14,7 @@ public class Level implements Serializable {
 	private Point BOUNDS = new Point(500.0, 500.0);
 	
 	// BOARD FIELDS
+	private String name;
 	private Terrain[][] map = new Terrain[ROW][COL];
 	private ArrayList<Point> waypoints;
 	private ArrayList<Structure> spawners;
@@ -21,8 +22,11 @@ public class Level implements Serializable {
 	private Structure base;
 	private int gridUnit = (int)(BOUNDS.x()/ROW);
 	
-	public Level() {
+	public Level(String name) {
 		// TERRAIN
+		
+		this.name = name;
+		
 		for (int row = 0; row < map.length; row++) {
 			for (int col = 0; col < map[row].length; col++) {
 				map[row][col] = Terrain.grass;
@@ -90,6 +94,11 @@ public class Level implements Serializable {
 		setGridUnit((int) (BOUNDS.x() / COL));
 	}
 	
+	public Level() {
+		
+		
+	}
+	
 	public Level(Level level) {
 		this.ROW = level.getRow();
 		this.COL = level.getCol();
@@ -146,6 +155,14 @@ public class Level implements Serializable {
 	}
 	public void setMap(Terrain[][] map) {
 		this.map = map;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }

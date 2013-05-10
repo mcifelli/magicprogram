@@ -12,7 +12,9 @@ public class Game {
 	// BOARD FIELDS
 	private Level level;
 	
-	
+	public Game(){
+		
+	}
 	public Game(Level level) {
 		// COPY LEVEL
 		this.level = new Level(level);

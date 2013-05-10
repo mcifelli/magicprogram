@@ -16,6 +16,10 @@ public class GameController extends Composite{
 	
 	// CONSTRUCTOR
 	public GameController(Game game, GameView gameView) {
+		// MODEL and VIEW
+		model = game;
+		view = gameView;
+				
 		mainPanel = new AbsolutePanel();
 		initWidget(mainPanel);
 		mainPanel.setSize("500px", "50px");
@@ -41,7 +45,7 @@ public class GameController extends Composite{
 		mainPanel.add(buttonBuildTower, 120, 10);
 		buttonBuildTower.setSize("100px", "30px");
 		
-		// BUTTON - BUILD TOWER
+		// BUTTON - SHOW RANGE
 		Button buttonShowRange = new Button("Show Range");
 		buttonShowRange.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -50,9 +54,5 @@ public class GameController extends Composite{
 		});
 		mainPanel.add(buttonShowRange, 230, 10);
 		buttonBuildTower.setSize("100px", "30px");
-		
-		// MODEL and VIEW
-		model = game;
-		view = gameView;
 	}
 }

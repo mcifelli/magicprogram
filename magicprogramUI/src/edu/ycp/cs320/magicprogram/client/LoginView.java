@@ -1,46 +1,104 @@
 package edu.ycp.cs320.magicprogram.client;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.user.client.ui.Label;
 
 public class LoginView extends Composite{
-	private TextBox txtbxUsername;
-	private TextBox txtbxPassword;
-	private Button btnLogIn;
+	private TextBox username;
+	private PasswordTextBox password;
+	private Button logIn;
 	
 	public LoginView() {
 		AbsolutePanel absolutePanel = new AbsolutePanel();
-		initWidget(absolutePanel);
 		absolutePanel.setSize("500px", "500px");
 		
-		txtbxUsername = new TextBox();
-		txtbxUsername.addFocusHandler(new FocusHandler() {
+		username = new TextBox();
+		username.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				txtbxUsername.setText("");
+				username.setText("");
 			}
 		});
 
-		txtbxUsername.setText("Username");
-		absolutePanel.add(txtbxUsername, 155, 133);
+		username.setText("Username");
+		absolutePanel.add(username, 155, 133);
 		
-		txtbxPassword = new TextBox();
-		txtbxPassword.addFocusHandler(new FocusHandler() {
+		password = new PasswordTextBox();
+		password.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				txtbxPassword.setText("");
+				password.setText("");
 			}
 		});
-		txtbxPassword.setText("Password");
-		absolutePanel.add(txtbxPassword, 155, 173);
+		password.setText("Password");
+		absolutePanel.add(password, 155, 173);
 		
-		btnLogIn = new Button("Log In");
-		absolutePanel.add(btnLogIn, 155, 213);
-		btnLogIn.setSize("173px", "34px");
+		logIn = new Button("Log In");
+		absolutePanel.add(logIn, 155, 213);
+		logIn.setSize("173px", "34px");
+		logIn.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				logIn.setText("LOGGING IN");
+				RPC.accountManagementService.verifyAccount(username.getValue(), password.getValue(), new AsyncCallback<Boolean>(){
+					
+					public void onFailure(Throwable caught){
+						GWT.log("RPC call failed: " + caught.getMessage());
+					}
+					public void onSuccess(Boolean result){
+						if (result) {
+							username.setText("");
+							password.setText("");
+							logIn.setText("Success");
+							GWT.log("RPC pass");
+							MagicprogramUI.changeView(new MenuView());
+						}
+						else {
+							username.setText("");
+							password.setText("");
+							logIn.setText("Fail");
+						}
+						
+					}
+					
+					
+				});
+				
+				/*
+				RPC.accountManagementService.verifyAccount(username.getText(), password.getText(), new AsyncCallback<Boolean>(){
+					@Override
+					public void onFailure(Throwable caught) {
+						GWT.log("RPC call to verify failed: " + caught.getMessage());
+						username.setText("Failure: ");
+						password.setText("");
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						if (result) {
+							username.setText("");
+							password.setText("");
+							logIn.setText("Success");
+//							MagicprogramUI.changeView(new MenuView());
+						}
+						else {
+							username.setText("");
+							password.setText("");
+							logIn.setText("Fail");
+						}
+					}
+				});
+				*/
+			}
+		});
+		
+		initWidget(absolutePanel);
 	}
 }
