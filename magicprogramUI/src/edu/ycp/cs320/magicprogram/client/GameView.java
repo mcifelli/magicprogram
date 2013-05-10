@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
 import edu.ycp.cs320.magicprogram.shared.*;
@@ -209,4 +210,44 @@ public class GameView extends Composite{
 	public void toggleShowRange() {
 		showRange = !showRange;
 	}
+	
+	
+	protected void getUserScore(){
+		RPC.userServ.getUserScore(null/*Put Username here*/, new AsyncCallback<String>() {
+			
+			@Override
+			public void onSuccess(String result) {
+				// TODO Auto-generated method stub
+				Integer.parseInt(result);
+				
+				}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				return;
+			}
+		});		
+	}
+	
+	protected void setUserScore(){
+		RPC.userServ.setUserScore(null/*Put Username here*/, 0/*Put User's score here*/, new AsyncCallback<String>() {
+			
+			@Override
+			public void onSuccess(String result) {
+				// TODO Auto-generated method stub
+						
+				}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				return;
+			}
+		});		
+	}
+	
+	
+	
+	
 }

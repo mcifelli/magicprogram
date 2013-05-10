@@ -3,47 +3,35 @@ package edu.ycp.cs320.magicprogram.server;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 
-/**
- * Some database utility functions.
- */
-public abstract class DBUtil {
-	/**
-	 * Attempt to close a Statement.
-	 * 
-	 * @param stmt the Statement to close
-	 */
-	public static void closeQuietly(Statement stmt) {
+public class DBUtil {
+	private static final IDatabase theInstance = new DerbyDatabase();
+	
+	public static IDatabase instance() {
+		return theInstance;
+	}
+
+	public static void closeQuietly(PreparedStatement stmt) {
 		if (stmt != null) {
 			try {
 				stmt.close();
 			} catch (SQLException e) {
-				// ignore
+				// FIXME: should log
 			}
 		}
 	}
 
-	/**
-	 * Attempt to close a ResultSet.
-	 * 
-	 * @param resultSet the ResultSet to close
-	 */
 	public static void closeQuietly(ResultSet resultSet) {
 		if (resultSet != null) {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// ignore
+				// FIXME: should log
 			}
 		}
 	}
-
-	/**
-	 * Attempt to close a Connection.
-	 * 
-	 * @param conn the Connection to close
-	 */
+	
 	public static void closeQuietly(Connection conn) {
 		if (conn != null) {
 			try {

@@ -2,6 +2,7 @@ package edu.ycp.cs320.magicprogram.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import edu.ycp.cs320.magicprogram.shared.Structure.Type;
 
@@ -16,7 +17,7 @@ public class Level implements Serializable {
 	// BOARD FIELDS
 	private String name;
 	private Terrain[][] map = new Terrain[ROW][COL];
-	private ArrayList<Point> waypoints;
+	private Stack<Point> waypoints;
 	private ArrayList<Structure> spawners;
 	private ArrayList<Structure> towers;
 	private Structure base;
@@ -85,6 +86,11 @@ public class Level implements Serializable {
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
 		
+		
+		//waypoints.push(new Point(490, 490));
+		waypoints.push(new Point(490, 110));
+		waypoints.push(new Point(10, 110));
+		
 		spawners = new ArrayList<Structure>();
 		towers = new ArrayList<Structure>();
 		base = new Structure(Type.base, new Point((COL * gridUnit) - gridUnit, (ROW * gridUnit) - gridUnit), gridUnit);
@@ -120,10 +126,10 @@ public class Level implements Serializable {
 	public Point getBounds() {
 		return BOUNDS;
 	}
-	public ArrayList<Point> getWaypoints() {
+	public Stack<Point> getWaypoints() {
 		return waypoints;
 	}
-	public void setWaypoints(ArrayList<Point> waypoints) {
+	public void setWaypoints(Stack<Point> waypoints) {
 		this.waypoints = waypoints;
 	}
 	public ArrayList<Structure> getSpawners() {
@@ -166,3 +172,7 @@ public class Level implements Serializable {
 	}
 	
 }
+
+//path.push(new Point(490, 490));
+//path.push(new Point(490, 110));
+//path.push(new Point(10, 110));
