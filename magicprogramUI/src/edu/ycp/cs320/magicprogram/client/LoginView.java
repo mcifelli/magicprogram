@@ -48,7 +48,6 @@ public class LoginView extends Composite{
 			public void onClick(ClickEvent event) {
 				logIn.setText("LOGGING IN");
 				RPC.accountManagementService.verifyAccount(username.getValue(), password.getValue(), new AsyncCallback<Boolean>(){
-					
 					public void onFailure(Throwable caught){
 						GWT.log("RPC call failed: " + caught.getMessage());
 					}
@@ -67,35 +66,7 @@ public class LoginView extends Composite{
 						}
 						
 					}
-					
-					
 				});
-				
-				/*
-				RPC.accountManagementService.verifyAccount(username.getText(), password.getText(), new AsyncCallback<Boolean>(){
-					@Override
-					public void onFailure(Throwable caught) {
-						GWT.log("RPC call to verify failed: " + caught.getMessage());
-						username.setText("Failure: ");
-						password.setText("");
-					}
-
-					@Override
-					public void onSuccess(Boolean result) {
-						if (result) {
-							username.setText("");
-							password.setText("");
-							logIn.setText("Success");
-//							MagicprogramUI.changeView(new MenuView());
-						}
-						else {
-							username.setText("");
-							password.setText("");
-							logIn.setText("Fail");
-						}
-					}
-				});
-				*/
 			}
 		});
 		

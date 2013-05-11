@@ -1,7 +1,5 @@
 package edu.ycp.cs320.magicprogram.server;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -14,15 +12,17 @@ implements AccountManagementService {
 
 	@Override
 	public boolean verifyAccount(String username, String password) {
-//		String userID = Database.getUserID(username);
-//		if (userID != null) {
-//			return (Database.getPass(userID) == password);
-//			
-//		}
-//		return false;
+		System.out.println("User input: " + username + ", " + password);
+		String passDB = "";
 		
-		System.out.println("Attempted login by: " + username + "\n password was: " + password);
-		return (username.equals("admin") && password.equals("god"));
+		try {
+			passDB = DBUtil.instance().getPassword(username);
+		} catch (SQLException e) {
+			throw new RuntimeException("SQLException",e);
+		}
+		System.out.println("Database  : " + username + ", " + passDB);
+		
+		return (passDB != null && passDB == password);
 	}
 
 	@Override

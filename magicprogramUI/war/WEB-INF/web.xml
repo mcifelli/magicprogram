@@ -6,22 +6,14 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-  <servlet>
-      <servlet-name>AccountManagementServiceImpl</servlet-name>
-      <servlet-class>edu.ycp.cs320.magicprogram.server.AccountManagementServiceImpl</servlet-class>
-  </servlet>
-  <servlet-mapping>
-      <servlet-name>AccountManagementServiceImpl</servlet-name>
-      <url-pattern>/magicprogramui/accountManagement</url-pattern>
-  </servlet-mapping>
 
  <servlet>
- 	<servlet-name>UserServiceImpl</servlet-name>
- 	<servlet-class>edu.ycp.cs320.magicprogram.server.UserServiceImpl</servlet-class>
+ 	<servlet-name>AccountManagementServiceImpl</servlet-name>
+ 	<servlet-class>edu.ycp.cs320.magicprogram.server.AccountManagementServiceImpl</servlet-class>
  </servlet>
 <servlet-mapping>
-	<servlet-name>UserServiceImpl</servlet-name>
-	<url-pattern>/magicprogramui/user</url-pattern>
+	<servlet-name>AccountManagementServiceImpl</servlet-name>
+	<url-pattern>/magicprogramui/accountManagementService</url-pattern>
 </servlet-mapping>
 
   

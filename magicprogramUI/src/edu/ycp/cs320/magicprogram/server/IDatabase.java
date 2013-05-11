@@ -8,5 +8,7 @@ public interface IDatabase {
 	public String getUsers(String name) throws SQLException;
 
 	public String setUsers(String name, int score) throws SQLException;
+
+	public String getPassword(String username) throws SQLException;
 	
 }

@@ -212,40 +212,40 @@ public class GameView extends Composite{
 	}
 	
 	
-	protected void getUserScore(){
-		RPC.userServ.getUserScore(null/*Put Username here*/, new AsyncCallback<String>() {
-			
-			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-				Integer.parseInt(result);
-				
-				}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				return;
-			}
-		});		
-	}
-	
-	protected void setUserScore(){
-		RPC.userServ.setUserScore(null/*Put Username here*/, 0/*Put User's score here*/, new AsyncCallback<String>() {
-			
-			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-						
-				}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				return;
-			}
-		});		
-	}
+//	protected void getUserScore(){
+//		RPC.userServ.getUserScore(null/*Put Username here*/, new AsyncCallback<String>() {
+//			
+//			@Override
+//			public void onSuccess(String result) {
+//				// TODO Auto-generated method stub
+//				Integer.parseInt(result);
+//				
+//				}
+//			
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				// TODO Auto-generated method stub
+//				return;
+//			}
+//		});		
+//	}
+//	
+//	protected void setUserScore(){
+//		RPC.userServ.setUserScore(null/*Put Username here*/, 0/*Put User's score here*/, new AsyncCallback<String>() {
+//			
+//			@Override
+//			public void onSuccess(String result) {
+//				// TODO Auto-generated method stub
+//						
+//				}
+//			
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				// TODO Auto-generated method stub
+//				return;
+//			}
+//		});		
+//	}
 	
 	
 	

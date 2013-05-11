@@ -106,16 +106,18 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt = null; 
 				try{
 					stmt = conn.prepareStatement(
-							"insert into leaderboard ( username, score ) values ( ?, ?)",
+							"insert into leaderboard ( username, password, score ) values ( ?, ?, ?)",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 					
 					stmt.setString(1,"Alice");
-					stmt.setInt(2,  12345);
+					stmt.setString(2,  "pass");
+					stmt.setInt(3,  12345);
 					stmt.addBatch();
 					
 					stmt.setString(1,"Bob");
-					stmt.setInt(2,  67890);
+					stmt.setString(2,  "pass");
+					stmt.setInt(3,  67890);
 					stmt.addBatch();
 					stmt.executeBatch();
 					
@@ -184,6 +186,38 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(resultSet);
 				}
+			}
+		});
+	}
+
+	@Override
+	public String getPassword(final String username) throws SQLException {
+		return databaseRun(new ITransaction<String>() {
+			@Override
+			public String run(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select leaderboard.password from leaderboard where leaderboard.username = ?");
+					stmt.setString(1,  username);
+					
+					resultSet = stmt.executeQuery();
+					
+					
+				} finally {
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+				}
+				
+				if (!resultSet.next()) {
+					return null;
+				}
+				
+				return new String("" + resultSet.getInt(1));
+				
 			}
 		});
 	}
