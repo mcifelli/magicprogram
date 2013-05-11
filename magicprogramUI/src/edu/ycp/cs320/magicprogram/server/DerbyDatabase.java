@@ -111,14 +111,9 @@ public class DerbyDatabase implements IDatabase {
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 					
-					stmt.setString(1, "Alice");
-					stmt.setString(2, "pass");
-					stmt.setInt(3,  12345);
-					stmt.addBatch();
-					
-					stmt.setString(1, "Bob");
-					stmt.setString(2, "pass");
-					stmt.setInt(3,  67890);
+					stmt.setString(1, "Admin");
+					stmt.setString(2, "CS320");
+					stmt.setInt(3,  99999);
 					stmt.addBatch();
 					stmt.executeBatch();
 					

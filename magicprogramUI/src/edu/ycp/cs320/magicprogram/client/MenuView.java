@@ -67,6 +67,8 @@ public class MenuView extends Composite{
 		absolutePanel.add(btnLoadGame, 10, 380);
 		btnLoadGame.setSize("143px", "30px");
 		
+		levelList.add(new Level("Sample level"));
+		
 		refreshLevelListBox();
 	}
 

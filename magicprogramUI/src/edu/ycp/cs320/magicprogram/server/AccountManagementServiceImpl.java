@@ -20,6 +20,9 @@ implements AccountManagementService {
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException",e);
 		}
+		if (passDB == null) {
+			return false;
+		}
 		return (passDB.equals(password));
 	}
 
