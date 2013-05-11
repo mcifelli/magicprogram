@@ -20,9 +20,7 @@ implements AccountManagementService {
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException",e);
 		}
-		System.out.println("Database  : " + username + ", " + passDB);
-		
-		return (passDB != null && passDB == password);
+		return (passDB.equals(password));
 	}
 
 	@Override
@@ -42,4 +40,5 @@ implements AccountManagementService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 }

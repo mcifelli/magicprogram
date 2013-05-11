@@ -9,8 +9,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+
 
 public class LoginView extends Composite{
 	private TextBox username;
@@ -28,7 +29,7 @@ public class LoginView extends Composite{
 			}
 		});
 
-		username.setText("Username");
+		username.setText("Alice");
 		absolutePanel.add(username, 155, 133);
 		
 		password = new PasswordTextBox();
@@ -37,7 +38,7 @@ public class LoginView extends Composite{
 				password.setText("");
 			}
 		});
-		password.setText("Password");
+		password.setText("pass");
 		absolutePanel.add(password, 155, 173);
 		
 		logIn = new Button("Log In");
@@ -47,6 +48,7 @@ public class LoginView extends Composite{
 			@Override
 			public void onClick(ClickEvent event) {
 				logIn.setText("LOGGING IN");
+				System.out.println("Entering RPC call verify account");
 				RPC.accountManagementService.verifyAccount(username.getValue(), password.getValue(), new AsyncCallback<Boolean>(){
 					public void onFailure(Throwable caught){
 						GWT.log("RPC call failed: " + caught.getMessage());

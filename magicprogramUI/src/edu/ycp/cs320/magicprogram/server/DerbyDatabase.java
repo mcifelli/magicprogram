@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class DerbyDatabase implements IDatabase {
-	private static final String DATASTORE = "H:/MagicProgramDB";
+	private static final String DATASTORE = "/MagicProgramDB";
 	
 	static {
 		try {
@@ -83,6 +83,7 @@ public class DerbyDatabase implements IDatabase {
 							"create table leaderboard (" +
 							"  id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), " +
 							"  username VARCHAR(200) NOT NULL, " +
+							"  password VARCHAR(200) NOT NULL," +
 							"  score INT " +
 							")"
 					);
@@ -110,13 +111,13 @@ public class DerbyDatabase implements IDatabase {
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 					
-					stmt.setString(1,"Alice");
-					stmt.setString(2,  "pass");
+					stmt.setString(1, "Alice");
+					stmt.setString(2, "pass");
 					stmt.setInt(3,  12345);
 					stmt.addBatch();
 					
-					stmt.setString(1,"Bob");
-					stmt.setString(2,  "pass");
+					stmt.setString(1, "Bob");
+					stmt.setString(2, "pass");
 					stmt.setInt(3,  67890);
 					stmt.addBatch();
 					stmt.executeBatch();
@@ -195,28 +196,27 @@ public class DerbyDatabase implements IDatabase {
 		return databaseRun(new ITransaction<String>() {
 			@Override
 			public String run(Connection conn) throws SQLException {
-				
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
+				String pass = "";
+				conn.setAutoCommit(false);
 				
 				try {
 					stmt = conn.prepareStatement(
 							"select leaderboard.password from leaderboard where leaderboard.username = ?");
 					stmt.setString(1,  username);
-					
 					resultSet = stmt.executeQuery();
 					
-					
 				} finally {
+					if (!resultSet.next()) {
+						return null;
+					}
+					pass = resultSet.getString(1);
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(resultSet);
 				}
 				
-				if (!resultSet.next()) {
-					return null;
-				}
-				
-				return new String("" + resultSet.getInt(1));
+				return pass;
 				
 			}
 		});

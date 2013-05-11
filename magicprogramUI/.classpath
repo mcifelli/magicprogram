@@ -5,10 +5,14 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (2)"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/magicprogram"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (1)"/>
 	<classpathentry kind="lib" path="derbynet.jar"/>
 	<classpathentry kind="lib" path="derbytools.jar"/>
 	<classpathentry kind="lib" path="derby.jar"/>
 	<classpathentry kind="lib" path="derbyclient.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/eclipse-juno/plugins/com.google.gwt.eclipse.sdkbundle_2.5.0.v201211121240-rel-r42/gwt-2.5.0/gwt-user.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Program%20Files%20(x86)/eclipse-juno/plugins/com.google.gwt.eclipse.sdkbundle_2.5.0.v201211121240-rel-r42/gwt-2.5.0/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
