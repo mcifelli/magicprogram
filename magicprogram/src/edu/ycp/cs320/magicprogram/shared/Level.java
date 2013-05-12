@@ -86,8 +86,8 @@ public class Level implements Serializable {
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
 		
-		
-		//waypoints.push(new Point(490, 490));
+		waypoints = new Stack<Point>();
+		waypoints.push(new Point(490, 490));
 		waypoints.push(new Point(490, 110));
 		waypoints.push(new Point(10, 110));
 		
