@@ -12,9 +12,7 @@ implements AccountManagementService {
 
 	@Override
 	public boolean verifyAccount(String username, String password) {
-		System.out.println("User input: " + username + ", " + password);
-		String passDB = "";
-		
+		String passDB = null;
 		try {
 			passDB = DBUtil.instance().getPassword(username);
 		} catch (SQLException e) {
@@ -27,9 +25,12 @@ implements AccountManagementService {
 	}
 
 	@Override
-	public void createAccount(String usr, String password, String email) {
-		// TODO Auto-generated method stub
-		
+	public boolean addAccount(String username, String password) {
+		try {
+			return DBUtil.instance().addAccount(username, password);
+		} catch (SQLException e) {
+			throw new RuntimeException("SQLException",e);
+		}
 	}
 
 	@Override
@@ -42,6 +43,22 @@ implements AccountManagementService {
 	public int getUserID(String username) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String[] getRow(int accountID) {
+		String[] row = null;
+		try {
+			row = DBUtil.instance().getRow(accountID);
+		} catch (SQLException e) {
+			throw new RuntimeException("SQLException",e);
+		}
+		if (passDB == null) {
+			return false;
+		}
+		
+		
+		return row;
 	}
 
 }

@@ -1,35 +1,45 @@
 package edu.ycp.cs320.magicprogram.shared;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Game {
 	// GAME FIELDS
 	private int life;
-	private ArrayList<Creep> creeps = new ArrayList<Creep>();
+	private ArrayList<Creep> creeps;
+	private Stack<Creep> currentWave;
 	private int killCount;
 	private int money;
 	
 	// BOARD FIELDS
-	private Level level;
+	private Level state;
+	private Level initialLevel;
 	
-	public Game(){
-		
+	public Game() {
+		this.initialLevel = new Level();
+		reset();
 	}
 	public Game(Level level) {
 		// COPY LEVEL
-		this.level = new Level(level);
+		this.initialLevel = new Level(level);
+		reset();
 		
-		// RESET GAME VALUES
-		this.setLife(10);
+//		creeps.add(new Creep(new Point(), level.getWaypoints()));
+	}
+	
+	public void reset() {
+		this.state = new Level(this.initialLevel);
 		this.creeps = new ArrayList<Creep>();
+		this.currentWave = new Stack<Creep>();
+		this.life = 10;
 		this.killCount = 0;
 		this.money = 0;
 	}
 	
 	public boolean buildTower(Structure newTower) {
 		if (canBuildTower(newTower)) {
-			level.getTowers().add(new Structure(newTower));
-			level.getMap()[(int)newTower.gp().y()][(int)newTower.gp().x()] = Terrain.structure;
+			state.getTowers().add(new Structure(newTower));
+			state.getMap()[(int)newTower.gp().y()][(int)newTower.gp().x()] = Terrain.structure;
 			return true;
 		}
 		return false;
@@ -37,7 +47,7 @@ public class Game {
 	
 	public boolean canBuildTower(Structure newTower) {
 		// get the map from the level
-		Terrain[][] map = level.getMap();
+		Terrain[][] map = state.getMap();
 		
 		// check if the terrain is buildable
 		switch(map[(int)newTower.gp().y()][(int)newTower.gp().x()]) {
@@ -56,9 +66,11 @@ public class Game {
 	
 	// Methods
 	public void update() {
-		Structure base = level.getBase();
-		ArrayList<Structure> spawners = level.getSpawners();
-		ArrayList<Structure> towers = level.getTowers();
+		Structure base = state.getBase();
+		Structure spawner = state.getSpawner();
+		ArrayList<Structure> towers = state.getTowers();
+		
+		// ===== MOVE CREEPS ===========
 		for (int i = 0; i < creeps.size(); i++) {
 			creeps.get(i).move();
 			if (base.getCenter().distanceTo(creeps.get(i).getCenter()) <= (base.getSize() / 2)) {
@@ -67,11 +79,16 @@ public class Game {
 				life--;
 			}
 		}
-		for (Structure spawner : spawners) {
-			if (spawner.tick() == 0) {
-				creeps.add(new Creep(spawner.getCenter(), level.getWaypoints()));
+		// ===== SPAWN CREEPS ===========
+		if (spawner.tick() == 0) {
+			if (!currentWave.isEmpty()) {
+				Creep creep = currentWave.pop();
+				creep.setCenter(spawner.getCenter());
+				creeps.add(creep);
 			}
 		}
+		
+		// ===== FIRE/UPDATE TOWERS =====
 		for (Structure tower : towers) {
 			if (tower.getFocus() == null) {
 				for (Creep creep : creeps) {
@@ -89,6 +106,13 @@ public class Game {
 					money += 20;
 				}
 			}
+		}
+	}
+	
+	public void sendWave() {
+		if (currentWave.isEmpty() && !state.getWaves().isEmpty()) {
+			currentWave = state.getWaves().pop();
+			state.getSpawner().setSpawnCounter(0);
 		}
 	}
 	
@@ -117,7 +141,13 @@ public class Game {
 	public void setLife(int life) {
 		this.life = life;
 	}
-	public Level getLevel() {
-		return this.level;
+	public Level getState() {
+		return this.state;
+	}
+	public int creepsInWave() {
+		return currentWave.size();
+	}
+	public int wavesRemaining() {
+		return state.getWaves().size();
 	}
 }

@@ -12,14 +12,14 @@ public class Creep {
 	private Stack<Point> path;
 	
 	public Creep(){
-		
+		this.center = new Point();
+		this.path = new Stack<Point>();
 	}
 	
 	// Constructors
 	public Creep(Point center, Stack<Point> path) {
-		this.center = center;
+		this.center = new Point(center);
 		this.path = path;
-	
 	}
 	
 	// Getters/Setters
@@ -76,5 +76,9 @@ public class Creep {
 				}
 			}
 		}
+	}
+
+	public void setCenter(Point center) {
+		this.center = new Point(center);
 	}
 }

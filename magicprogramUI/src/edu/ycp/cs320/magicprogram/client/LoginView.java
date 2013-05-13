@@ -11,44 +11,42 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-
+import com.google.gwt.user.client.ui.Label;
 
 public class LoginView extends Composite{
 	private TextBox username;
 	private PasswordTextBox password;
 	private Button logIn;
-	
+
 	public LoginView() {
 		AbsolutePanel absolutePanel = new AbsolutePanel();
-		absolutePanel.setSize("500px", "500px");
-		
+		absolutePanel.setSize("250px", "150px");
+
 		username = new TextBox();
 		username.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				username.setText("");
 			}
 		});
+		absolutePanel.add(username, 64, 0);
+		username.setSize("176px", "16px");
 
-		username.setText("Alice");
-		absolutePanel.add(username, 155, 133);
-		
 		password = new PasswordTextBox();
 		password.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				password.setText("");
 			}
 		});
-		password.setText("pass");
-		absolutePanel.add(password, 155, 173);
-		
+		absolutePanel.add(password, 64, 34);
+		password.setSize("176px", "16px");
+
 		logIn = new Button("Log In");
-		absolutePanel.add(logIn, 155, 213);
-		logIn.setSize("173px", "34px");
+		absolutePanel.add(logIn, 0, 68);
+		logIn.setSize("250px", "34px");
 		logIn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				logIn.setText("LOGGING IN");
-				System.out.println("Entering RPC call verify account");
+				logIn.setText("Logging In");
 				RPC.accountManagementService.verifyAccount(username.getValue(), password.getValue(), new AsyncCallback<Boolean>(){
 					public void onFailure(Throwable caught){
 						GWT.log("RPC call failed: " + caught.getMessage());
@@ -62,16 +60,53 @@ public class LoginView extends Composite{
 							MagicprogramUI.changeView(new MenuView());
 						}
 						else {
-							username.setText("");
+							username.setText("Login Failed");
 							password.setText("");
-							logIn.setText("Fail");
 						}
-						
+						logIn.setText("Log In");
 					}
 				});
 			}
 		});
-		
+
 		initWidget(absolutePanel);
+
+		Label lblUsername = new Label("Username");
+		absolutePanel.add(lblUsername, 0, 3);
+
+		Label lblPassword = new Label("Password");
+		absolutePanel.add(lblPassword, 1, 40);
+
+		final Button btnSignUp = new Button("Sign up");
+		btnSignUp.setText("Create new account");
+		absolutePanel.add(btnSignUp, 0, 108);
+		btnSignUp.setSize("250px", "30px");
+		btnSignUp.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				btnSignUp.setText("Creating account");
+				RPC.accountManagementService.addAccount(username.getText(), password.getText(), new AsyncCallback<Boolean>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						if (result) {
+							username.setText("Account created");
+							password.setText("");
+							GWT.log("RPC pass");
+						}
+						else {
+							username.setText("Username taken");
+							password.setText("");
+						}
+						logIn.setText("Log In");
+					}
+				});
+			}
+		});
 	}
 }

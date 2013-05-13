@@ -10,5 +10,4 @@ public class CreateTables {
 		db.createInitialData();
 		System.out.println("Successfully created tables with initial data.");
 	}
-
 }

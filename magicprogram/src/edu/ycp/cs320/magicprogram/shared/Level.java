@@ -16,16 +16,16 @@ public class Level implements Serializable {
 	
 	// BOARD FIELDS
 	private String name;
-	private Terrain[][] map = new Terrain[ROW][COL];
+	private Terrain[][] map;
 	private Stack<Point> waypoints;
-	private ArrayList<Structure> spawners;
+	private Stack<Stack<Creep>> waves;
+	private Structure spawner;
 	private ArrayList<Structure> towers;
 	private Structure base;
-	private int gridUnit = (int)(BOUNDS.x()/ROW);
+	private int gridUnit;
 	
 	public Level(String name) {
-		// TERRAIN
-		
+		reset();
 		this.name = name;
 		
 		for (int row = 0; row < map.length; row++) {
@@ -86,34 +86,46 @@ public class Level implements Serializable {
 		map[23][24] = Terrain.road;
 		map[24][24] = Terrain.road;
 		
-		waypoints = new Stack<Point>();
 		waypoints.push(new Point(490, 490));
 		waypoints.push(new Point(490, 110));
 		waypoints.push(new Point(10, 110));
 		
-		spawners = new ArrayList<Structure>();
-		towers = new ArrayList<Structure>();
+		spawner = new Structure(Type.spawner, new Point(), gridUnit);
+		
+		waves.get(0).add(new Creep(spawner.getCenter(), waypoints));
+		waves.get(0).add(new Creep(spawner.getCenter(), waypoints));
+		
 		base = new Structure(Type.base, new Point((COL * gridUnit) - gridUnit, (ROW * gridUnit) - gridUnit), gridUnit);
-		
-		this.spawners.add(new Structure(Type.spawner, new Point(), gridUnit));
-		
-		setGridUnit((int) (BOUNDS.x() / COL));
 	}
 	
 	public Level() {
-		
-		
+		reset();
+	}
+	
+	public void reset() {
+		name = "";
+		map = new Terrain[ROW][COL];
+		waypoints = new Stack<Point>();
+		waves = new Stack<Stack<Creep>>();
+		waves.add(new Stack<Creep>());
+		spawner = new Structure();
+		towers = new ArrayList<Structure>();
+		base = new Structure();
+		gridUnit = (int)(BOUNDS.x()/ROW);
+		setGridUnit((int) (BOUNDS.x() / COL));
 	}
 	
 	public Level(Level level) {
+		reset();
 		this.ROW = level.getRow();
 		this.COL = level.getCol();
 		this.BOUNDS = level.getBounds();
 		this.waypoints = level.getWaypoints();
 		this.map = level.getMap();
-		this.spawners = level.getSpawners();
+		spawner = new Structure(level.getSpawner());
 		this.towers = level.getTowers();
 		this.base = level.getBase();
+		this.waves = level.getWaves();
 	}
 
 	// GETTERS & SETTERS
@@ -132,11 +144,11 @@ public class Level implements Serializable {
 	public void setWaypoints(Stack<Point> waypoints) {
 		this.waypoints = waypoints;
 	}
-	public ArrayList<Structure> getSpawners() {
-		return spawners;
+	public Structure getSpawner() {
+		return spawner;
 	}
-	public void setSpawners(ArrayList<Structure> spawners) {
-		this.spawners = spawners;
+	public void setSpawner(Structure spawner) {
+		this.spawner = spawner;
 	}
 	public ArrayList<Structure> getTowers() {
 		return towers;
@@ -170,7 +182,9 @@ public class Level implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+	public Stack<Stack<Creep>> getWaves() {
+		return waves;
+	}
 }
 
 //path.push(new Point(490, 490));

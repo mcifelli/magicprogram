@@ -3,13 +3,11 @@ package edu.ycp.cs320.magicprogram.client;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
 import edu.ycp.cs320.magicprogram.shared.*;
 
-public class GameView extends Composite{
+public class GameView extends Composite implements MouseMoveHandler, MouseDownHandler{
 	// Constants
 	private final int WIDTH = 500;
 	private final int HEIGHT = 500;
@@ -34,8 +32,8 @@ public class GameView extends Composite{
 		buildMode = false;
 		canBuild = false;
 		showRange = false;
-		pieceWidth = WIDTH / model.getLevel().getMap()[0].length;
-		pieceHeight = HEIGHT / model.getLevel().getMap().length; 
+		pieceWidth = WIDTH / model.getState().getMap()[0].length;
+		pieceHeight = HEIGHT / model.getState().getMap().length;
 		select = new Structure(Structure.Type.tower, new Point(), pieceWidth);
 		
 		// LAYOUT PANEL
@@ -55,42 +53,7 @@ public class GameView extends Composite{
 		background.setCoordinateSpaceWidth(WIDTH);			// set coordinate width
 		mainPanel.add(background);							// add to main panel
 		updateBackground();
-		
-		// MOUSE MOVE HANDLER
-		foreground.addMouseMoveHandler(new MouseMoveHandler() {
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {					// on mouse move:
-				if (buildMode) {												// if in build mode:
-					select.tl().setX(event.getX() - (event.getX() % pieceWidth));	// update top left x of select
-					select.tl().setY(event.getY() - (event.getY() % pieceWidth));	// update top left y of select
-					canBuild = model.canBuildTower(select);						// test if can build at location
-				}
-			}
-		});
-		
-		// MOUSE DOWN HANDLER
-		foreground.addMouseDownHandler(new MouseDownHandler() {
-			@Override
-			public void onMouseDown(MouseDownEvent event) {	// on mouse click:
-				if (buildMode) {								// if in build mode:
-					if (model.buildTower(select)) {				// attempt tower construction
-						buildMode = false;								// turn off build mode
-						canBuild = false;								// can build out of build mode...
-					}
-				}
-			}
-		});	
 
-		// TIMER
-	    Timer timer = new Timer() {
-	      @Override
-	      public void run() {
-	    	  model.update();
-	    	  updateForeground();
-	      }
-	    };
-	    timer.scheduleRepeating(25);
-		
 		// INIT WIDGET
 		initWidget(mainPanel);
 		setSize(WIDTH + "px", HEIGHT + "px");
@@ -99,7 +62,7 @@ public class GameView extends Composite{
 	private void updateBackground() {
 		Context2d context = background.getContext2d();
 		context.clearRect(0, 0, WIDTH, HEIGHT);
-		Terrain map[][] = model.getLevel().getMap();
+		Terrain map[][] = model.getState().getMap();
 		for (int row = 0; row < map.length; row++) {
 			for (int col = 0; col < map[row].length; col++) {
 				switch(map[row][col]) {
@@ -123,18 +86,19 @@ public class GameView extends Composite{
 		}
 	}
 	
-	private void updateForeground() {
+	public void updateForeground() {
 		Context2d context = foreground.getContext2d();			// get the context
 		context.drawImage(background.getCanvasElement(), 0, 0);	// refresh the canvas with the background
 		
-		// DRAW SPAWNERS
-		for (Structure spawner : model.getLevel().getSpawners()) {
-			context.setFillStyle("black");
-			context.fillRect(spawner.tl().x(), spawner.tl().y(), pieceWidth, pieceHeight);
-		}
+		// DRAW SPAWNER
+		Structure spawner = model.getState().getSpawner();
+		context.setFillStyle("black");
+		context.fillRect(spawner.tl().x(), spawner.tl().y(), pieceWidth, pieceHeight);
+		context.setFillStyle("white");
+		context.fillText(Integer.toString(model.creepsInWave()), spawner.tl().x(), spawner.tl().y());
 		
 		// DRAW TOWERS
-		for (Structure tower : model.getLevel().getTowers()) {
+		for (Structure tower : model.getState().getTowers()) {
 			context.setFillStyle("cyan");
 			if (tower.getFocus() != null) {
 				drawLine(context, tower.getCenter(), tower.getFocus().getCenter());
@@ -150,7 +114,10 @@ public class GameView extends Composite{
 		
 		// DRAW BASE
 		context.setFillStyle("white");
-		context.fillRect(model.getLevel().getBase().tl().x(), model.getLevel().getBase().tl().y(), pieceWidth, pieceHeight);
+		context.fillRect(model.getState().getBase().tl().x(), model.getState().getBase().tl().y(), pieceWidth, pieceHeight);
+		context.setFont("bold 18px sans-serif");
+		context.setFillStyle("black");
+		context.fillText(Integer.toString(model.getLife()), model.getState().getBase().tl().x(), model.getState().getBase().tl().y() + pieceHeight);
 		
 		// DRAW CREEPS
 		context.setFillStyle("#FF0000");
@@ -193,7 +160,7 @@ public class GameView extends Composite{
 	
 	public void drawLine(Context2d context, double a_x, double a_y, double b_x, double b_y) {
 		context.beginPath();
-		context.moveTo(a_x, a_y);  
+		context.moveTo(a_x, a_y);
 		context.lineTo(b_x, b_y);
 		context.stroke();
 		context.closePath();
@@ -203,12 +170,31 @@ public class GameView extends Composite{
 		return buildMode;
 	}
 	
-	public void setBuildMode(boolean buildMode) {
-		this.buildMode = buildMode;
+	public void toggleBuildMode() {
+		buildMode = !buildMode;
 	}
 
 	public void toggleShowRange() {
 		showRange = !showRange;
+	}
+
+	@Override
+	public void onMouseDown(MouseDownEvent event) {
+		if (buildMode) {								// if in build mode:
+			if (model.buildTower(select)) {				// attempt tower construction
+				buildMode = false;								// turn off build mode
+				canBuild = false;								// can build out of build mode...
+			}
+		}
+	}
+
+	@Override
+	public void onMouseMove(MouseMoveEvent event) {
+		if (buildMode) {												// if in build mode:
+			select.tl().setX(event.getX() - (event.getX() % pieceWidth));	// update top left x of select
+			select.tl().setY(event.getY() - (event.getY() % pieceWidth));	// update top left y of select
+			canBuild = model.canBuildTower(select);						// test if can build at location
+		}
 	}
 	
 	
