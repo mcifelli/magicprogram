@@ -1,0 +1,10 @@
+----------------------------------------------------------------
+Sun May 12 23:50:28 EDT 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013e-9c02-c716-0000030b8730 
+on database directory H:\MagicProgramDB  with class loader sun.misc.Launcher$AppClassLoader@263534c1 
+Loaded from file:/H:/git/magicprogram/magicprogramUI/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_07-b11
+user.dir=H:\git\magicprogram\magicprogramUI
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
