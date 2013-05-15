@@ -33,19 +33,25 @@ public class Game {
 		this.currentWave = new Stack<Creep>();
 		this.life = 10;
 		this.killCount = 0;
-		this.money = 0;
+		this.money = 30;
 	}
 	
 	public boolean buildTower(Structure newTower) {
 		if (canBuildTower(newTower)) {
 			state.getTowers().add(new Structure(newTower));
 			state.getMap()[(int)newTower.gp().y()][(int)newTower.gp().x()] = Terrain.structure;
+			money -= newTower.getPrice();
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean canBuildTower(Structure newTower) {
+		if (money - newTower.getPrice() < 0) {
+			return false;
+		}
+		
+		
 		// get the map from the level
 		Terrain[][] map = state.getMap();
 		

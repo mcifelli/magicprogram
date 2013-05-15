@@ -11,17 +11,20 @@ implements AccountManagementService {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public boolean verifyAccount(String username, String password) {
+	public int verifyAccount(String username, String password) {
 		String passDB = null;
 		try {
 			passDB = DBUtil.instance().getPassword(username);
+			System.out.print(1);
+			if (passDB.equals(password)) {
+				return DBUtil.instance().getUserID(username);
+			}
+			else {
+				return -1;
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException",e);
 		}
-		if (passDB == null) {
-			return false;
-		}
-		return (passDB.equals(password));
 	}
 
 	@Override
@@ -35,14 +38,16 @@ implements AccountManagementService {
 
 	@Override
 	public void removeAccount(int accountID) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public int getUserID(String username) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return DBUtil.instance().getUserID(username);
+		} catch (SQLException e) {
+			throw new RuntimeException("SQLException",e);
+		}
 	}
 
 	@Override
@@ -53,12 +58,15 @@ implements AccountManagementService {
 		} catch (SQLException e) {
 			throw new RuntimeException("SQLException",e);
 		}
-		if (passDB == null) {
-			return false;
-		}
-		
-		
+
+
 		return row;
+	}
+
+	@Override
+	public int getHighScore(int ID) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

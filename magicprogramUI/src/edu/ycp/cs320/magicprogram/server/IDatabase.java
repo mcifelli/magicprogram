@@ -14,4 +14,6 @@ public interface IDatabase {
 	public boolean addAccount(String username, String password) throws SQLException;
 	
 	public String[] getRow(int accountID) throws SQLException;
+
+	public int getUserID(String username) throws SQLException;
 }

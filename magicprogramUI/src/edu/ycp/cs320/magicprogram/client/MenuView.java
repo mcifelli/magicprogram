@@ -20,15 +20,17 @@ import com.google.gwt.canvas.dom.client.Context2d;
 
 public class MenuView extends Composite{
 	private ArrayList<Level> levelList = new ArrayList<Level>();
+	private int userID;
 	ListBox levelListBox = new ListBox();
-	Label lblStatus = new Label("STATUS");
 	Canvas preview;
 	Level level;
+	Button btnLoadGame;
 
-	public MenuView() {
-		AbsolutePanel absolutePanel = new AbsolutePanel();
-		initWidget(absolutePanel);
-		absolutePanel.setSize("569px", "437px");
+	public MenuView(int userID) {
+		this.userID = userID;
+		AbsolutePanel panel = new AbsolutePanel();
+		initWidget(panel);
+		panel.setSize("569px", "437px");
 		levelListBox.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				if (levelListBox.getSelectedIndex() >= 0 && levelList.size() > 0 && levelList.get(levelListBox.getSelectedIndex()) != null) {
@@ -38,16 +40,17 @@ public class MenuView extends Composite{
 			}
 		});
 
-		absolutePanel.add(levelListBox, 10, 46);
+		panel.add(levelListBox, 10, 46);
 		levelListBox.setSize("143px", "328px");
 		levelListBox.setVisibleItemCount(5);
 
-		absolutePanel.add(lblStatus, 10, 419);
-		lblStatus.setSize("167px", "18px");
-
-		Canvas preview = Canvas.createIfSupported();
-		absolutePanel.add(preview, 159, 10);
+		preview = Canvas.createIfSupported();		// init the background canvas
 		preview.setSize("400px", "400px");
+		preview.setCoordinateSpaceHeight(400);		// set coordinate height
+		preview.setCoordinateSpaceWidth(400);		// set coordinate width
+		panel.add(preview, 159, 10);							// add to main panel
+		preview.getContext2d().setFillStyle("black");
+		preview.getContext2d().fillRect(0, 0, preview.getCoordinateSpaceWidth(), preview.getCoordinateSpaceHeight());
 
 		Button btnRefreshList = new Button("Refresh List");
 		btnRefreshList.addClickHandler(new ClickHandler() {
@@ -55,19 +58,20 @@ public class MenuView extends Composite{
 				refreshLevelListBox();
 			}
 		});
-		absolutePanel.add(btnRefreshList, 10, 10);
+		panel.add(btnRefreshList, 10, 10);
 		btnRefreshList.setSize("143px", "30px");
 
-		Button btnLoadGame = new Button("Load Game");
+		btnLoadGame = new Button("Load Game");
 		btnLoadGame.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				loadGame();
 			}
 		});
-		absolutePanel.add(btnLoadGame, 10, 380);
+		panel.add(btnLoadGame, 10, 380);
 		btnLoadGame.setSize("143px", "30px");
 		
-		levelList.add(new Level("Sample level"));
+		levelList.add(new Level("Sample 1"));
+		levelList.add(new Level("Sample 2"));
 		
 		refreshLevelListBox();
 	}
@@ -100,10 +104,7 @@ public class MenuView extends Composite{
 		int height = preview.getCoordinateSpaceHeight();
 		int width = preview.getCoordinateSpaceWidth();
 		context.clearRect(0, 0, width, height);
-		System.out.println("got here");
 		if (level != null) {
-			System.out.println(levelListBox.getSelectedIndex());
-			System.out.println(levelList.size());
 			Terrain map[][] = level.getMap();
 			if (map != null) {
 				int numRows = map.length;
@@ -134,9 +135,9 @@ public class MenuView extends Composite{
 	}
 
 	private void loadGame() {
-		if (levelListBox.getSelectedIndex() >= 0 && levelList.size() > 0 && levelList.get(levelListBox.getSelectedIndex()) != null) {
-			lblStatus.setText("loading game");
-			MagicprogramUI.changeView(new GameView(new Game(level)));
+		if (levelList.get(levelListBox.getSelectedIndex()) != null) {
+			btnLoadGame.setText("loading game");
+			MagicprogramUI.changeView(new GameController(new Game(level), userID));
 		}
 	}
 }

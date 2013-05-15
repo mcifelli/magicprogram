@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Mon May 13 01:10:32 EDT 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013e-9c4c-15e4-00000677bd58 
+Wed May 15 09:06:30 EDT 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013e-a84c-908a-0000058789e8 
 on database directory H:\MagicProgramDB  with class loader ContextLoader@null 
 Loaded from file:/H:/git/magicprogram/magicprogramUI/derby.jar
 java.vendor=Oracle Corporation

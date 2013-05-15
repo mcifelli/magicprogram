@@ -150,9 +150,7 @@ public class DerbyDatabase implements IDatabase {
 				if (!resultSet.next()) {
 					return null;
 				}
-
-				return new String("" + resultSet.getInt(1));
-
+				return resultSet.getString(1);
 			}
 		});
 	}
@@ -252,5 +250,33 @@ public class DerbyDatabase implements IDatabase {
 	public String[] getRow(int accountID) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getUserID(final String username) throws SQLException {
+		return databaseRun(new ITransaction<Integer>() {
+			@Override
+			public Integer run(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				Integer id = null;
+
+				try {
+					stmt = conn.prepareStatement(
+							"select leaderboard.id from leaderboard where leaderboard.username = ?");
+					stmt.setString(1,  username);
+					resultSet = stmt.executeQuery();
+					
+					if (resultSet.next()) {
+						id = resultSet.getInt(1);
+					}
+
+				} finally {
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+				}
+				return id;
+			}
+		});
 	}
 }

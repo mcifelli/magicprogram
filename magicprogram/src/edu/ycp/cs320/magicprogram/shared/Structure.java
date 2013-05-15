@@ -9,6 +9,7 @@ public class Structure {
 	
 	private Type type;
 	private Point topLeft;
+	private int price;
 	private int size;
 	private int attackSpeed;
 	private Point gridPoint;
@@ -34,6 +35,7 @@ public class Structure {
 			setAttackSpeed(0);
 			break;
 		}
+		setPrice(10);
 	}
 	
 	public Structure() {
@@ -130,5 +132,13 @@ public class Structure {
 	}
 	public void setFocus(Creep newFocus) {
 		focus = newFocus;	//focus
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 }

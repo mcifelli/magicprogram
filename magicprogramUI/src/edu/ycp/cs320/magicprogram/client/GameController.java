@@ -16,10 +16,12 @@ public class GameController extends Composite{
 	private Game model;
 	private GameView view;
 	private AbsolutePanel controlPanel;
-	private Label lblWavesRemainingValue;
+	private Label lblWavesRemaining;
+	private Label lblMoney;
+	private Label lblKills;
 	
 	// CONSTRUCTOR
-	public GameController(Game game) {
+	public GameController(Game game, int userID) {
 		// MODEL and VIEW
 		this.model = game;
 		this.view = new GameView(game);
@@ -59,12 +61,14 @@ public class GameController extends Composite{
 		controlPanel.add(buttonShowRange, 222, 510);
 		buttonBuildTower.setSize("100px", "30px");
 		
-		Label lblWavesRemaining = new Label("Waves remaining:");
+		Label lblWavesRemaining = new Label("Waves remaining:" + Integer.toString(model.wavesRemaining()));
 		controlPanel.add(lblWavesRemaining, 10, 552);
 		
-		lblWavesRemainingValue = new Label("");
-		controlPanel.add(lblWavesRemainingValue, 116, 552);
-		lblWavesRemainingValue.setSize("8px", "18px");
+		Label lblMoney = new Label("Money: $" + Integer.toString(model.getMoney()));
+	    controlPanel.add(lblMoney, 10, 576);
+	    
+	    Label lblKills = new Label("Kills: " + Integer.toString(model.getKillCount()));
+	    controlPanel.add(lblKills, 10, 600);
 		
 		// TIMER
 	    Timer timer = new Timer() {
@@ -81,5 +85,15 @@ public class GameController extends Composite{
 	}
 	
 	public void update() {
+//		int money = model.getMoney();
+//		lblMoney.setText("Money: $" + money);
+////		lblKills.setText("Kills: " + Integer.toString(model.getKillCount()));
+//		System.out.println(model.wavesRemaining());
+//		System.out.println(model.getMoney());
+//		System.out.println(model.getKillCount());
+		if (model.getCreeps().size() < 1 && model.creepsInWave() < 1 && model.wavesRemaining() < 1) {
+			
+			
+		}
 	}
 }

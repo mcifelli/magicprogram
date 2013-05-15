@@ -47,17 +47,18 @@ public class LoginView extends Composite{
 			@Override
 			public void onClick(ClickEvent event) {
 				logIn.setText("Logging In");
-				RPC.accountManagementService.verifyAccount(username.getValue(), password.getValue(), new AsyncCallback<Boolean>(){
+				RPC.accountManagementService.verifyAccount(username.getValue(), password.getValue(), new AsyncCallback<Integer>(){
 					public void onFailure(Throwable caught){
 						GWT.log("RPC call failed: " + caught.getMessage());
 					}
-					public void onSuccess(Boolean result){
-						if (result) {
+					@Override
+					public void onSuccess(Integer result){
+						if (result > 0) {
 							username.setText("");
 							password.setText("");
 							logIn.setText("Success");
 							GWT.log("RPC pass");
-							MagicprogramUI.changeView(new MenuView());
+							MagicprogramUI.changeView(new MenuView(result));
 						}
 						else {
 							username.setText("Login Failed");

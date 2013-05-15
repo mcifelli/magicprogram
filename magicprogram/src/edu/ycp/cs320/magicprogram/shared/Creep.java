@@ -19,7 +19,10 @@ public class Creep {
 	// Constructors
 	public Creep(Point center, Stack<Point> path) {
 		this.center = new Point(center);
-		this.path = path;
+		this.path = new Stack<Point>();
+		for (Point p : path) {
+			this.path.add(new Point(p));
+		}
 	}
 	
 	// Getters/Setters
@@ -47,10 +50,9 @@ public class Creep {
 	public void setSize(int size) {
 		this.size = size; 
 	}
-	//comment
-	//Methods
+	
 	/**
-	 * Move towards the next waypoint
+	 * Move towards the next waypoint and pop if reached
 	 */
 	public void move() {
 		if (!path.isEmpty()) {
